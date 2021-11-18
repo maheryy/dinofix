@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: dinofix_php
+    build:
+      context: ./docker/php-fpm
+      cache_from:
+        - php:8.0-fpm
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_SECRET=${APP_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - ./:/var/www/html
+      - app-cache:/var/www/html/var
+    depends_on:
+        - postgres
+
+  nginx:
+    container_name: dinofix_nginx
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./:/var/www/html
+      - ./docker/logs:/var/log
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+
+  postgres:
+    container_name: dinofix_postgres
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: dinofix
+      POSTGRES_DB: dinofix
+      POSTGRES_USER: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  adminer:
+    container_name: dinofix_adminer
+    image: adminer:4
+    environment:
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+      - "8888:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  db-data: {}
+  app-cache: {}
