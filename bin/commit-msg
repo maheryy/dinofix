@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+import re, sys, os
+# from subprocess import check_output
+# branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).strip()
+
+# if branch == 'master' or branch == 'dev':
+#	print("You can't directly commit on master or dev")
+#	sys.exit(1)
+
+commit = open(sys.argv[1], 'r').read()
+if re.match('(chore|feat|imp|fix):\s.*', commit) == None:
+	print("Commit validation failed\nex: 'chore|feat|imp|fix: my commit message'")
+	sys.exit(1)
