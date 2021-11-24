@@ -1,0 +1,25 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Utility variables/functions to be used in scss files */
+@import 'utils/variables';
+
+/* Components (ex: buttons, lists, cards ...) */
+@import 'components/button';
+
+/* Extra styles for page content */
+@import 'content/home';
+
+/* App theme  */
+@import 'themes/default';
+
+/* Utility classes that overrides all styles above (tailwind included) */
+@import 'utils/utils';
+

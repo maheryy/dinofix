@@ -5,9 +5,16 @@ args = `echo "$(filter-out $@,$(MAKECMDGOALS))"`
 help: ## Show command list
 	@make list
 
-install: ## Load composer dependencies
+install: ## Load composer and node dependencies
 	@make hooks
 	@composer install
+	@yarn install
+
+asset: ## Compile assets (styles and javacript)
+	@yarn dev
+
+watch: ## Watch for assets changes with webpack
+	@yarn watch
 
 hooks: ## Install git hooks scripts locally (location: .git/hooks)
 	@cp bin/commit-msg .git/hooks/commit-msg
@@ -65,6 +72,9 @@ entity: #### Run make:entity
 
 controller: #### Run make:controller
 	@docker-compose exec php bin/console make:controller
+
+crud: #### Run make:crud
+	@docker-compose exec php bin/console make:crud
 
 migration: #### Run make:migration
 	@docker-compose exec php bin/console make:migration
