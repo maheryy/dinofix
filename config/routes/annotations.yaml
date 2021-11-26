@@ -1,6 +1,18 @@
-controllers:
-    resource: ../../src/Controller/
+controllers_admin:
+    resource: ../../src/Controller/Admin
     type: annotation
+    prefix: '/admin'
+    name_prefix: 'admin_'
+
+controllers_fixer:
+    resource: ../../src/Controller/Fixer
+    type: annotation
+    name_prefix: 'fixer_'
+
+controllers_customer:
+    resource: ../../src/Controller/Customer
+    type: annotation
+    name_prefix: 'customer_'
 
 kernel:
     resource: ../../src/Kernel.php
