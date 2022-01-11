@@ -83,10 +83,10 @@ controller: #### Run make:controller
 crud: #### Run make:crud
 	@docker-compose exec php bin/console make:crud
 
-ddd: #### Run doctrine:d:d --force
+ddd: #### Run doctrine:database:drop --force
 	@docker-compose exec php bin/console doctrine:d:d --force
 
-ddc: #### Run doctrine:d:c --force
+ddc: #### Run doctrine:database:create --force
 	@docker-compose exec php bin/console doctrine:d:c
 
 dsu: #### Run doctrine:schema:update --force

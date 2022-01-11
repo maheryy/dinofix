@@ -5,9 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Dino;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class DinoFixtures extends Fixture
+class DinoFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
