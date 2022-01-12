@@ -3,18 +3,14 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class AddressFixtures extends Fixture implements DependentFixtureInterface
+class AddressFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
-
-        $customer = $manager->getRepository(User::class)->find(1);
 
         $object = (new Address())
             ->setCountry($faker->country())
@@ -27,12 +23,5 @@ class AddressFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($object);
 
         $manager->flush();
-    }
-
-    public function getDependencies()
-    {
-        return [
-            UserFixtures::class
-        ];
     }
 }
