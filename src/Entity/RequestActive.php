@@ -18,14 +18,15 @@ class RequestActive
     #[ORM\OneToOne(targetEntity: Fixer::class, cascade: ['persist', 'remove'])]
     private $fixer;
 
-    #[ORM\Column(type: 'integer')]
-    private $step;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $content;
 
     #[ORM\Column(type: 'smallint')]
     private $status;
+
+    #[ORM\OneToOne(targetEntity: ServiceStep::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $step;
 
     #[ORM\Column(type: 'datetime')]
     private $created_at;
@@ -36,18 +37,6 @@ class RequestActive
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStep(): ?int
-    {
-        return $this->step;
-    }
-
-    public function setStep(int $step): self
-    {
-        $this->step = $step;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -118,6 +107,18 @@ class RequestActive
     public function setFixer(?Fixer $fixer): self
     {
         $this->fixer = $fixer;
+
+        return $this;
+    }
+
+    public function getStep(): ?ServiceStep
+    {
+        return $this->step;
+    }
+
+    public function setStep(ServiceStep $step): self
+    {
+        $this->step = $step;
 
         return $this;
     }

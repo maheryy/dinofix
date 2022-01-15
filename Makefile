@@ -83,6 +83,12 @@ controller: #### Run make:controller
 crud: #### Run make:crud
 	@docker-compose exec php bin/console make:crud
 
+ddd: #### Run doctrine:database:drop --force
+	@docker-compose exec php bin/console doctrine:d:d --force
+
+ddc: #### Run doctrine:database:create --force
+	@docker-compose exec php bin/console doctrine:d:c
+
 dsu: #### Run doctrine:schema:update --force
 	@docker-compose exec php bin/console doctrine:schema:update --force
 
@@ -97,6 +103,9 @@ db-check: #### Run doctrine:migrations:status (Check database connection)
 
 routes: #### Run debug:router
 	@docker-compose exec php bin/console debug:router
+
+fixtures: #### Run doctrine:fixtures:load
+	@docker-compose exec php bin/console doctrine:fixtures:load
 
 ### Display Makefile command list
 list:
