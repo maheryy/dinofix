@@ -20,6 +20,10 @@ class Service
     #[ORM\Column(type: 'text')]
     private $description;
 
+    #[ORM\ManyToOne(targetEntity: Fixer::class, inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $fixer;
+
     #[ORM\ManyToOne(targetEntity: Dino::class, inversedBy: 'services')]
     private $dino;
 
@@ -192,6 +196,18 @@ class Service
                 $review->setFixer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFixer(): ?Fixer
+    {
+        return $this->fixer;
+    }
+
+    public function setFixer(?Fixer $fixer): self
+    {
+        $this->fixer = $fixer;
 
         return $this;
     }

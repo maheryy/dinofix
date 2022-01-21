@@ -40,7 +40,7 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
     private $address;
 
-    #[ORM\ManyToMany(targetEntity: Service::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'fixer', targetEntity: Service::class, orphanRemoval: true)]
     private $services;
 
     #[ORM\OneToMany(mappedBy: 'fixer', targetEntity: Review::class)]
