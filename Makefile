@@ -1,22 +1,22 @@
 .DEFAULT_GOAL := list
 args = `echo "$(filter-out $@,$(MAKECMDGOALS))"`
 
-## PROJECT COMMMANDS ##
+## PROJECT COMMANDS ##
+
 help: ## Show command list
 	@make list
 
 install: ## Load composer/node dependencies and add local files
-	@composer install
-	@yarn install
-	@yarn dev
-	@make hooks
-	@make override-vendor
+	@docker-compose exec php composer install
+	@docker-compose exec php yarn install
+	@docker-compose exec php yarn dev
+	@make override-vendors
 
 asset: ## Compile assets (styles and javacript)
-	@yarn dev
+	@docker-compose exec php yarn dev
 
 watch: ## Watch for assets changes with webpack
-	@yarn watch
+	@docker-compose exec php yarn watch
 
 php-cli: ## Get into php container console
 	@docker-compose exec php bash
@@ -27,18 +27,22 @@ nginx-cli: ## Get into nginx container console
 pg-cli : ## Get into postgres container console
 	@docker-compose exec postgres bash
 
-hooks: #[Ignore] Install git hooks scripts locally (location: .git/hooks)
+hooks: ## Install git hooks scripts locally (location: .git/hooks)
 	@cp bin/commit-msg .git/hooks/commit-msg
 
-reset-hooks: #[Ignore] Remove installed git hooks
+clear-hooks: ## Remove installed git hooks
 	@rm .git/hooks/commit-msg
 
-override-vendor: #[Ignore] Edit vendor files
+clear-app: ## Clear vendor folders, cache, compiled assets
+	@rm -Rf node_modules/ vendor/ var/* public/build/
+
+override-vendors: #[Ignore] Edit vendor files
 	@cp custom-vendor/symfony/make-controller/MakeController.php vendor/symfony/maker-bundle/src/Maker/MakeController.php
 	@cp custom-vendor/symfony/make-crud/MakeCrud.php vendor/symfony/maker-bundle/src/Maker/MakeCrud.php
 	@cp custom-vendor/symfony/make-crud/CrudController.tpl.php vendor/symfony/maker-bundle/src/Resources/skeleton/crud/controller/Controller.tpl.php
 
-### DOCKER COMMMANDS ###
+
+### DOCKER COMMANDS ###
 
 start: ### Run all docker services
 	@docker-compose up -d
@@ -68,7 +72,7 @@ reset-volumes: ### Remove all docker volumes related to this project : database 
 	@docker volume rm dinofix_app-cache dinofix_db-data
 
 
-#### SYMFONY COMMMANDS ####
+#### SYMFONY COMMANDS ####
 
 run: #### Run symfony command : php bin/console [args..] (ex: make run "make:entity --regenerate")
 	@echo "Running : php bin/console $(args)"
@@ -95,7 +99,7 @@ dsu: #### Run doctrine:schema:update --force
 migrate: #### Run doctrine:migrations:migrate
 	@docker-compose exec php bin/console doctrine:migrations:migrate
 
-clear: #### Run cache:clear
+cache-clear: #### Run cache:clear
 	@docker-compose exec php bin/console cache:clear
 
 db-check: #### Run doctrine:migrations:status (Check database connection)
