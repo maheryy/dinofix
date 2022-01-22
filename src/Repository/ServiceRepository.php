@@ -19,6 +19,16 @@ class ServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Service::class);
     }
 
+    public function findAllBySearchTerm(?string $term = '_')
+    {
+        return $this->createQueryBuilder('service')
+            ->where("service.name LIKE :term")
+            ->setParameter('term', "%$term%")
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */

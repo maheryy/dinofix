@@ -1,0 +1,29 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block header %}
+    <header class="w-10/12 m-auto border border-sky-500">
+        <form class="flex justify-center items-center" method="GET" action="{{ path('customer_search') }}">
+            <input type="text" name="query" value="{{ previousQuery }}">
+            <button>Search</button>
+        </form>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <section class="search-results-container">
+        <div class="search-results">
+            <ul class="search-list">
+                {% for service in services %}
+                    <li class="search-item">
+                        <div class="item-title">
+                            <p>{{ service.name }}</p>
+                        </div>
+                        <div class="item-description">
+                            <p>{{ service.description }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endblock %}
