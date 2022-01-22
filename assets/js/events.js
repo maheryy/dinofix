@@ -39,3 +39,9 @@ export const dropdownItemOnClick = (element) => {
         dropdownContent.toggleClass('active');
     });
 };
+
+export const submitOnSelectedFilter = (element) => {
+    $(element).change(() => {
+        $(element).closest('form').submit();
+    });
+}
