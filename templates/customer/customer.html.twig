@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Customer{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block header %} {{ include('customer/layout/_header.html.twig') }} {% endblock %}
+<main class="app-container customer-container">
+    {% block body %}{% endblock %}
+</main>
+{% block footer %}{% endblock %}
+</body>
+</html>
