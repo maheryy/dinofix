@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle demande{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle demande</h1>
+
+    {{ include('customer/request/_form.html.twig') }}
+
+    <a href="{{ path('customer_request_index') }}">Retour à la liste des demandes en cours</a>
+{% endblock %}

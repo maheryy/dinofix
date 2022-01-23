@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Request index{% endblock %}
+
+{% block body %}
+    <h1>Request index</h1>
+
+    <table class="border-separate border border-slate-400">
+        <thead>
+            <tr>
+                <th class="border border-slate-300">Numéro</th>
+                <th class="border border-slate-300">Sujet</th>
+                <th class="border border-slate-300">Description</th>
+                <th class="border border-slate-300">Statut</th>
+                <th class="border border-slate-300">Date/Heure de début</th>
+                <th class="border border-slate-300">Date/Heure de création</th>
+                <th class="border border-slate-300"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for request in requests %}
+            <tr>
+                <td class="border border-slate-300">{{ request.reference }}</td>
+                <td class="border border-slate-300">{{ request.subject }}</td>
+                <td class="border border-slate-300">{{ request.description }}</td>
+                <td class="border border-slate-300">{{ request.status }}</td>
+                <td class="border border-slate-300">{{ request.expectedAt ? request.expectedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td class="border border-slate-300">{{ request.createdAt ? request.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td class="border border-slate-300">
+                    <a href="{{ path('customer_request_show', {'id': request.id}) }}">Voir</a>
+                    <a href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('customer_request_new') }}">Créer une demande</a><br><br>
+    <a href="{{ path('customer_dashboard') }}">Retour</a>
+{% endblock %}

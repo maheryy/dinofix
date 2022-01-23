@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    Customer menu:
+    <ul>
+        <li><a class="border border-green-600" href="{{ path('customer_request_new') }}">Profil</a></li>
+        <li><a class="border border-green-600" href="{{ path('customer_request_new') }}">Faire une demande</a></li>
+        <li><a class="border border-green-600" href="{{ path('customer_request_index') }}">Demande en cours</a></li>
+        <li><a class="border border-green-600" href="{{ path('customer_request_index') }}">Historique des demandes</a></li>
+        <li><a class="border border-green-600" href="{{ path('customer_request_new') }}">Chercher un service</a></li>
+        <li><a class="border border-green-600" href="{{ path('customer_address_index') }}">Carnet d'adresse</a></li>
+    </ul>
+</div>
+{% endblock %}

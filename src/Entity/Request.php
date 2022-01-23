@@ -13,10 +13,6 @@ class Request
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'requests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $customer;
-
     #[ORM\Column(type: 'string', length: 20)]
     private $reference;
 
@@ -42,6 +38,16 @@ class Request
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
     private $updated_at;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'requests')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $customer;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setUpdatedAt(new \DateTimeImmutable());
+    }
 
     public function getId(): ?int
     {
@@ -118,18 +124,6 @@ class Request
         return $this->updated_at;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     public function getService(): ?Service
     {
         return $this->service;
@@ -138,6 +132,18 @@ class Request
     public function setService(?Service $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
