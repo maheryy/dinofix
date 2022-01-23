@@ -13,9 +13,9 @@
 </head>
 <body>
 {% block header %} {{ include('customer/layout/_header.html.twig') }} {% endblock %}
-<main class="app-container customer-container">
+<main class="main-container customer-container">
     {% block body %}{% endblock %}
 </main>
-{% block footer %}{% endblock %}
+{% block footer %} {{ include('customer/layout/_footer.html.twig') }} {% endblock %}
 </body>
 </html>

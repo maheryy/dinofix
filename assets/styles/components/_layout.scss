@@ -1,5 +1,27 @@
-.app-container {
-  padding : 2rem 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+main.main-container {
+  padding: 2rem 20px;
+  flex: 1;
 
   &.customer-container {
     background-color: #eef2f6;

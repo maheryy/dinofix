@@ -30,7 +30,7 @@ export const globalAnywhereClickEvent = () => {
             $('.dropdown-content').removeClass('active');
         }
     });
-}
+};
 
 export const dropdownItemOnClick = (element) => {
     $(element).click(() => {
@@ -38,4 +38,4 @@ export const dropdownItemOnClick = (element) => {
         $('.dropdown-content').not(dropdownContent).removeClass('active');
         dropdownContent.toggleClass('active');
     });
-}
+};
