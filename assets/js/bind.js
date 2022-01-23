@@ -10,6 +10,8 @@ const bindEvents = (rootElement = null) => {
         }
         Events[event](element, data ?? null);
     });
+
+    Events.globalAnywhereClickEvent();
 };
 
 export default bindEvents;

@@ -22,3 +22,20 @@ export const btn = (element, data) => {
         console.log($(element).text(), data);
     });
 };
+
+export const globalAnywhereClickEvent = () => {
+    $(document).click((event) => {
+        /* Hide any dropdown when user clicks anywhere */
+        if (!event.target.matches('.dropdown-title')) {
+            $('.dropdown-content').removeClass('active');
+        }
+    });
+};
+
+export const dropdownItemOnClick = (element) => {
+    $(element).click(() => {
+        const dropdownContent = $(element).find('.dropdown-content');
+        $('.dropdown-content').not(dropdownContent).removeClass('active');
+        dropdownContent.toggleClass('active');
+    });
+};
