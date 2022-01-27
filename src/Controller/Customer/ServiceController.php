@@ -12,6 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ServiceController extends AbstractController
 {
+    #[Route('/', name: 'service')]
+    public function index(): Response
+    {
+        return $this->redirectToRoute('customer_search');
+    }
+
     #[Route('/search', name: 'search', methods: ['GET'])]
     public function search(Request $request): Response
     {

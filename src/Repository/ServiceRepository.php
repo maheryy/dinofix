@@ -40,8 +40,8 @@ class ServiceRepository extends ServiceEntityRepository
 
         if ($filters->getQuery()) {
             $qb
-                ->andWhere('s.name LIKE :query')
-                ->setParameter('query', "%{$filters->getQuery()}%");
+                ->andWhere('lower(s.name) LIKE :query')
+                ->setParameter('query', '%' . strtolower($filters->getQuery()) . '%');
         }
 
         if ($filters->getCategory()) {
