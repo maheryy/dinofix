@@ -19,9 +19,30 @@ class SearchFilterType extends AbstractType
     {
         $builder
             ->add('category', EntityType::class, [
-                'label' => false,
+                'label' => 'Catégorie',
                 'required' => false,
-                'class' => Category::class,
+                'class' => Category::class
+            ])
+            ->add('distance', ChoiceType::class, [
+                'label' => 'Distance',
+                'choices' => [
+                    '< 5km' => 5,
+                    '< 15km' => 15,
+                    '< 30km' => 30,
+                    '< 50km' => 50,
+                ],
+            ])
+            ->add('reviews', ChoiceType::class, [
+                'label' => 'Avis',
+                'choices' => [
+                    '1 étoile' => 1,
+                    '2 étoiles' => 2,
+                    '3 étoiles' => 3,
+                    '4 étoiles' => 4,
+                    '5 étoiles' => 5,
+                ],
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('sort', ChoiceType::class, [
                 'label' => 'Trier par',
@@ -39,7 +60,8 @@ class SearchFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => SearchData::class,
             'method' => 'GET',
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'allow_extra_fields' => true
         ]);
     }
 

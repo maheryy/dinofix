@@ -25,18 +25,20 @@ export const btn = (element, data) => {
 
 export const globalAnywhereClickEvent = () => {
     $(document).click((event) => {
-        /* Hide any dropdown when user clicks anywhere */
-        if (!event.target.matches('.dropdown-title')) {
-            $('.dropdown-content').removeClass('active');
+        const dropdowns = $('.dropdown-content');
+        /* Close dropdowns when user clicks outside a dropdown item */
+        if (dropdowns.hasClass('active') && !$(event.target).closest('.dropdown-item').length) {
+            dropdowns.removeClass('active');
         }
     });
 };
 
 export const dropdownItemOnClick = (element) => {
-    $(element).click(() => {
-        const dropdownContent = $(element).find('.dropdown-content');
-        $('.dropdown-content').not(dropdownContent).removeClass('active');
-        dropdownContent.toggleClass('active');
+    $(element).find('.dropdown-title').click((e) => {
+        e.preventDefault();
+        const dropdown = $(element).find('.dropdown-content');
+        $('.dropdown-content').not(dropdown).removeClass('active');
+        dropdown.toggleClass('active');
     });
 };
 
@@ -44,4 +46,4 @@ export const submitOnSelectedFilter = (element) => {
     $(element).change(() => {
         $(element).closest('form').submit();
     });
-}
+};

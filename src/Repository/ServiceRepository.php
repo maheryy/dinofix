@@ -27,24 +27,31 @@ class ServiceRepository extends ServiceEntityRepository
 
     }
 
-    public function findAllBySearch(SearchData $filters) : PaginationInterface
+    public function findAllBySearch(SearchData $filters): PaginationInterface
     {
-        $qb = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.fixer', 'f')
+            ->innerJoin('f.address', 'a')
+            ->select(
+                's.name, s.description,
+                f.first_name, f.last_name,
+                a.country, a.region, a.postcode, a.city, a.street'
+            );
 
-        if (!empty($filters->query)) {
+        if ($filters->getQuery()) {
             $qb
                 ->andWhere('s.name LIKE :query')
-                ->setParameter('query', "%{$filters->query}%");
+                ->setParameter('query', "%{$filters->getQuery()}%");
         }
 
-        if (!empty($filters->category)) {
+        if ($filters->getCategory()) {
             $qb
                 ->andWhere('s.category = :category')
-                ->setParameter('category', $filters->category);
+                ->setParameter('category', $filters->getCategory());
         }
 
-        if (!empty($filters->sort)) {
-            switch ($filters->sort) {
+        if ($filters->getSort()) {
+            switch ($filters->getSort()) {
                 case SearchData::SORT_TYPE_NAME:
                     $qb->orderBy('s.name', 'DESC');
                     break;
@@ -58,36 +65,7 @@ class ServiceRepository extends ServiceEntityRepository
             }
         }
 
-        return $this->paginator->paginate($qb->getQuery(), $filters->page, 5);
+        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), 5);
     }
 
-
-    // /**
-    //  * @return Service[] Returns an array of Service objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Service
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

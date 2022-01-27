@@ -107,26 +107,14 @@ header.customer-header {
   }
 
   .dropdown-item {
-    position: relative;
 
     a.dropdown-title {
       padding: .75em 0;
     }
 
     ul.dropdown-content {
-      display: none;
-      position: absolute;
-      z-index: 1;
-      transform: translateY(10px);
-      background-color: #f9f9f9;
       min-width: 160px;
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
       font-weight: 400;
-      right: 0;
-
-      &.active {
-        display: block;
-      }
 
       & > li {
         &:hover {
