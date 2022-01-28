@@ -12,7 +12,7 @@ class RequestLog
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Request::class)]
     private $request;
 
     #[ORM\Column(type: 'string', length: 255)]

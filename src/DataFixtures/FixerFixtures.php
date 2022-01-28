@@ -4,11 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Address;
 use App\Entity\Fixer;
+use App\Entity\Review;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class FixerFixtures extends Fixture
+class FixerFixtures extends Fixture implements DependentFixtureInterface
 {
     /**@var UserPasswordHasherInterface $passwordHash */
     private $userPasswordHash;
@@ -20,8 +23,9 @@ class FixerFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
         $addresses = $manager->getRepository(Address::class)->findAll();
+        $reviews = $manager->getRepository(Review::class)->findAll();
 
         for ($i = 0; $i < 10; $i++) {
             $object = (new Fixer())
@@ -29,13 +33,18 @@ class FixerFixtures extends Fixture
                 ->setLastName($faker->lastName())
                 ->setEmail($faker->freeEmail())
                 ->setPhone($faker->phoneNumber())
-                ->setAddress($addresses[$i])
+                ->setAddress($faker->randomElement($addresses))
                 ->setSettings('no settings')
                 ->setStatus(1)
                 ->setCreatedAt($faker->dateTimeBetween('-1 month'))
                 ->setUpdatedAt($faker->dateTimeBetween('-1 month'));
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+
+            $rand_review = rand(0, 5);
+            for ($j = 0; $j < $rand_review; $j++) {
+                $object->addReview($faker->randomElement($reviews));
+            }
 
             $manager->persist($object);
         }
@@ -47,6 +56,7 @@ class FixerFixtures extends Fixture
     {
         return [
             AddressFixtures::class,
+            ReviewFixtures::class,
         ];
     }
 }
