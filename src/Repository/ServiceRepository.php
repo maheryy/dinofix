@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Service|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +17,55 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ServiceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Service::class);
+        $this->paginator = $paginator;
+
     }
 
-    // /**
-    //  * @return Service[] Returns an array of Service objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllBySearch(SearchData $filters): PaginationInterface
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.fixer', 'f')
+            ->innerJoin('f.address', 'a')
+            ->select(
+                's.name, s.description,
+                f.first_name, f.last_name,
+                a.country, a.region, a.postcode, a.city, a.street'
+            );
 
-    /*
-    public function findOneBySomeField($value): ?Service
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($filters->getQuery()) {
+            $qb
+                ->andWhere('lower(s.name) LIKE :query')
+                ->setParameter('query', '%' . strtolower($filters->getQuery()) . '%');
+        }
+
+        if ($filters->getCategory()) {
+            $qb
+                ->andWhere('s.category = :category')
+                ->setParameter('category', $filters->getCategory());
+        }
+
+        if ($filters->getSort()) {
+            switch ($filters->getSort()) {
+                case SearchData::SORT_TYPE_NAME:
+                    $qb->orderBy('s.name', 'DESC');
+                    break;
+                case SearchData::SORT_TYPE_REVIEW:
+                    //$qb->orderBy('reviews', 'D');
+                    break;
+                case SearchData::SORT_TYPE_LOCATION:
+                    //$qb->orderBy('reviews', 'DESC');
+                    break;
+
+            }
+        }
+
+        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), 5);
     }
-    */
+
 }

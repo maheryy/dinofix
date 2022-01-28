@@ -8,9 +8,12 @@
 @import 'components/header';
 @import 'components/footer';
 @import 'components/button';
+@import 'components/pagination';
+@import 'components/dropdown';
 
 /* Extra styles for page content */
 @import 'content/home';
+@import 'content/search';
 
 /* App theme  */
 @import 'themes/default';

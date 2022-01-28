@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Address;
 use App\Entity\Fixer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -20,19 +21,19 @@ class FixerFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
+        $addresses = $manager->getRepository(Address::class)->findAll();
 
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $object = (new Fixer())
                 ->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
                 ->setEmail($faker->freeEmail())
                 ->setPhone($faker->phoneNumber())
-                ->setPicture('no pic')
+                ->setAddress($addresses[$i])
                 ->setSettings('no settings')
                 ->setStatus(1)
                 ->setCreatedAt($faker->dateTimeBetween('-1 month'))
                 ->setUpdatedAt($faker->dateTimeBetween('-1 month'));
-
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
@@ -40,5 +41,12 @@ class FixerFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            AddressFixtures::class,
+        ];
     }
 }

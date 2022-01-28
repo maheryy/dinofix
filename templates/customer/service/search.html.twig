@@ -1,0 +1,78 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block body %}
+    {% if services is not empty %}
+        <section class="search-container">
+            {{ form_start(form, {action : path('customer_search')}) }}
+            <div class="search-filters">
+                <ul class="filter-list">
+                    {{ form_widget(form.query) }}
+                    <li class="filter-item">
+                        {{ form_widget(form.category, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                    </li>
+                    <li class="filter-item">
+                        {{ form_widget(form.distance, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                    </li>
+                    <li class="filter-item">
+                        <div class="dropdown-item" data-event="dropdownItemOnClick">
+                            <button class="dropdown-title">Avis</button>
+                            <div class="dropdown-content">
+                                {{ form_widget(form.reviews) }}
+                                <button>Appliquer</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="search-results-head">
+                <div class="search-results-count">
+                    <span>{{ services.getTotalItemCount() }} résultats trouvés</span>
+                </div>
+                <div class="search-results-sort">
+                    {{ form_label(form.sort) }}
+                    {{ form_widget(form.sort, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+            <div class="search-results">
+                <ul class="search-list">
+                    {% for service in services %}
+                        <li class="search-item">
+                            <div class="content-left">
+                                <div class="item-title">
+                                    <h4><a href="#">{{ service.first_name }} {{ service.last_name }}</a></h4>
+                                </div>
+                                <div class="item-description">
+                                    <span>{{ service.street }}</span>
+                                    <span>{{ service.city }}, {{ service.postcode }}</span>
+                                    <span>{{ service.region }}, {{ service.country }}</span>
+                                </div>
+                            </div>
+                            <div class="content-right">
+                                <div class="item-title">
+                                    <a href="#">{{ service.name }}</a>
+                                </div>
+                                <div class="item-description">
+                                    Lorem ipsum
+                                </div>
+                                <div class="item-action">
+                                    <button>Prendre RDV</button>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="search-navigation">
+                    {{ knp_pagination_render(services) }}
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <section class="search-container no-results">
+            <div class="no-results-text">
+                <h1>Aucun résultat trouvé</h1>
+                <p>Votre recherche n'a envoyé aucun résultat. Essayez de reformuler votre recherche</p>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

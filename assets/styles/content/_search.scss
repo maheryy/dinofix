@@ -1,0 +1,133 @@
+.search-container {
+  width: 80%;
+  margin: 0 auto;
+
+  &.no-results {
+    color: #767676;
+    width: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    h1 {
+      font-weight: 500;
+      text-align: center;
+    }
+
+    p {
+      padding: 1em 0;
+    }
+  }
+
+
+  .search-filters {
+    width: 100%;
+    padding: 1em 1.5em;
+    background-color: white;
+    border-radius: .3em;
+    box-shadow: 0 1px 4px rgba(40, 120, 120, .20);
+    margin-bottom: 1em;
+
+    ul.filter-list {
+      list-style-type: none;
+      display: flex;
+      align-items: center;
+
+      li.filter-item {
+        margin-right: 1em;
+
+        .dropdown-item {
+          button.dropdown-title {
+            padding: 0.3em 1em;
+            border: 1px solid #d5d5d5;
+            border-radius: 0.3em;
+          }
+
+          .dropdown-content {
+            padding: 0.75em 1em;
+            min-width: 160px;
+          }
+        }
+      }
+    }
+  }
+
+  .search-results-head {
+    display: flex;
+    justify-content: space-between;
+
+    .search-results-count {
+      padding: 1em 0;
+
+      span {
+        font-weight: 300;
+        color: #8b8a8a;
+      }
+    }
+
+    .search-results-sort {
+      padding: 1em 0;
+    }
+  }
+
+  .search-results {
+    width: 100%;
+
+    ul.search-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+
+      li.search-item {
+        background-color: #fff;
+        display: flex;
+        border-radius: .3em;
+        padding: 1em 0;
+        margin: .3em 0;
+        height: 125px;
+        box-shadow: 0 1px 4px rgba(40, 120, 120, .20);
+
+        .content-left {
+          flex: .4;
+          padding: 0 1.5em;
+          border-right: 1px solid #e4e5e7;
+        }
+
+        .content-right {
+          flex: .6;
+          padding: 0 1.5em;
+        }
+
+        .item-title a {
+          color: #107aca;
+          font-weight: 500;
+        }
+
+        .item-description {
+          display: flex;
+          flex-direction: column;
+          line-height: 1.5;
+          padding: 1em 0;
+        }
+
+        .item-action {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+
+          button {
+            font-size: 0.875em;
+            font-weight: 500;
+            padding: .75em 1.5em;
+            border-radius: .4em;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

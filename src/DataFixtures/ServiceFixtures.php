@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Dino;
+use App\Entity\Fixer;
 use App\Entity\Service;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -19,6 +20,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         $categoryTerre = $manager->getRepository(Category::class)->findOneBy(['name' => 'Terrestre']);
         $categoryVol = $manager->getRepository(Category::class)->findOneBy(['name' => 'Volant']);
         $dinos = $manager->getRepository(Dino::class)->findAll();
+        $fixers = $manager->getRepository(Fixer::class)->findAll();
 
         for($i = 0; $i < 3; $i++) {
             $object = (new Service())
@@ -28,7 +30,8 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                 ->setCreatedAt($faker->dateTime('now'))
                 ->setUpdatedAt($faker->dateTime('now'))
                 ->setCategory($categoryAqua)
-                ->setDino($faker->randomElement($dinos));
+                ->setDino($faker->randomElement($dinos))
+                ->setFixer($faker->randomElement($fixers));
 
             $manager->persist($object);
         }
@@ -41,7 +44,8 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                 ->setCreatedAt($faker->dateTime('now'))
                 ->setUpdatedAt($faker->dateTime('now'))
                 ->setCategory($categoryTerre)
-                ->setDino($faker->randomElement($dinos));
+                ->setDino($faker->randomElement($dinos))
+                ->setFixer($faker->randomElement($fixers));
 
             $manager->persist($object);
         }
@@ -54,7 +58,8 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                 ->setCreatedAt($faker->dateTime('now'))
                 ->setUpdatedAt($faker->dateTime('now'))
                 ->setCategory($categoryVol)
-                ->setDino($faker->randomElement($dinos));
+                ->setDino($faker->randomElement($dinos))
+                ->setFixer($faker->randomElement($fixers));
 
             $manager->persist($object);
         }
@@ -65,6 +70,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            FixerFixtures::class,
             CategoryFixtures::class,
             DinoFixtures::class
         ];
