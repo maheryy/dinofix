@@ -12,21 +12,20 @@ class RequestActive
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToOne(targetEntity: Request::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Request::class)]
     private $request;
 
-    #[ORM\OneToOne(targetEntity: Fixer::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Fixer::class)]
     private $fixer;
+
+    #[ORM\ManyToOne(targetEntity: ServiceStep::class)]
+    private $step;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $content;
 
     #[ORM\Column(type: 'smallint')]
     private $status;
-
-    #[ORM\OneToOne(targetEntity: ServiceStep::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $step;
 
     #[ORM\Column(type: 'datetime')]
     private $created_at;

@@ -25,7 +25,7 @@ class Request
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToOne(targetEntity: Service::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Service::class)]
     private $service;
 
     #[ORM\Column(type: 'smallint')]

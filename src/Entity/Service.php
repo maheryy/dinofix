@@ -14,7 +14,7 @@ class Service
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 15)]
+    #[ORM\Column(type: 'string', length: 128)]
     private $name;
 
     #[ORM\Column(type: 'text')]
@@ -33,7 +33,7 @@ class Service
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: ServiceStep::class)]
     private $steps;
 
-    #[ORM\OneToMany(mappedBy: 'fixer', targetEntity: Fixer::class)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Review::class)]
     private $reviews;
 
     #[ORM\Column(type: 'smallint')]
@@ -178,28 +178,6 @@ class Service
         return $this->reviews;
     }
 
-    public function addReview(Fixer $review): self
-    {
-        if (!$this->reviews->contains($review)) {
-            $this->reviews[] = $review;
-            $review->setFixer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReview(Fixer $review): self
-    {
-        if ($this->reviews->removeElement($review)) {
-            // set the owning side to null (unless already changed)
-            if ($review->getFixer() === $this) {
-                $review->setFixer(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFixer(): ?Fixer
     {
         return $this->fixer;
@@ -208,6 +186,28 @@ class Service
     public function setFixer(?Fixer $fixer): self
     {
         $this->fixer = $fixer;
+
+        return $this;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getService() === $this) {
+                $review->setService(null);
+            }
+        }
 
         return $this;
     }

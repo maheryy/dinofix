@@ -40,6 +40,7 @@ override-vendors: #[Ignore] Edit vendor files
 	@cp custom-vendor/symfony/make-controller/MakeController.php vendor/symfony/maker-bundle/src/Maker/MakeController.php
 	@cp custom-vendor/symfony/make-crud/MakeCrud.php vendor/symfony/maker-bundle/src/Maker/MakeCrud.php
 	@cp custom-vendor/symfony/make-crud/CrudController.tpl.php vendor/symfony/maker-bundle/src/Resources/skeleton/crud/controller/Controller.tpl.php
+	@cp custom-vendor/faker/Lorem.php vendor/fzaninotto/faker/src/Faker/Provider/Lorem.php
 
 
 ### DOCKER COMMANDS ###

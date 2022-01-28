@@ -12,7 +12,8 @@ class Review
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToOne(targetEntity: Customer::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Customer::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $customer;
 
     #[ORM\Column(type: 'integer')]
