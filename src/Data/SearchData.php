@@ -59,7 +59,7 @@ class SearchData
     /**
      * @return array|null
      */
-    public function getReviews(): ?int
+    public function getReviews(): ?array
     {
         return $this->reviews;
     }
