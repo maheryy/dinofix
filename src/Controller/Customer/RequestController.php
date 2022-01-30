@@ -22,8 +22,9 @@ class RequestController extends AbstractController
     #[Route('/', name: 'request_index', methods: ['GET'])]
     public function index(RequestRepository $requestRepository): Response
     {
+        $user_id = $this->getUser()->getId();
         return $this->render('customer/request/index.html.twig', [
-            'requests' => $requestRepository->findAll(),
+            'requests' => $requestRepository->findBy(['customer' => $user_id]),
         ]);
     }
 
@@ -52,9 +53,14 @@ class RequestController extends AbstractController
     #[Route('/{id}', name: 'request_show', methods: ['GET'])]
     public function show(RequestEntity $requestEntity): Response
     {
-        return $this->render('customer/request/show.html.twig', [
-            'request' => $requestEntity,
-        ]);
+        $user_id = $this->getUser()->getId();
+        if($user_id == $requestEntity->getCustomer()->getId()) {
+            return $this->render('customer/request/show.html.twig', [
+                'request' => $requestEntity,
+            ]);
+        } else {
+            $this->redirectToRoute('customer_request_index');
+        }
     }
 
     #[Route('/{id}/edit', name: 'request_edit', methods: ['GET', 'POST'])]

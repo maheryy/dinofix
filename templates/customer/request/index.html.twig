@@ -11,7 +11,7 @@
                         <li class="request-item">
                             <div class="content-left">
                                 <div class="item-title">
-                                    <h4><a href="#">{{ request.reference }}</a></h4>
+                                    <h4><a href="{{ path('customer_request_show', {'id': request.id}) }}">{{ request.reference }}</a></h4>
                                 </div>
                                 <div class="item-description">
                                     <span>{{ request.subject }}</span>
