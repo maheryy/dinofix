@@ -3,8 +3,8 @@
 namespace App\Controller\Customer;
 
 use App\Data\SearchData;
-use App\Entity\Service;
 use App\Form\SearchFilterType;
+use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,17 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ServiceController extends AbstractController
 {
-    #[Route('/', name: 'service')]
+    #[Route('/', name: 'homepage')]
     public function index(): Response
     {
         return $this->redirectToRoute('customer_search');
     }
 
     #[Route('/search', name: 'search', methods: ['GET'])]
-    public function search(Request $request): Response
+    public function search(Request $request, ServiceRepository $serviceRepository): Response
     {
-        $serviceRepository = $this->getDoctrine()->getRepository(Service::class);
-
         $searchData = new SearchData();
         $searchData->setPage($request->get('page', 1));
 

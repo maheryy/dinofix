@@ -6,11 +6,9 @@ args = `echo "$(filter-out $@,$(MAKECMDGOALS))"`
 help: ## Show command list
 	@make list
 
-install: ## Load composer/node dependencies and add local files
+install: ## Load composer/node dependencies
 	@docker-compose exec php composer install
 	@docker-compose exec php yarn install
-	@docker-compose exec php yarn dev
-	@make override-vendors
 
 asset: ## Compile assets (styles and javacript)
 	@docker-compose exec php yarn dev
@@ -36,12 +34,11 @@ clear-hooks: ## Remove installed git hooks
 clear-app: ## Clear vendor folders, cache, compiled assets
 	@rm -Rf node_modules/ vendor/ var/* public/build/
 
-override-vendors: #[Ignore] Edit vendor files
-	@cp custom-vendor/symfony/make-controller/MakeController.php vendor/symfony/maker-bundle/src/Maker/MakeController.php
-	@cp custom-vendor/symfony/make-crud/MakeCrud.php vendor/symfony/maker-bundle/src/Maker/MakeCrud.php
-	@cp custom-vendor/symfony/make-crud/CrudController.tpl.php vendor/symfony/maker-bundle/src/Resources/skeleton/crud/controller/Controller.tpl.php
-	@cp custom-vendor/faker/Lorem.php vendor/fzaninotto/faker/src/Faker/Provider/Lorem.php
+code-analyse: ## Analyse code in /src with phpstan
+	@docker-compose exec php composer code-analyse
 
+code-fix: ## Fix code in /src with php-cs-fixer
+	@docker-compose exec php composer code-fix
 
 ### DOCKER COMMANDS ###
 
