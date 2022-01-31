@@ -1,0 +1,28 @@
+<section id="location" class="service-section location">
+    <h2 class="title">Informations d'accès</h2>
+    <div class="content">
+        <div class="google-map">
+            <iframe id="gmap_canvas"
+                    src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+            </iframe>
+        </div>
+        <div class="business-hours py-0.75 flex">
+            {% set hours = {
+                "lundi" : {'start' : '09:30', 'end': '17h30'},
+                "mardi" : {'start' : '09:30', 'end': '17h30'},
+                "mercredi" : {'start' : '09:30', 'end': '17h30'},
+                "jeudi" : {'start' : '09:30', 'end': '17h30'},
+                "vendredi" : {'start' : '09:30', 'end': '17h30'},
+            } %}
+            <ul class="col-6 pl-0">
+                {% for day, opening in hours %}
+                    <li class="flex justify-between py-0.25">
+                        <span class="font-semibold">{{ day }} : </span>
+                        <span> {{ opening.start }} - {{ opening.end }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>

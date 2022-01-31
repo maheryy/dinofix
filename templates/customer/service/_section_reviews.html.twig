@@ -1,0 +1,33 @@
+<section id="reviews" class="service-section reviews">
+    <h2 class="title">Avis des clients</h2>
+    <div class="content">
+        <p class="review-summary text-lg">
+            <span class="total">{{ review_data.count | number_format(0, '.', ' ') }} avis</span>
+            <span class="stars">
+                {% for index in [1,2,3,4,5] %}
+                    {% set img = review_data.rounded >= index ? "star-filled" : (review_data.rounded + 0.5 == index ? "star-half" : "star-empty") %}
+                    <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
+                {% endfor %}
+            </span>
+            <span class="average">{{ review_data.average | round(1) }}</span>
+        </p>
+        <ul class="review-list">
+            {% for review in reviews %}
+                <li class="review-item">
+                    <div class="review-head mb-0.75">
+                        <span class="text-base font-medium">{{ review.customer.firstname }} {{ review.customer.lastname }}</span>
+                        <span class="review-rate">
+                            <img class="review-star" alt=""
+                                 src="{{ asset("images/star-filled.svg") }}">
+                            <label>{{ review.rate }}</label>
+                        </span>
+                    </div>
+                    <div class="review-content">
+                        <p class="mb-0.75">{{ review.message }}</p>
+                        <span class="publish-date">Publié le {{ review.createdat | date('d M. Y à H:i') }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

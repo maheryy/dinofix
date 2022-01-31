@@ -91,6 +91,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServices(int $serviceExcept, int $max)
     {
         return $this->createQueryBuilder('s')
+            ->leftJoin('s.reviews', 'r')
             ->andwhere('s.id <> :id')
             ->setParameter('id', $serviceExcept)
             ->setMaxResults($max)

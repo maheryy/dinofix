@@ -1,0 +1,12 @@
+<section id="contact" class="service-section contact">
+    <h4 class="title font-semibold text-center">Une question ?</h4>
+    <div class="content">
+        <div class="mx-auto py-0.5 text-center">
+            <p><a class="link-primary underlined" href="mailto:{{ service.fixer.email }}">{{ service.fixer.email }}</a></p>
+            {% if service.fixer.phone is not empty %}
+                <p>{{ service.fixer.phone }}</p>
+            {% endif %}
+        </div>
+        <a href="#" class="btn-secondary w-full p-0">Contacter</a>
+    </div>
+</section>

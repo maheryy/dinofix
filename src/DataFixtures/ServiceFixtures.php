@@ -25,12 +25,12 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         $customers = $manager->getRepository(Customer::class)->findAll();
 
         foreach ($categories as $category) {
-            $rand_service = rand(3, 10);
+            $rand_service = rand(5, 15);
             for ($i = 0; $i < $rand_service; $i++) {
 
                 $object = (new Service())
                     ->setName("{$faker->catchPhrase()} ({$category->getName()})")
-                    ->setDescription($faker->sentence(20))
+                    ->setDescription($faker->realText(500) . "\n\n" . $faker->text(500))
                     ->setStatus(1)
                     ->setCreatedAt($faker->dateTime('now'))
                     ->setUpdatedAt($faker->dateTime('now'))
@@ -38,7 +38,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                     ->setDino($faker->randomElement($dinos))
                     ->setFixer($faker->randomElement($fixers));
 
-                $rand_review = rand(1, 5);
+                $rand_review = rand(1, 7);
                 for ($j = 0; $j < $rand_review; $j++) {
                     $review = (new Review())
                         ->setCustomer($faker->randomElement($customers))
