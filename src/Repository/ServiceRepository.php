@@ -33,8 +33,8 @@ class ServiceRepository extends ServiceEntityRepository
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->select(
-                's.name, s.description,
-                f.first_name, f.last_name,
+                's.id, s.name, s.description,
+                f.firstname, f.lastname,
                 a.country, a.region, a.postcode, a.city, a.street'
             );
 
@@ -66,6 +66,36 @@ class ServiceRepository extends ServiceEntityRepository
         }
 
         return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), 5);
+    }
+
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findServiceById($id): Service|null
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.fixer', 'f')
+            ->innerJoin('f.address', 'a')
+            ->andwhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $serviceExcept
+     * @param int $max
+     * @return Service[]
+     */
+    public function findFixerServices(int $serviceExcept, int $max)
+    {
+        return $this->createQueryBuilder('s')
+            ->andwhere('s.id <> :id')
+            ->setParameter('id', $serviceExcept)
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult();
     }
 
 }

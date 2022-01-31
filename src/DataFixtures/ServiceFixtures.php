@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Customer;
 use App\Entity\Dino;
 use App\Entity\Fixer;
 use App\Entity\Review;
@@ -21,30 +22,37 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         $categories = $manager->getRepository(Category::class)->findAll();
         $dinos = $manager->getRepository(Dino::class)->findAll();
         $fixers = $manager->getRepository(Fixer::class)->findAll();
-        $reviews = $manager->getRepository(Review::class)->findAll();
+        $customers = $manager->getRepository(Customer::class)->findAll();
 
         foreach ($categories as $category) {
             $rand_service = rand(3, 10);
             for ($i = 0; $i < $rand_service; $i++) {
-                $fixer = $faker->randomElement($fixers);
 
                 $object = (new Service())
-                    ->setName("{$faker->realText(30)} ({$category->getName()})")
+                    ->setName("{$faker->catchPhrase()} ({$category->getName()})")
                     ->setDescription($faker->sentence(20))
                     ->setStatus(1)
                     ->setCreatedAt($faker->dateTime('now'))
                     ->setUpdatedAt($faker->dateTime('now'))
                     ->setCategory($category)
                     ->setDino($faker->randomElement($dinos))
-                    ->setFixer($fixer);
+                    ->setFixer($faker->randomElement($fixers));
 
-                $rand_review = rand(0, 5);
+                $rand_review = rand(1, 5);
                 for ($j = 0; $j < $rand_review; $j++) {
-                    $object->addReview($faker->randomElement($reviews));
+                    $review = (new Review())
+                        ->setCustomer($faker->randomElement($customers))
+                        ->setMessage($faker->sentence(20))
+                        ->setRate($faker->numberBetween(0, 5))
+                        ->setStatus(1)
+                        ->setCreatedAt($faker->dateTime('now'))
+                        ->setUpdatedAt($faker->dateTime('now'));
+
+                    $object->addReview($review);
+                    $manager->persist($review);
                 }
 
                 $manager->persist($object);
-                $manager->persist($fixer);
             }
         }
 
@@ -54,6 +62,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            CustomerFixtures::class,
             FixerFixtures::class,
             CategoryFixtures::class,
             DinoFixtures::class

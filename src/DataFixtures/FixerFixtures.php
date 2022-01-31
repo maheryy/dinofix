@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\Entity\Customer;
 use App\Entity\Fixer;
 use App\Entity\Review;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,12 +26,13 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
         $addresses = $manager->getRepository(Address::class)->findAll();
-        $reviews = $manager->getRepository(Review::class)->findAll();
+        $customers = $manager->getRepository(Customer::class)->findAll();
 
         for ($i = 0; $i < 10; $i++) {
             $object = (new Fixer())
                 ->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
+                ->setAlias($faker->company())
                 ->setEmail($faker->freeEmail())
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->randomElement($addresses))
@@ -41,9 +43,18 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
-            $rand_review = rand(0, 5);
+            $rand_review = rand(1, 3);
             for ($j = 0; $j < $rand_review; $j++) {
-                $object->addReview($faker->randomElement($reviews));
+                $review = (new Review())
+                    ->setCustomer($faker->randomElement($customers))
+                    ->setMessage($faker->sentence(20))
+                    ->setRate($faker->numberBetween(0, 5))
+                    ->setStatus(1)
+                    ->setCreatedAt($faker->dateTime('now'))
+                    ->setUpdatedAt($faker->dateTime('now'));
+
+                $object->addReview($review);
+                $manager->persist($review);
             }
 
             $manager->persist($object);
@@ -56,7 +67,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             AddressFixtures::class,
-            ReviewFixtures::class,
+            CustomerFixtures::class
         ];
     }
 }

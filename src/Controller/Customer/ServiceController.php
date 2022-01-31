@@ -5,6 +5,8 @@ namespace App\Controller\Customer;
 use App\Data\SearchData;
 use App\Form\SearchFilterType;
 use App\Repository\ServiceRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +35,22 @@ class ServiceController extends AbstractController
             'services' => $services,
             'previousQuery' => $searchData->getQuery(),
             'form' => $filterForm->createView(),
+        ]);
+    }
+
+    #[Route('/service/{id}', name: 'service', methods: ['GET'])]
+    public function service(int $id, ServiceRepository $serviceRepository): Response
+    {
+        try {
+            if (!($service = $serviceRepository->findServiceById($id))) {
+                throw new \Exception();
+            }
+        } catch (NonUniqueResultException | \Exception $e) {
+            return $this->render('customer/service/search.html.twig', ['services' => []]);
+        }
+
+        return $this->render('customer/service/service.html.twig', [
+            'service' => $service,
         ]);
     }
 }

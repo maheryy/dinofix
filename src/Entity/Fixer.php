@@ -17,10 +17,13 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    private $first_name;
+    private $firstname;
 
     #[ORM\Column(type: 'string', length: 50)]
-    private $last_name;
+    private $lastname;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private $alias;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     private $email;
@@ -71,24 +74,36 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->firstname;
     }
 
-    public function setFirstName(string $first_name): self
+    public function setFirstName(string $firstname): self
     {
-        $this->first_name = $first_name;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
     public function getLastName(): ?string
     {
-        return $this->last_name;
+        return $this->lastname;
     }
 
-    public function setLastName(string $last_name): self
+    public function setLastName(string $lastname): self
     {
-        $this->last_name = $last_name;
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(string $alias): self
+    {
+        $this->alias = $alias;
 
         return $this;
     }

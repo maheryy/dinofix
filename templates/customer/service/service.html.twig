@@ -1,0 +1,12 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block body %}
+    <div class="service-head-container">
+        {{ service.fixer.firstname }}
+        {{ service.fixer.lastname }}
+    </div>
+    <div class="service-container">
+        <p>{{ service.id }}</p>
+        <p>{{ service.name }}</p>
+    </div>
+{% endblock %}

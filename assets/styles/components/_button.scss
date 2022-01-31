@@ -1,0 +1,69 @@
+$btn-list: (
+        "btn-primary": #1c6ea4,
+        "btn-secondary": #ffffff,
+        "btn-success": #5CB85C,
+        "btn-danger": #f44336,
+);
+
+
+@function reverse-color($color) {
+  @if lightness($color) > 70 {
+    @return #606060;
+  }
+  @return #fff;
+}
+
+
+@mixin base-btn($color) {
+  display: inline-block;
+  line-height: 2.5em;
+  padding: 0 2em;
+  height: 2.5em;
+  font-size: 1rem;
+  border: 1px solid $color;
+  border-radius: 0.4em;
+  background-color: $color;
+  font-weight: 500;
+  color: reverse-color($color);
+  text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: darken($color, 5);
+    cursor: pointer;
+  }
+}
+
+.btn-primary {
+  @include base-btn(#107aca);
+}
+
+.btn-secondary {
+  @include base-btn(#ffffff);
+  border-color: #cccccc;
+
+  &:hover {
+    background-color: #cccccc;
+  }
+}
+
+.btn-success {
+  @include base-btn(#5CB85C);
+}
+
+.btn-danger {
+  @include base-btn(#f44336);
+}
+
+a.link-primary {
+  color: #606060;
+
+  &.underlined {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
