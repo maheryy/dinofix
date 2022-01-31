@@ -21,11 +21,11 @@ a {
 
 main.main-container {
   flex: 1;
-  padding: 2rem 20px;
+  padding: 0 35px;
   font-size: 0.875rem;
-  position: relative;
 
   &.customer-container {
+    position: relative;
     background-color: #eef2f65c;
   }
 }

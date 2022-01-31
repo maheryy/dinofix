@@ -1,0 +1,222 @@
+$container-max-width: 1100px;
+
+.service-head-container {
+  width: 100vw;
+  margin-left: -35px;
+  height: 150px;
+  background-color: #2e4552;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .30);
+
+  .service-head {
+    display: flex;
+    align-items: center;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    height: 100%;
+    color: #ffffff;
+
+    a {
+      color: #ffffff;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .profile-picture {
+      background-color: #ffffff;
+      height: 100px;
+      width: 100px;
+      padding: 10px;
+      border-radius: 50%;
+      margin-right: 15px;
+
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+
+      .profile-review {
+        display: flex;
+        align-items: center;
+
+        a {
+          margin-left: .5em;
+        }
+
+        img.review-star {
+          height: 1.35em;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+.service-container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 1.5rem 0;
+
+  .service-content-wrapper {
+
+    .service-section {
+      background-color: #ffffff;
+      padding: .75rem 1.5rem;
+      border-radius: .3em;
+      box-shadow: 0 2px 4px rgba(116, 116, 116, .20);
+      margin-bottom: 0.75rem;
+      color: #606060;
+
+      h2.title {
+        font-weight: 600;
+        margin-bottom: .85em;
+      }
+
+      &.reviews {
+        .review-summary {
+          display: flex;
+          align-items: center;
+
+          .total {
+            font-weight: 500;
+          }
+
+          .average {
+            font-weight: 500;
+            color: #ffdb0a;
+          }
+
+          .stars {
+            padding: 0 .25em 0 0.75em;
+
+            img.review-star {
+              height: 1.15em;
+              width: auto;
+            }
+          }
+        }
+
+        ul.review-list {
+          .review-item {
+            padding: 1em 0;
+            font-weight: 300;
+            border-bottom: 1px solid #e4e5e7;
+
+            &:last-child {
+              border-bottom: 0;
+            }
+
+            .review-head {
+
+              .review-rate {
+                color: #ffdb0a;
+                padding: 0 .5em;
+                font-weight: 500;
+                font-size: 1rem;
+
+                img.review-star {
+                  height: 1.15em;
+                  width: auto;
+                  transform: translateY(2px);
+                }
+              }
+            }
+
+            .review-content {
+              .publish-date {
+                color: #8b8a8a;
+                font-size: 0.875em;
+                font-style: italic;
+              }
+            }
+          }
+        }
+      }
+
+      &.location {
+        .google-map {
+          width: 100%;
+          padding: 1em 0;
+          border-bottom: 1px solid #e4e5e7;
+
+          & > iframe {
+            width: 100%;
+            height: 350px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.service-suggestion-container {
+  padding: 1em 0;
+  color: #606060;
+
+  a {
+    color: #606060;
+  }
+
+  .service-suggestion {
+    h2 {
+      font-weight: 600;
+      margin-bottom: .85em;
+
+      a {
+        color: #3fced2;
+      }
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+
+      .service-card {
+        width: 250px;
+        height: 310px;
+        border-radius: .3em;
+        border: 1px solid #e4e5e7;
+        box-shadow: 0 2px 4px rgba(116, 116, 116, .20);
+        margin: 0 1em .75em 0;
+        display: flex;
+        flex-direction: column;
+
+        .content-top {
+          flex-basis: 60%;
+          max-height: 60%;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .content-bottom {
+          flex-basis: 40%;
+          display: flex;
+          flex-direction: column;
+          padding: .5em .75em;
+          font-weight: 500;
+          justify-content: space-between;
+
+          .name {
+            max-height: 4.5em;
+            overflow: hidden;
+          }
+
+          .review-total {
+            color: #8b8a8a;
+            font-size: 0.875em;
+            padding: 0 0.25em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if services is not empty %}
-        <section class="search-container">
+        <div class="search-container">
             {{ form_start(form, {action : path('customer_search')}) }}
             <div class="search-filters">
                 <ul class="filter-list">
@@ -34,13 +34,15 @@
                 </div>
             </div>
             {{ form_end(form) }}
-            <div class="search-results">
+            <section class="search-results">
                 <ul class="search-list">
                     {% for service in services %}
                         <li class="search-item">
                             <div class="content-left">
                                 <div class="item-title">
-                                    <h4><a href="#">{{ service.first_name }} {{ service.last_name }}</a></h4>
+                                    <h4>
+                                        <a href="{{ path('service', {'id': service.id}) }}">{{ service.firstname }} {{ service.lastname }}</a>
+                                    </h4>
                                 </div>
                                 <div class="item-description">
                                     <span>{{ service.street }}</span>
@@ -50,13 +52,13 @@
                             </div>
                             <div class="content-right">
                                 <div class="item-title">
-                                    <a href="#">{{ service.name }}</a>
+                                    <a href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
                                 </div>
                                 <div class="item-description">
                                     Lorem ipsum
                                 </div>
                                 <div class="item-action">
-                                    <button>Prendre RDV</button>
+                                    <a href="{{ path('service', {'id': service.id}) }}" class="btn-primary text-uppercase text-sm">Prendre RDV</a>
                                 </div>
                             </div>
                         </li>
@@ -65,14 +67,14 @@
                 <div class="search-navigation">
                     {{ knp_pagination_render(services) }}
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     {% else %}
-        <section class="search-container no-results">
+        <div class="search-container no-results">
             <div class="no-results-text">
                 <h1>Aucun résultat trouvé</h1>
                 <p>Votre recherche n'a envoyé aucun résultat. Essayez de reformuler votre recherche</p>
             </div>
-        </section>
+        </div>
     {% endif %}
 {% endblock %}

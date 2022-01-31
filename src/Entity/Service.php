@@ -14,7 +14,7 @@ class Service
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 128)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     #[ORM\Column(type: 'text')]
@@ -171,7 +171,7 @@ class Service
     }
 
     /**
-     * @return Collection|Fixer[]
+     * @return Collection|Review[]
      */
     public function getReviews(): Collection
     {

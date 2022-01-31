@@ -19,7 +19,7 @@ class AddressFixtures extends Fixture
                 ->setRegion($faker->country())
                 ->setCity($faker->city())
                 ->setPostcode($faker->postcode())
-                ->setStreet($faker->streetName())
+                ->setStreet($faker->streetAddress())
                 ->setLocation('1023094XYZ');
 
             $manager->persist($object);
