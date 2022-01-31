@@ -50,8 +50,7 @@ class ServiceController extends AbstractController
 
         $reviews = $service->getReviews();
         $reviewData = $this->getReviewAverageData($reviews);
-        $otherServices = $serviceRepository->findFixerServices($id, 4);
-
+        $otherServices = $serviceRepository->findFixerServices($service->getFixer()->getId(), $service->getId(), 4);
         $otherServicesReviewData = [];
         foreach ($otherServices as $otherService) {
             $otherServicesReviewData[$otherService->getId()] = $this->getReviewAverageData($otherService->getReviews());
