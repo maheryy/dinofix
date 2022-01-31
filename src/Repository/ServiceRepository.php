@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\SearchData;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -84,19 +85,24 @@ class ServiceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $serviceExcept
+     * @param int $fixerId
+     * @param int $serviceId
      * @param int $max
-     * @return Service[]
+     * @return Paginator
      */
-    public function findFixerServices(int $serviceExcept, int $max)
+    public function findFixerServices(int $fixerId, int $serviceId, int $max) : Paginator
     {
-        return $this->createQueryBuilder('s')
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
-            ->andwhere('s.id <> :id')
-            ->setParameter('id', $serviceExcept)
+            ->andWhere('s.id <> :serviceId')
+            ->andWhere('f.id = :fixerId')
+            ->setParameter('serviceId', $serviceId)
+            ->setParameter('fixerId', $fixerId)
             ->setMaxResults($max)
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+
+        return new Paginator($qb);
     }
 
 }

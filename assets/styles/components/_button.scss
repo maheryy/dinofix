@@ -1,18 +1,9 @@
-$btn-list: (
-        "btn-primary": #1c6ea4,
-        "btn-secondary": #ffffff,
-        "btn-success": #5CB85C,
-        "btn-danger": #f44336,
-);
-
-
 @function reverse-color($color) {
   @if lightness($color) > 70 {
     @return #606060;
   }
   @return #fff;
 }
-
 
 @mixin base-btn($color) {
   display: inline-block;
