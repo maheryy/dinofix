@@ -88,21 +88,19 @@ class ServiceRepository extends ServiceEntityRepository
      * @param int $fixerId
      * @param int $serviceId
      * @param int $max
-     * @return Paginator
+     * @return Service[]
      */
-    public function findFixerServices(int $fixerId, int $serviceId, int $max) : Paginator
+    public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
-        $qb = $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
-            ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
             ->andWhere('f.id = :fixerId')
             ->setParameter('serviceId', $serviceId)
             ->setParameter('fixerId', $fixerId)
             ->setMaxResults($max)
-            ->getQuery();
-
-        return new Paginator($qb);
+            ->getQuery()
+            ->getResult();
     }
 
 }

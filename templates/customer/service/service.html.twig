@@ -2,6 +2,7 @@
 
 {% block body %}
     {% set fixer_profile = '#' %}
+    {% set reviews_count = reviews | length %}
     <div class="service-head-container">
         <div class="service-head">
             <div class="profile-picture">
@@ -14,11 +15,12 @@
                 <p class="profile-review pt-0.5">
                     <span>
                         {% for index in [1,2,3,4,5] %}
-                            {% set img = review_data.rounded >= index ? "star-filled" : (review_data.rounded + 0.5 == index ? "star-half" : "star-empty") %}
+                            {% set img = service.rating >= index or index - service.rating <= 0.15
+                                ? "star-filled" :  (index - service.rating >= 0.85 ? 'star-empty' : 'star-half') %}
                             <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
                         {% endfor %}
                     </span>
-                    <a href="#reviews">{{ review_data.count }} avis</a>
+                    <a href="#reviews">{{ reviews_count }} avis</a>
                 </p>
             </div>
         </div>
@@ -29,7 +31,7 @@
                 <div class="service-content-container flex-col">
                     {% include 'customer/service/_section_description.html.twig' %}
                     {% include 'customer/service/_section_location.html.twig' %}
-                    {% if review_data.count > 0 %}
+                    {% if reviews_count > 0 %}
                         {% include 'customer/service/_section_reviews.html.twig' %}
                     {% endif %}
                 </div>

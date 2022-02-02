@@ -49,6 +49,9 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'fixer', targetEntity: Review::class)]
     private $reviews;
 
+    #[ORM\Column(type: 'float')]
+    private $rating;
+
     #[ORM\Column(type: 'object')]
     private $settings;
 
@@ -325,5 +328,17 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(float $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
     }
 }
