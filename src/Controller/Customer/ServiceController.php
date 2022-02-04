@@ -4,6 +4,7 @@ namespace App\Controller\Customer;
 
 use App\Data\SearchData;
 use App\Form\SearchFilterType;
+use App\Repository\ReviewRepository;
 use App\Repository\ServiceRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,12 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ServiceController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
-    public function index(): Response
-    {
-        return $this->redirectToRoute('customer_search');
-    }
-
     #[Route('/search', name: 'search', methods: ['GET'])]
     public function search(Request $request, ServiceRepository $serviceRepository): Response
     {
@@ -38,7 +33,7 @@ class ServiceController extends AbstractController
     }
 
     #[Route('/service/{id}', name: 'service', methods: ['GET'])]
-    public function service(int $id, ServiceRepository $serviceRepository): Response
+    public function service(int $id, ServiceRepository $serviceRepository, ReviewRepository $reviewRepository): Response
     {
         try {
             if (!($service = $serviceRepository->findServiceById($id))) {
@@ -48,7 +43,7 @@ class ServiceController extends AbstractController
             return $this->render('customer/service/search.html.twig', ['services' => []]);
         }
 
-        $reviews = $service->getReviews();
+        $reviews = $reviewRepository->findServiceReviews($service->getId());
         $otherServices = $serviceRepository->findFixerServices($service->getFixer()->getId(), $service->getId(), 4);
 
         return $this->render('customer/service/service.html.twig', [

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\SearchData;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -71,11 +72,14 @@ class ServiceRepository extends ServiceEntityRepository
 
 
     /**
+     * @param $id
+     * @return Service|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findServiceById($id): Service|null
     {
         return $this->createQueryBuilder('s')
+            ->select('s', 'f', 'a')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->andwhere('s.id = :id')
@@ -88,19 +92,25 @@ class ServiceRepository extends ServiceEntityRepository
      * @param int $fixerId
      * @param int $serviceId
      * @param int $max
-     * @return Service[]
+     * @return array
      */
     public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
         return $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
             ->andWhere('f.id = :fixerId')
             ->setParameter('serviceId', $serviceId)
             ->setParameter('fixerId', $fixerId)
+            ->orderBy('s.rating', 'DESC')
+            ->addOrderBy('reviews', 'DESC')
+            ->groupBy('s.id, f.id')
             ->setMaxResults($max)
             ->getQuery()
-            ->getResult();
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
+
 
 }

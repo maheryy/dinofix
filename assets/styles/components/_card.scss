@@ -1,0 +1,36 @@
+.service-card {
+  width: 250px;
+  height: 290px;
+  display: flex;
+  flex-direction: column;
+
+  .content-top {
+    flex-basis: 60%;
+    max-height: 60%;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .content-bottom {
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: .5em .75em;
+    font-weight: 500;
+    justify-content: space-between;
+
+    .name {
+      max-height: 3em;
+      overflow: hidden;
+      padding-top: 0.5em;
+    }
+
+    .review-total {
+      color: #8b8a8a;
+      padding: 0 0.25em;
+    }
+  }
+}

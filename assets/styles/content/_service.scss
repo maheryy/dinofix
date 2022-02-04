@@ -1,8 +1,7 @@
-$container-max-width: 1100px;
+$container-max-width: 1170px;
 
 .service-head-container {
   width: 100vw;
-  margin-left: -35px;
   height: 150px;
   background-color: #2e4552;
   box-shadow: 0 3px 5px rgba(0, 0, 0, .30);
@@ -61,7 +60,7 @@ $container-max-width: 1100px;
 .service-container {
   max-width: $container-max-width;
   margin: 0 auto;
-  padding: 1.5rem 0;
+  padding: 1.5rem 35px;
 
   .service-content-wrapper {
 
@@ -159,10 +158,6 @@ $container-max-width: 1100px;
   padding: 1em 0;
   color: #606060;
 
-  a {
-    color: #606060;
-  }
-
   .service-suggestion {
     h2 {
       font-weight: 600;
@@ -170,52 +165,6 @@ $container-max-width: 1100px;
 
       a {
         color: #3fced2;
-      }
-    }
-
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-
-      .service-card {
-        width: 250px;
-        height: 310px;
-        border-radius: .3em;
-        border: 1px solid #e4e5e7;
-        box-shadow: 0 2px 4px rgba(116, 116, 116, .20);
-        margin: 0 1em .75em 0;
-        display: flex;
-        flex-direction: column;
-
-        .content-top {
-          flex-basis: 60%;
-          max-height: 60%;
-
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .content-bottom {
-          flex-basis: 40%;
-          display: flex;
-          flex-direction: column;
-          padding: .5em .75em;
-          font-weight: 500;
-          justify-content: space-between;
-
-          .name {
-            max-height: 4.5em;
-            overflow: hidden;
-          }
-
-          .review-total {
-            color: #8b8a8a;
-            font-size: 0.875em;
-            padding: 0 0.25em;
-          }
-        }
       }
     }
   }

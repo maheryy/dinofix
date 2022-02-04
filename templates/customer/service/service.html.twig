@@ -1,50 +1,47 @@
+{% from 'macros/utils.html.twig' import stars %}
 {% extends 'customer/customer.html.twig' %}
 
 {% block body %}
     {% set fixer_profile = '#' %}
     {% set reviews_count = reviews | length %}
-    <div class="service-head-container">
-        <div class="service-head">
-            <div class="profile-picture">
-                <img alt="" src="{{ asset('images/repair.png') }}">
-            </div>
-            <div class="profile-info">
-                <h1 class="pb-0.5 font-semibold">{{ service.name }}</h1>
-                <span><a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }} ({{ service.fixer.alias }})</a></span>
-                <span>{{ service.fixer.address.street }}, {{ service.fixer.address.postcode }} {{ service.fixer.address.city }}</span>
-                <p class="profile-review pt-0.5">
-                    <span>
-                        {% for index in [1,2,3,4,5] %}
-                            {% set img = service.rating >= index or index - service.rating <= 0.15
-                                ? "star-filled" :  (index - service.rating >= 0.85 ? 'star-empty' : 'star-half') %}
-                            <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
-                        {% endfor %}
-                    </span>
-                    <a href="#reviews">{{ reviews_count }} avis</a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="service-container">
-        <div class="service-content-wrapper flex align-start">
-            <div class="col-8 pl-0">
-                <div class="service-content-container flex-col">
-                    {% include 'customer/service/_section_description.html.twig' %}
-                    {% include 'customer/service/_section_location.html.twig' %}
-                    {% if reviews_count > 0 %}
-                        {% include 'customer/service/_section_reviews.html.twig' %}
-                    {% endif %}
+    <main class="main-container customer-container no-padding">
+        <div class="service-head-container">
+            <div class="service-head">
+                <div class="profile-picture">
+                    <img alt="" src="{{ asset('images/repair.png') }}">
                 </div>
-            </div>
-            <div class="col-4">
-                <div class="service-sidebar-container">
-                    {% include 'customer/service/_section_request.html.twig' %}
-                    {% include 'customer/service/_section_contact.html.twig' %}
+                <div class="profile-info">
+                    <h1 class="pb-0.5 font-semibold">{{ service.name }}</h1>
+                    <span><a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }} ({{ service.fixer.alias }})</a></span>
+                    <span>{{ service.fixer.address.street }}, {{ service.fixer.address.postcode }} {{ service.fixer.address.city }}</span>
+                    <p class="profile-review pt-0.5">
+                        <span> {{ stars(service.rating) }}</span>
+                        <a href="#reviews">{{ reviews_count }} avis</a>
+                    </p>
                 </div>
             </div>
         </div>
-        {% if other_services is not empty %}
-            {% include 'customer/service/_section_suggestion.html.twig' %}
-        {% endif %}
-    </div>
+        <div class="service-container">
+            <div class="service-content-wrapper flex align-start">
+                <div class="col-8 pl-0">
+                    <div class="service-content-container flex-col">
+                        {% include 'customer/service/_section_description.html.twig' %}
+                        {% include 'customer/service/_section_location.html.twig' %}
+                        {% if reviews_count > 0 %}
+                            {% include 'customer/service/_section_reviews.html.twig' %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-4 pr-0">
+                    <div class="service-sidebar-container">
+                        {% include 'customer/service/_section_request.html.twig' %}
+                        {% include 'customer/service/_section_contact.html.twig' %}
+                    </div>
+                </div>
+            </div>
+            {% if other_services is not empty %}
+                {% include 'customer/service/_section_suggestion.html.twig' %}
+            {% endif %}
+        </div>
+    </main>
 {% endblock %}

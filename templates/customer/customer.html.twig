@@ -13,9 +13,7 @@
 </head>
 <body>
 {% block header %} {% include 'customer/layout/_header.html.twig' %} {% endblock %}
-<main class="main-container customer-container">
-    {% block body %}{% endblock %}
-</main>
+{% block body %}{% endblock %}
 {% block footer %} {% include 'customer/layout/_footer.html.twig' %} {% endblock %}
 </body>
 </html>

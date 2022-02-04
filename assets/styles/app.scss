@@ -11,11 +11,13 @@
 @import 'components/pagination';
 @import 'components/dropdown';
 @import 'components/grid';
+@import 'components/list';
+@import 'components/card';
 
 /* Extra styles for page content */
 @import 'content/home';
 @import 'content/search';
-@import 'content/service_page';
+@import 'content/service';
 
 /* App theme  */
 @import 'themes/default';

@@ -28,4 +28,8 @@ main.main-container {
     position: relative;
     background-color: #eef2f65c;
   }
+
+  &.no-padding {
+    padding: 0;
+  }
 }
