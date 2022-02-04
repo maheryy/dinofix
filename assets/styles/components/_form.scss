@@ -1,0 +1,41 @@
+
+input.form-control {
+  border: none;
+  outline: none;
+  border-radius: .3em;
+  height: 35px;
+  padding: 0 5px;
+}
+
+.form-control-wrapper {
+  position: relative;
+
+  input {
+    width: 100%;
+    font-size: 1em;
+  }
+
+  .icon-left, .icon-right {
+    position: absolute;
+    height: 1em;
+    width: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .icon-left {
+    left: 10px;
+
+    & ~ input {
+      padding-left: calc(1em + 20px);
+    }
+  }
+
+  .icon-right {
+    right: 10px;
+
+    & ~ input {
+      padding-right: calc(1em + 20px);
+    }
+  }
+}

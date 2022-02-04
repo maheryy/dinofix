@@ -112,5 +112,26 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
+    /**
+     * @param int $maxResults
+     * @param float $minRating
+     * @return array
+     */
+    public function findPopularServices(int $maxResults = 15, float $minRating = 3.0): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.reviews', 'r')
+            ->where('s.rating > :minRating')
+            ->setParameter('minRating', $minRating)
+            ->orderBy('s.rating', 'DESC')
+            ->addOrderBy('reviews', 'DESC')
+            ->groupBy('s.id, f.id')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
+
 
 }
