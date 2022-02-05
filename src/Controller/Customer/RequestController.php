@@ -37,7 +37,7 @@ class RequestController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
-            $requestEntity->setCustomer($user)->setReference(123456);
+            $requestEntity->setCustomer($user)->setReference(123456)->setStatus(0);
             $entityManager->persist($requestEntity);
             $entityManager->flush();
 
