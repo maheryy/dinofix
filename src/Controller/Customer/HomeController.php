@@ -7,18 +7,20 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'landing')]
-    public function landing(ServiceRepository $serviceRepository): Response
+    public function landing(Security $security, ServiceRepository $serviceRepository): Response
     {
-        $isLoggedIn = true;
-        if ($isLoggedIn) {
+        // Logged user is redirected to home page
+        if ($security->getUser()) {
             return $this->redirectToRoute('homepage');
         }
 
         $popularServices = $serviceRepository->findPopularServices(8, 1.5);
+
         return $this->render('customer/home/landing.html.twig', [
             'popular_services' => $popularServices
         ]);
@@ -27,7 +29,6 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'homepage')]
     public function home(ServiceRepository $serviceRepository, CategoryRepository $categoryRepository): Response
     {
-
         $popularServices = $serviceRepository->findPopularServices(12, 1.5);
         $randomActiveServices = $serviceRepository->findRandomServices(3);
         $randomPastServices = $serviceRepository->findRandomServices(4, 'rating');
@@ -38,7 +39,8 @@ class HomeController extends AbstractController
             'active_services' => $randomActiveServices,
             'past_services' => $randomPastServices,
             'categories' => $categories,
-            'user' => 'John',
+            'user' => ['firstname' => 'John'],
+            //'user' => $security->getUser(),
         ]);
     }
 

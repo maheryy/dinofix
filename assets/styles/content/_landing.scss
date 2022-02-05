@@ -70,15 +70,19 @@ header.landing-header {
         border-radius: 0;
       }
 
+      .searchbar, .location {
+        border: none;
+      }
+
       button.search-button {
         border-top-right-radius: .3em;
-        border-bottom-right-radius: .3em;;
+        border-bottom-right-radius: .3em;
       }
 
       input.searchbar {
         border-top-left-radius: .3em;
         border-bottom-left-radius: .3em;
-        border-right: 1px solid $border-primary
+        border-right: 1px solid $border-primary;
       }
     }
   }

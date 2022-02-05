@@ -3,9 +3,9 @@
         <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
         <div class="searchbar-container">
             <form action="{{ path('customer_search') }}" method="GET">
-                <div class="searchbar-wrapper">
-                    <img class="searchbar-icon" src="{{ asset('images/search.svg') }}" alt="">
-                    <input class="searchbar" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}">
+                <div class="form-control-wrapper w-4/5">
+                    <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
+                    <input class="searchbar form-control" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}">
                 </div>
             </form>
         </div>
@@ -44,7 +44,7 @@
                             <a href="#">Historique</a>
                         </li>
                         <li>
-                            <a href="#">Deconnexion</a>
+                            <a href="{{ path('app_logout') }}">Deconnexion</a>
                         </li>
                     </ul>
                 </li>
