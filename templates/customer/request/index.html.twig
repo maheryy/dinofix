@@ -1,40 +1,45 @@
 {% extends 'customer/customer.html.twig' %}
 
-{% block title %}Mes demandes en cours{% endblock %}
+{% block title %}Mes demandes en attente{% endblock %}
 
 {% block body %}
 <div class="container">
-    {% if requests is not empty %}
-        <ul class="request-card row">
+    <div class="row">
+        {% if requests is not empty %}
             {% for request in requests %}
-                <li class="col-3">
-                    <a href="{{ path('customer_request_show', {'id': request.id}) }}" class="card">
-                    <img src="https://i.pinimg.com/originals/b3/f5/05/b3f505691f10a84867497d7b58e7525a.png" class="card__image" alt="" />
-                    <div class="card__overlay">
-                        <div class="card__header">                  
-                            <img class="card__thumb" src="https://edito.regionsjob.com/xjob/wp-content/uploads/sites/3/2020/11/salaire-technicien-maintenance-722x425.jpg" alt="" />
-                            <div class="card__header-text">
-                                <h3 class="card__title">#{{ request.reference }} {{ request.subject }}</h3>            
-                                <span class="card__status">Début le {{ request.expectedAt ? request.expectedAt|date('Y-m-d H:i:s') : '' }}</span>
+            <div class="col-4">
+                <ul class="request-card">
+                    <li>
+                        <a href="{{ path('customer_request_show', {'id': request.id}) }}" class="card">
+                        <img src="https://i.pinimg.com/originals/b3/f5/05/b3f505691f10a84867497d7b58e7525a.png" class="card__image" alt="" />
+                        <div class="card__overlay">
+                            <div class="card__header">                  
+                                <img class="card__thumb" src="https://edito.regionsjob.com/xjob/wp-content/uploads/sites/3/2020/11/salaire-technicien-maintenance-722x425.jpg" alt="" />
+                                <div class="card__header-text">
+                                    <h3 class="card__title">#{{ request.reference }} {{ request.subject }}</h3>
+                                    <span class="card__tagline">Début prévu {{ request.expectedAt ? request.expectedAt|date('d-m-Y H:i:s') : '' }}</span> 
+                                    <span class="card__status">Crée le {{ request.createdAt ? request.createdAt|date('d-m-Y') : '' }}</span>
+                                </div>
                             </div>
+                            <p class="card__description">
+                                {{ request.status }} <br> 
+                                {{ request.description }}
+                            </p>
                         </div>
-                        <p class="card__description">
-                            {{ request.status }} <br> 
-                            {{ request.description }}
-                        </p>
-                    </div>
-                    </a>      
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <section class="request-container no-results">
-            <div class="no-results-text">
-                <h1>Aucune demande trouvée</h1>
-                <p>Veuillez faire une demande</p>
+                        </a>      
+                    </li>
+                </ul>
             </div>
-        </section>
-    {% endif %}
+            {% endfor %}
+        {% else %}
+            <section class="request-container no-results">
+                <div class="no-results-text">
+                    <h1>Aucune demande trouvée</h1>
+                    <p>Veuillez faire une demande</p>
+                </div>
+            </section>
+        {% endif %}
+    </div>
 </div>
 <div class="container">
     <a href="{{ path('customer_request_new') }}">Créer une demande</a>

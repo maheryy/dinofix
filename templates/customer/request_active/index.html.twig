@@ -1,0 +1,54 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Mes demandes en cours{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        {% if request_actives is not empty %}
+            {% for request_active in request_actives %}
+                <div class="col-4">
+                    <ul class="request-card">
+                        <li>
+                            <a href="{{ path('customer_request_show', {'id': request_active.request.id}) }}" class="card">
+                            <img src="https://i.pinimg.com/originals/b3/f5/05/b3f505691f10a84867497d7b58e7525a.png" class="card__image" alt="" />
+                            <div class="card__overlay">
+                                <div class="card__header">
+                                    {% if request_active.fixer is not empty %}
+                                    <img class="card__thumb" src="https://edito.regionsjob.com/xjob/wp-content/uploads/sites/3/2020/11/salaire-technicien-maintenance-722x425.jpg" alt="" />
+                                    {% endif %}
+                                    <div class="card__header-text">
+                                        <h3 class="card__title">#{{ request_active.request.reference }} {{ request_active.request.subject }}</h3>
+                                        <span class="card__tagline">Début {{ request_active.createdAt ? request_active.createdAt|date('d-m-Y H:i:s') : '' }}</span> 
+                                        <span class="card__status">Crée le {{ request_active.request.createdAt ? request_active.request.createdAt|date('Y-m-d H:i:s') : '' }}</span>
+                                    </div>
+                                </div>
+                                <p class="card__description">
+                                    {{ request_active.content }}
+                                    {{ request_active.request.description }}
+                                </p>
+                            </div>
+                            </a>      
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <a href="{{ path('customer_request_edit', {'id': request_active.request.id}) }}">Modifier</a>
+                    <a href="{{ path('customer_request_delete', {'id': request_active.request.id}) }}">Supprimer</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <section class="request-container no-results">
+                <div class="no-results-text">
+                    <h1>Aucune demande trouvée</h1>
+                    <p>Veuillez faire une demande</p>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+    <a href="{{ path('customer_request_new') }}">Créer une demande</a>
+    <a href="{{ path('customer_request_index') }}">Retour</a>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New RequestActive{% endblock %}
+
+{% block body %}
+    <h1>Create new RequestActive</h1>
+
+    {{ include('customer/request_active/_form.html.twig') }}
+
+    <a href="{{ path('customer_request_active_index') }}">back to list</a>
+{% endblock %}
