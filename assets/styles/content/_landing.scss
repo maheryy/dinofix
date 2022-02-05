@@ -1,0 +1,107 @@
+$container-max-width: 1170px;
+
+header.landing-header {
+  position: absolute;
+  background: none;
+  width: 100%;
+  color: #fff;
+  padding: 0 50px;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+
+  a {
+    color: #fff;
+  }
+
+  .logo-container {
+    flex: .1;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .nav-right {
+    ul {
+      display: flex;
+
+      li {
+        padding: 0 .75em;
+
+        a {
+          font-weight: 600;
+
+          &:hover {
+            color: $text-secondary;
+          }
+        }
+      }
+    }
+  }
+}
+
+.landing-background {
+  height: 100vh;
+  width: 100%;
+  background-image: url('https://images.pexels.com/photos/161959/prehistoric-times-urtier-museum-exhibit-161959.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+
+  .middle-content {
+    max-width: 950px;
+    min-width: 550px;
+    font-size: 1rem;
+    color: #ffffff;
+
+    h1 {
+      font-size: 2.7rem;
+      margin-bottom: .875em;
+    }
+
+    .searchbar-wrapper {
+      button.search-button, input.searchbar, input.location {
+        height: 50px;
+        border-radius: 0;
+      }
+
+      .searchbar, .location {
+        border: none;
+      }
+
+      button.search-button {
+        border-top-right-radius: .3em;
+        border-bottom-right-radius: .3em;
+      }
+
+      input.searchbar {
+        border-top-left-radius: .3em;
+        border-bottom-left-radius: .3em;
+        border-right: 1px solid $border-primary;
+      }
+    }
+  }
+}
+
+.landing-content {
+  max-width: $container-max-width;
+  margin: auto;
+  color: $text-primary;
+  padding: 1.5rem 0;
+
+  .marketing,
+  .popular-services {
+    padding: 1em 0 2em;
+
+    h2 {
+      font-weight: 600;
+      text-align: center;
+    }
+  }
+}
+

@@ -1,15 +1,12 @@
+{% from 'macros/utils.html.twig' import stars %}
+
 <section id="reviews" class="service-section reviews">
     <h2 class="title">Avis des clients</h2>
     <div class="content">
         <p class="review-summary text-lg">
-            <span class="total">{{ review_data.count | number_format(0, '.', ' ') }} avis</span>
-            <span class="stars">
-                {% for index in [1,2,3,4,5] %}
-                    {% set img = review_data.rounded >= index ? "star-filled" : (review_data.rounded + 0.5 == index ? "star-half" : "star-empty") %}
-                    <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
-                {% endfor %}
-            </span>
-            <span class="average">{{ review_data.average | round(1) }}</span>
+            <span class="total">{{ reviews_count | number_format(0, '.', ' ') }} avis</span>
+            <span class="stars">{{ stars(service.rating) }}</span>
+            <span class="average">{{ service.rating | round(1) }}</span>
         </p>
         <ul class="review-list">
             {% for review in reviews %}

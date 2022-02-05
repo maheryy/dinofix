@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 }
 
-main.main-container {
+.main-container {
   flex: 1;
   padding: 0 35px;
   font-size: 0.875rem;
@@ -28,4 +28,15 @@ main.main-container {
     position: relative;
     background-color: #eef2f65c;
   }
+
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.section-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: .3em;
+  margin-bottom: 0.75rem;
 }

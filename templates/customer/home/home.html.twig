@@ -1,0 +1,107 @@
+{% from 'macros/utils.html.twig' import stars %}
+{% extends 'customer/customer.html.twig' %}
+
+{% block body %}
+    <main class="main-container customer-container">
+        <div class="home-container">
+            <section class="top-content section-box">
+                <h2>Bonjour <span class="color-secondary">{{ user.firstname }}</span>, et si vous faisiez plaisir à votre dino...</h2>
+                <div class="category-content">
+                    <div class="content-left flex items-center">
+                        <span class="text-center text-lg font-medium text-uppercase">Quel type de service recherchez-vous ?</span>
+                    </div>
+                    <div class="content-right">
+                        <ul class="category-list">
+                            {% for category in categories %}
+                            <li class="category-card">
+                                <a href="{{ path('search', {'category': category.id}) }}">{{ category.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            {% if  active_services is not empty %}
+                <section class="active-services section-box mt-2">
+                    <div class="flex justify-between items-center">
+                        <h2>Vos services en cours</h2>
+                        <a class="link-primary underlined" href="#">Consulter mes services en cours</a>
+                    </div>
+                    <ul class="list-column py-1">
+                        {% for service in active_services %}
+                            {{ _self.home_state_card(service) }}
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+            <section class="popular-services">
+                <div class="flex justify-between items-center">
+                    <h2>Services les plus populaires</h2>
+                    <a class="link-primary underlined" href="{{ path('customer_search') }}">Voir tout</a>
+                </div>
+                <ul class="list-column py-1">
+                    {% for service in popular_services %}
+                        {{ _self.home_basic_card(service) }}
+                    {% endfor %}
+                </ul>
+            </section>
+            {% if  past_services is not empty %}
+                <section class="past-services section-box">
+                    <div class="flex justify-between items-center">
+                        <h2>Vos services passés</h2>
+                        <a class="link-primary underlined" href="#">Consulter mes anciennes demandes</a>
+                    </div>
+                    <ul class="list-column py-1">
+                        {% for service in past_services %}
+                            {{ _self.home_basic_card(service) }}
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
+
+
+{% macro home_basic_card(data) %}
+    <li class="list-item service-card">
+        <div class="content-top">
+            <img src="https://picsum.photos/id/171/450/450" alt="">
+        </div>
+        <div class="content-bottom">
+            <p class="flex-col">
+                <span class="name">
+                    <a class="link-primary" href="{{ path('service', {'id': data.id}) }}">{{ data.name }}</a>
+                </span>
+                <span class="text-xs font-light pt-0.5">
+                    par <a class="link-primary font-medium" href="#">{{ data.firstname }} {{ data.lastname }}</a>
+                </span>
+            </p>
+            <p class="flex items-center text-xs">
+                <span class="stars">{{ stars(data.rating) }}</span>
+                <span class="review-total">({{ data.reviews }})</span>
+            </p>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro home_state_card(data) %}
+    <li class="list-item service-card">
+        <div class="content-top">
+            <img src="https://picsum.photos/id/171/450/450" alt="">
+        </div>
+        <div class="content-bottom">
+            <p class="flex-col">
+                <span class="name">
+                    <a class="link-primary" href="#">{{ data.name }}</a>
+                </span>
+                <span class="text-xs font-light pt-0.5">
+                    par <a class="link-primary font-medium" href="#">{{ data.firstname }} {{ data.lastname }}</a>
+                </span>
+            </p>
+            <p class="text-sm font-medium py-0.5">
+                <span class="color-secondary">Etat : {{ random(['En attente', 'Mise en marche', 'Nettoyage', 'Terminé']) }}</span>
+            </p>
+        </div>
+    </li>
+{% endmacro %}

@@ -44,11 +44,15 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
             $rand_review = rand(1, 3);
+            $rate = 0;
             for ($j = 0; $j < $rand_review; $j++) {
+                $random_rate = $faker->numberBetween(0, 5);
+                $rate += $random_rate;
+
                 $review = (new Review())
                     ->setCustomer($faker->randomElement($customers))
                     ->setMessage($faker->sentence(20))
-                    ->setRate($faker->numberBetween(0, 5))
+                    ->setRate($random_rate)
                     ->setStatus(1)
                     ->setCreatedAt($faker->dateTime('now'))
                     ->setUpdatedAt($faker->dateTime('now'));
@@ -57,6 +61,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($review);
             }
 
+            $object->setRating(round($rate / $rand_review, 2));
             $manager->persist($object);
         }
 

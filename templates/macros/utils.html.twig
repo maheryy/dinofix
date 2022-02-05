@@ -1,0 +1,7 @@
+{% macro stars(rating) %}
+    {% for index in [1 ,2, 3, 4, 5] %}
+        {% set img = rating >= index or index - rating <= 0.15
+            ? "star-filled" :  (index - rating >= 0.85 ? 'star-empty' : 'star-half') %}
+        <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
+    {% endfor %}
+{% endmacro %}

@@ -36,6 +36,9 @@ class Service
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: Review::class)]
     private $reviews;
 
+    #[ORM\Column(type: 'float')]
+    private $rating;
+
     #[ORM\Column(type: 'smallint')]
     private $status;
 
@@ -208,6 +211,18 @@ class Service
                 $review->setService(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(float $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

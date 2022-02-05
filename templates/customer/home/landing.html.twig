@@ -1,0 +1,86 @@
+{% from 'macros/utils.html.twig' import stars %}
+{% extends 'customer/customer.html.twig' %}
+
+{% block header %}
+    <header class="landing-header">
+        <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
+        <nav class="nav-right">
+            <ul>
+                <li><a href="#">Vous êtes un professionel ?</a></li>
+                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+            </ul>
+        </nav>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <main class="main-container no-padding">
+        <div class="landing-background">
+            <div class="middle-content">
+                <h1 class="">Des milliers de services, près de chez vous, juste pour votre dinosaure</h1>
+                <form action="{{ path('customer_search') }}" method="GET">
+                    <div class="searchbar-wrapper flex">
+                        <div class="form-control-wrapper w-1/2">
+                            <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
+                            <input class="form-control searchbar" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}" placeholder="Trouver des services">
+                        </div>
+                        <div class="form-control-wrapper w-1/3">
+                            <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
+                            <img class="icon-right" src="{{ asset('images/search.svg') }}" alt="">
+                            <input class="form-control location" type="text" id="location" name="location" placeholder="Où ?">
+                        </div>
+                        <button class="search-button btn-primary">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <section class="landing-content">
+            <div class="marketing">
+                <h2>Prenez soin de votre dinosaure !</h2>
+                <div class="flex w-10/12 mx-auto p-1">
+                    <article class="col-4 text-center">
+                        <h3 class="text-uppercase font-semibold py-0.75">Lorem ipsum dolor</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci amet architecto dicta, dolore doloremque dolorum enim excepturi incidunt iusto maxime nisi</p>
+                    </article>
+                    <article class="col-4 text-center">
+                        <h3 class="text-uppercase font-semibold py-0.75">iusto malime nisi</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci amet architecto dicta, dolore doloremque dolorum enim excepturi.</p>
+                    </article>
+                    <article class="col-4 text-center">
+                        <h3 class="text-uppercase font-semibold py-0.75">Accusantium adipisci</h3>
+                        <p>Accusantium adipisci amet architecto dicta, dolore doloremque dolorum enim excepturi incidunt iusto maxime nisi obcaecati odio perferendis qui quo suscipit, ullam unde.</p>
+                    </article>
+                </div>
+            </div>
+            <div class="popular-services">
+                <h2>Services les plus populaires</h2>
+                <ul class="list-column justify-center p-1">
+                    {% for service in popular_services %}
+                        <li class="list-item service-card">
+                            <div class="content-top">
+                                <img src="https://picsum.photos/id/171/450/450" alt="">
+                            </div>
+                            <div class="content-bottom">
+                                <span class="flex-col">
+                                    <span class="name">
+                                        <a class="link-primary" href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
+                                    </span>
+                                    <span class="text-xs font-light pt-0.5">
+                                        par <a class="link-primary font-medium" href="#">{{ service.firstname }} {{ service.lastname }}</a>
+                                    </span>
+                                </span>
+                                <span class="flex items-center text-xs">
+                                    <span class="stars">{{ stars(service.rating) }}</span>
+                                    <span class="review-total">({{ service.reviews }})</span>
+                                </span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="flex justify-center w-full">
+                    <a class="btn-secondary" href="{{ path('customer_search') }}">Voir tout</a>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

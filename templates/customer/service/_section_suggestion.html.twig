@@ -1,22 +1,21 @@
+{% from 'macros/utils.html.twig' import stars %}
+
 <section id="suggestion" class="service-suggestion-container suggestion">
     <div class="service-suggestion">
         <h2>Plus de service de <a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }}</a></h2>
-        <ul class="py-0.25 mb-0.25">
+        <ul class="list-column py-0.25 mb-0.25">
             {% for service in other_services %}
-                <li class="service-card">
+                <li class="service-card list-item">
                     <div class="content-top">
                         <img src="https://picsum.photos/id/171/450/450" alt="">
                     </div>
                     <div class="content-bottom">
-                         <span class="name py-0.5"><a href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a></span>
-                        <p class="flex items-center py-0.5">
-                            <span class="stars">
-                                {% for index in [1,2,3,4,5] %}
-                                    {% set img = other_services_review_data[service.id].rounded >= index ? "star-filled" : (other_services_review_data[service.id].rounded + 0.5 == index ? "star-half" : "star-empty") %}
-                                    <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
-                                {% endfor %}
-                            </span>
-                            <span class="review-total">({{ other_services_review_data[service.id].count }})</span>
+                         <span class="name py-0.5">
+                             <a class="link-primary" href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
+                         </span>
+                        <p class="flex items-center py-0.5 text-xs">
+                            <span class="stars">{{ stars(service.rating) }}</span>
+                            <span class="review-total">({{ service.reviews }})</span>
                         </p>
                     </div>
                 </li>

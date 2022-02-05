@@ -32,7 +32,6 @@
     margin-bottom: 1em;
 
     ul.filter-list {
-      list-style-type: none;
       display: flex;
       align-items: center;
 
@@ -64,7 +63,7 @@
 
       span {
         font-weight: 300;
-        color: #8b8a8a;
+        color: $text-primary-light;
       }
     }
 
@@ -76,49 +75,44 @@
   .search-results {
     width: 100%;
 
-    ul.search-list {
-      list-style-type: none;
+    .search-item {
       display: flex;
-      flex-direction: column;
+      padding: 1em 0;
+      height: 125px;
 
-      li.search-item {
-        background-color: #fff;
+      .content-left {
+        flex: .4;
+        padding: 0 1.5em;
+        border-right: 1px solid $border-primary;
+      }
+
+      .content-right {
+        flex: .6;
+        padding: 0 1.5em;
+      }
+
+      .item-title a {
+        color: #107aca;
+        font-weight: 500;
+      }
+
+      .item-description {
         display: flex;
-        border-radius: .3em;
+        flex-direction: column;
+        line-height: 1.5;
         padding: 1em 0;
-        margin: .3em 0;
-        height: 125px;
-        box-shadow: 0 1px 4px rgba(40, 120, 120, .20);
+      }
 
-        .content-left {
-          flex: .4;
-          padding: 0 1.5em;
-          border-right: 1px solid #e4e5e7;
-        }
-
-        .content-right {
-          flex: .6;
-          padding: 0 1.5em;
-        }
-
-        .item-title a {
-          color: #107aca;
-          font-weight: 500;
-        }
-
-        .item-description {
-          display: flex;
-          flex-direction: column;
-          line-height: 1.5;
-          padding: 1em 0;
-        }
-
-        .item-action {
-          width: 100%;
-          display: flex;
-          justify-content: flex-end;
-        }
+      .item-action {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
       }
     }
+
+  }
+
+  .search-navigation {
+    padding: 1em 0;
   }
 }
