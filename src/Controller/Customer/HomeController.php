@@ -2,6 +2,7 @@
 
 namespace App\Controller\Customer;
 
+use App\Repository\CategoryRepository;
 use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'landing')]
     public function landing(ServiceRepository $serviceRepository): Response
     {
-        $isLoggedIn = false;
+        $isLoggedIn = true;
         if ($isLoggedIn) {
             return $this->redirectToRoute('homepage');
         }
@@ -24,11 +25,20 @@ class HomeController extends AbstractController
     }
 
     #[Route('/home', name: 'homepage')]
-    public function home(ServiceRepository $serviceRepository): Response
+    public function home(ServiceRepository $serviceRepository, CategoryRepository $categoryRepository): Response
     {
 
-        return $this->render('customer/home/home.html.twig', [
+        $popularServices = $serviceRepository->findPopularServices(12, 1.5);
+        $randomActiveServices = $serviceRepository->findRandomServices(3);
+        $randomPastServices = $serviceRepository->findRandomServices(4, 'rating');
+        $categories = $categoryRepository->findPopularCategories(4);
 
+        return $this->render('customer/home/home.html.twig', [
+            'popular_services' => $popularServices,
+            'active_services' => $randomActiveServices,
+            'past_services' => $randomPastServices,
+            'categories' => $categories,
+            'user' => 'John',
         ]);
     }
 

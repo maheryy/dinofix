@@ -1,6 +1,6 @@
 @function reverse-color($color) {
   @if lightness($color) > 70 {
-    @return #606060;
+    @return $text-primary;
   }
   @return #fff;
 }
@@ -50,7 +50,7 @@
 }
 
 a.link-primary {
-  color: #606060;
+  color: $text-primary;
 
   &.underlined {
     &:hover {

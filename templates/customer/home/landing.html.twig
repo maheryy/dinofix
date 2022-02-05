@@ -17,7 +17,7 @@
     <main class="main-container no-padding">
         <div class="landing-background">
             <div class="middle-content">
-                <h1 class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit</h1>
+                <h1 class="">Des milliers de services, près de chez vous, juste pour votre dinosaure</h1>
                 <form action="{{ path('customer_search') }}" method="GET">
                     <div class="searchbar-wrapper flex">
                         <div class="form-control-wrapper w-1/2">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <section class="landing-content">
-            <div class="marketing-container">
+            <div class="marketing">
                 <h2>Prenez soin de votre dinosaure !</h2>
                 <div class="flex w-10/12 mx-auto p-1">
                     <article class="col-4 text-center">
@@ -52,7 +52,7 @@
                     </article>
                 </div>
             </div>
-            <div class="popular-services-container">
+            <div class="popular-services">
                 <h2>Services les plus populaires</h2>
                 <ul class="list-column justify-center p-1">
                     {% for service in popular_services %}

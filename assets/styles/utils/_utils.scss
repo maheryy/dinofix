@@ -266,9 +266,20 @@ $cursor-properties: (
 }
 
 .border {
-  border: 1px solid #e4e5e7;
+  border: 1px solid $border-primary;
 }
 
 .hidden {
   display: none;
 }
+
+.color-primary {
+  color: $text-primary;
+}
+.color-primary-light {
+  color: $text-primary-light;
+}
+.color-secondary {
+  color: $text-secondary;
+}
+

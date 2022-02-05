@@ -34,7 +34,7 @@ header.landing-header {
           font-weight: 600;
 
           &:hover {
-            color: #3fced2;
+            color: $text-secondary;
           }
         }
       }
@@ -78,7 +78,7 @@ header.landing-header {
       input.searchbar {
         border-top-left-radius: .3em;
         border-bottom-left-radius: .3em;
-        border-right: 1px solid #e4e5e7
+        border-right: 1px solid $border-primary
       }
     }
   }
@@ -87,11 +87,11 @@ header.landing-header {
 .landing-content {
   max-width: $container-max-width;
   margin: auto;
-  color: #606060;
+  color: $text-primary;
   padding: 1.5rem 0;
 
-  .marketing-container,
-  .popular-services-container {
+  .marketing,
+  .popular-services {
     padding: 1em 0 2em;
 
     h2 {

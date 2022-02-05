@@ -19,32 +19,20 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    // /**
-    //  * @return Category[] Returns an array of Category objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findPopularCategories(int $max = null)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('c')
+            ->select('c', 'COUNT(s.id) AS HIDDEN services')
+            ->leftJoin('c.services', 's')
+            ->orderBy('services', 'ASC')
+            ->groupBy('c.id');
 
-    /*
-    public function findOneBySomeField($value): ?Category
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($max) {
+            $qb->setMaxResults($max);
+        }
+
+        return $qb->getQuery()->getResult();
     }
-    */
+
+
 }

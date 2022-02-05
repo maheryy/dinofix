@@ -133,5 +133,24 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
+    /**
+     * @param int $maxResults
+     * @param string $sortBy
+     * @return array
+     */
+    public function findRandomServices(int $maxResults = 15, string $sortBy = 'name'): array
+    {
+        $sortType = ['ASC', 'DESC'];
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.reviews', 'r')
+            ->orderBy("s.{$sortBy}", $sortType[array_rand($sortType)])
+            ->groupBy('s.id, f.id')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
+
 
 }

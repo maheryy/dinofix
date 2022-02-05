@@ -63,7 +63,7 @@
 
       span {
         font-weight: 300;
-        color: #8b8a8a;
+        color: $text-primary-light;
       }
     }
 
@@ -83,7 +83,7 @@
       .content-left {
         flex: .4;
         padding: 0 1.5em;
-        border-right: 1px solid #e4e5e7;
+        border-right: 1px solid $border-primary;
       }
 
       .content-right {
