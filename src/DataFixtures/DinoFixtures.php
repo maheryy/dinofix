@@ -20,7 +20,6 @@ class DinoFixtures extends Fixture implements DependentFixtureInterface
             $object = (new Dino())
                 ->setName($faker->word)
                 ->setDescription($faker->sentence(20))
-                ->setSlug($faker->word)
                 ->setPicture('no pic')
                 ->setCategory($faker->randomElement($categories));
             $manager->persist($object);

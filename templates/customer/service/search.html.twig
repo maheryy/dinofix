@@ -42,7 +42,7 @@
                                 <div class="content-left">
                                     <div class="item-title">
                                         <h4>
-                                            <a href="{{ path('service', {'id': service.id}) }}">{{ service.firstname }} {{ service.lastname }}</a>
+                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.firstname }} {{ service.lastname }}</a>
                                         </h4>
                                     </div>
                                     <div class="item-description">
@@ -53,13 +53,13 @@
                                 </div>
                                 <div class="content-right">
                                     <div class="item-title">
-                                        <a href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
+                                        <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
                                     </div>
                                     <div class="item-description">
                                         Lorem ipsum
                                     </div>
                                     <div class="item-action">
-                                        <a href="{{ path('service', {'id': service.id}) }}"
+                                        <a href="{{ path('customer_service', {'slug': service.slug}) }}"
                                            class="btn-primary text-uppercase text-sm">Prendre RDV</a>
                                     </div>
                                 </div>

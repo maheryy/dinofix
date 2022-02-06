@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: "App\Repository\RequestLogRepository")]
 class RequestLog
@@ -18,6 +19,7 @@ class RequestLog
     #[ORM\Column(type: 'string', length: 255)]
     private $event;
 
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
@@ -41,13 +43,6 @@ class RequestLog
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     public function getRequest(): ?Request

@@ -7,15 +7,13 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'landing')]
-    public function landing(Security $security, ServiceRepository $serviceRepository): Response
+    public function landing(ServiceRepository $serviceRepository): Response
     {
-        // Logged user is redirected to home page
-        if ($security->getUser()) {
+        if ($this->getUser()) {
             return $this->redirectToRoute('homepage');
         }
 
@@ -29,6 +27,10 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'homepage')]
     public function home(ServiceRepository $serviceRepository, CategoryRepository $categoryRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('landing');
+        }
+
         $popularServices = $serviceRepository->findPopularServices(12, 1.5);
         $randomActiveServices = $serviceRepository->findRandomServices(3);
         $randomPastServices = $serviceRepository->findRandomServices(4, 'rating');

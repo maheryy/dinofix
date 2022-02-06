@@ -6,6 +6,7 @@ use App\Data\SearchData;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -35,7 +36,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->select(
-                's.id, s.name, s.description,
+                's.id, s.name, s.slug, s.description,
                 f.firstname, f.lastname,
                 a.country, a.region, a.postcode, a.city, a.street'
             );
@@ -74,18 +75,45 @@ class ServiceRepository extends ServiceEntityRepository
     /**
      * @param $id
      * @return Service|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findServiceById($id): Service|null
     {
-        return $this->createQueryBuilder('s')
+        $qb = $this->createQueryBuilder('s')
             ->select('s', 'f', 'a')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->andwhere('s.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->setParameter('id', $id);
+
+        try {
+            $res = $qb->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $res = null;
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param $slug
+     * @return Service|null
+     */
+    public function findServiceBySlug($slug): Service|null
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s', 'f', 'a')
+            ->innerJoin('s.fixer', 'f')
+            ->innerJoin('f.address', 'a')
+            ->andwhere('s.slug = :slug')
+            ->setParameter('slug', $slug);
+
+        try {
+            $res = $qb->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $res = null;
+        }
+
+        return $res;
     }
 
     /**
@@ -97,7 +125,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
@@ -120,7 +148,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findPopularServices(int $maxResults = 15, float $minRating = 3.0): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->where('s.rating > :minRating')
@@ -142,7 +170,7 @@ class ServiceRepository extends ServiceEntityRepository
     {
         $sortType = ['ASC', 'DESC'];
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->orderBy("s.{$sortBy}", $sortType[array_rand($sortType)])

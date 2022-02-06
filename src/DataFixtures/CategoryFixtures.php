@@ -15,21 +15,18 @@ class CategoryFixtures extends Fixture
         $object = (new Category())
             ->setName('Aquatique')
             ->setDescription($faker->sentence(20))
-            ->setSlug('aquatique')
             ->setPicture('no pic');
         $manager->persist($object);
 
         $object = (new Category())
             ->setName('Terrestre')
             ->setDescription($faker->sentence(20))
-            ->setSlug('terrestre')
             ->setPicture('no pic');
         $manager->persist($object);
 
         $object = (new Category())
             ->setName('Volant')
             ->setDescription($faker->sentence(20))
-            ->setSlug('volant')
             ->setPicture('no pic');
         $manager->persist($object);
 
