@@ -17,6 +17,7 @@ class RequestType extends AbstractType
     {
         $builder
             ->add('subject', TextType::class, [
+                'attr' => ['class' => 'form-control'],
                 'label' => 'Sujet',
                 'required' => TRUE,
             ])

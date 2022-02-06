@@ -43,6 +43,12 @@ class Request
     #[ORM\JoinColumn(nullable: false)]
     private $customer;
 
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    private $category;
+
+    #[ORM\ManyToOne(targetEntity: Dino::class)]
+    private $dino;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTimeImmutable());
@@ -144,6 +150,30 @@ class Request
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getDino(): ?Dino
+    {
+        return $this->dino;
+    }
+
+    public function setDino(?Dino $dino): self
+    {
+        $this->dino = $dino;
 
         return $this;
     }

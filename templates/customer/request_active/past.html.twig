@@ -1,6 +1,6 @@
 {% extends 'customer/customer.html.twig' %}
 
-{% block title %}Mes demandes en cours{% endblock %}
+{% block title %}Historique{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -31,10 +31,6 @@
                             </a>      
                         </li>
                     </ul>
-                </div>
-                <div class="col-2">
-                    <a href="{{ path('customer_request_edit', {'id': request_active.request.id}) }}">Modifier</a>
-                    <a href="{{ path('customer_request_delete', {'id': request_active.request.id}) }}">Supprimer</a>
                 </div>
             {% endfor %}
         {% else %}

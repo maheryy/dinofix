@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/request')]
 class RequestController extends AbstractController
@@ -20,23 +21,23 @@ class RequestController extends AbstractController
     }
 
     #[Route('/', name: 'request_index', methods: ['GET'])]
-    public function index(RequestRepository $requestRepository): Response
+    public function index(RequestRepository $requestRepository, Security $security): Response
     {
-        $user_id = $this->getUser()->getId();
+        $user_id = $security->getUser()->getId();
         return $this->render('customer/request/index.html.twig', [
             'requests' => $requestRepository->findBy(['customer' => $user_id]),
         ]);
     }
 
     #[Route('/new', name: 'request_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
         $requestEntity = new RequestEntity();
         $form = $this->createForm(RequestType::class, $requestEntity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
+            $user = $security->getUser();
             $requestEntity->setCustomer($user)->setReference(123456)->setStatus(0);
             $entityManager->persist($requestEntity);
             $entityManager->flush();
@@ -51,9 +52,9 @@ class RequestController extends AbstractController
     }
 
     #[Route('/{id}', name: 'request_show', methods: ['GET'])]
-    public function show(RequestEntity $requestEntity): Response
+    public function show(RequestEntity $requestEntity, Security $security): Response
     {
-        $user_id = $this->getUser()->getId();
+        $user_id = $security->getUser()->getId();
         if($user_id == $requestEntity->getCustomer()->getId()) {
             return $this->render('customer/request/show.html.twig', [
                 'request' => $requestEntity,

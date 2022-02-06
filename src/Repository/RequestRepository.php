@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Request;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method Request|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,11 +17,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RequestRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Request::class);
+        $this->paginator = $paginator;
     }
-
     // /**
     //  * @return Request[] Returns an array of Request objects
     //  */
