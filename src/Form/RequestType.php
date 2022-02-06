@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
+use App\Entity\Dino;
 use App\Entity\Request;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +22,18 @@ class RequestType extends AbstractType
             ->add('subject', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Sujet',
+                'required' => TRUE,
+            ])
+            ->add('category', EntityType::class, [
+                'label' => 'Catégorie du dinosaure',
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'required' => TRUE,
+            ])
+            ->add('dino', EntityType::class, [
+                'label' => 'Nom du dinosaure',
+                'class' => Dino::class,
+                'choice_label' => 'name',
                 'required' => TRUE,
             ])
             ->add('description', TextareaType::class, [
