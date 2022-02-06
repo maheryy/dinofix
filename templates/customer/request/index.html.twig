@@ -29,6 +29,10 @@
                         </a>      
                     </li>
                 </ul>
+                <div class="col-2">
+                    <a href="{{ path('customer_request_services', {'id': request.id}) }}">Choisir un service</a>
+                    <a href="{{ path('customer_request_delete', {'id': request.id}) }}">Supprimer</a>
+                </div>
             </div>
             {% endfor %}
         {% else %}

@@ -34,7 +34,6 @@ class RequestType extends AbstractType
                 'label' => 'Nom du dinosaure',
                 'class' => Dino::class,
                 'choice_label' => 'name',
-                'required' => TRUE,
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de la panne',

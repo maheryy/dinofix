@@ -1,0 +1,28 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Liste des services disponible{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        {% if services is not empty %}
+            {% for service in services %}
+            <div class="col-3">
+                test 
+            </div>
+            {% endfor %}
+        {% else %}
+            <section class="request-container no-results">
+                <div class="no-results-text">
+                    <h1>Aucune demande trouvée</h1>
+                    <p>Veuillez faire une demande</p>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+    <a href="{{ path('customer_request_new') }}">Créer une demande</a>
+    <a href="{{ path('customer_search') }}">Retour</a>
+</div>
+{% endblock %}

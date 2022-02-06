@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Util\SecureRandom;
 
 /**
  * @method Request|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,6 +24,19 @@ class RequestRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Request::class);
         $this->paginator = $paginator;
+    }
+
+    /**
+     * @return string
+     */
+    public function generateReference(): string
+    {
+        $reference = mt_rand(100000, 999999);
+        if($referenceExist = $this->findBy(['reference' => $reference])) {
+            $this->generateReference();
+        } else {
+            return $reference;
+        }
     }
     // /**
     //  * @return Request[] Returns an array of Request objects

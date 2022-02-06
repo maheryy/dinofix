@@ -11,15 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/request/active')]
 class RequestActiveController extends AbstractController
 {
     #[Route('/', name: 'request_active_index', methods: ['GET'])]
-    public function index(RequestActiveRepository $requestActiveRepository, Security $security): Response
+    public function index(RequestActiveRepository $requestActiveRepository): Response
     {
-        $user_id = $security->getUser()->getId();
+        $user_id = $this->getUser()->getId();
         $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 1);
         return $this->render('customer/request_active/index.html.twig', [
             'request_actives' => $requests_actives,
@@ -27,9 +26,9 @@ class RequestActiveController extends AbstractController
     }
 
     #[Route('/past', name: 'request_active_past', methods: ['GET'])]
-    public function past(RequestActiveRepository $requestActiveRepository, Security $security): Response
+    public function past(RequestActiveRepository $requestActiveRepository): Response
     {
-        $user_id = $security->getUser()->getId();
+        $user_id = $this->getUser()->getId();
         $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 2);
         return $this->render('customer/request_active/past.html.twig', [
             'request_actives' => $requests_actives,
