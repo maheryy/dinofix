@@ -22,6 +22,7 @@ class SearchFilterType extends AbstractType
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
                 'required' => false,
+                'attr' => ['class' => 'form-control'],
                 'class' => Category::class
             ])
             ->add('dinos', EntityType::class, [
@@ -33,6 +34,7 @@ class SearchFilterType extends AbstractType
             ])
             ->add('distance', ChoiceType::class, [
                 'label' => 'Distance',
+                'attr' => ['class' => 'form-control'],
                 'choices' => [
                     '< 5km' => 5,
                     '< 15km' => 15,
@@ -43,6 +45,7 @@ class SearchFilterType extends AbstractType
             ->add('reviews', ChoiceType::class, [
                 'label' => 'Avis',
                 'choices' => [
+                    '0 étoile' => 0,
                     '1 étoile' => 1,
                     '2 étoiles' => 2,
                     '3 étoiles' => 3,
@@ -54,11 +57,12 @@ class SearchFilterType extends AbstractType
             ])
             ->add('sort', ChoiceType::class, [
                 'label' => 'Trier par',
+                'attr' => ['class' => 'form-control'],
                 'choices' => [
-                    'nom' => SearchData::SORT_TYPE_NAME,
-                    'distance' => SearchData::SORT_TYPE_LOCATION,
-                    'avis' => SearchData::SORT_TYPE_REVIEW,
-                    'populaire' => SearchData::SORT_TYPE_POPULAR,
+                    'Popularité' => SearchData::SORT_TYPE_POPULAR,
+                    'Nom' => SearchData::SORT_TYPE_NAME,
+                    'Avis' => SearchData::SORT_TYPE_REVIEW,
+                    'Distance' => SearchData::SORT_TYPE_LOCATION,
                 ],
             ])
             ->add('query', HiddenType::class);

@@ -3,8 +3,9 @@ input.form-control {
   border: 1px solid #a3a3a3;
   outline: none;
   border-radius: .3em;
-  height: 35px;
+  height: 30px;
   padding: 0 5px;
+  color: $text-primary;
 }
 
 .form-control-wrapper {
@@ -38,4 +39,12 @@ input.form-control {
       padding-right: calc(1em + 20px);
     }
   }
+}
+
+select.form-control {
+  border-radius: .3em;
+  border: 1px solid #a3a3a3;
+  padding: 0 .5em;
+  height: 25px;
+  color: $text-primary;
 }

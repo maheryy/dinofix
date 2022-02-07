@@ -35,11 +35,13 @@ class ServiceRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
+            ->leftJoin('s.reviews', 'r')
             ->select(
-                's.id, s.name, s.slug, s.description, s.rating service_rating,
-                f.firstname, f.lastname, f.rating as fixer_rating,
+                's.id, s.name, s.slug, s.description, s.rating service_rating, COUNT(r.id) AS count_reviews,
+                f.firstname, f.lastname, f.alias, f.rating as fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street'
-            );
+            )
+            ->groupBy('s.id', 'f.id', 'a.id');
 
         if ($filters->getQuery()) {
             $qb
@@ -77,11 +79,9 @@ class ServiceRepository extends ServiceEntityRepository
                     $qb->orderBy('s.rating', 'DESC');
                     break;
                 case SearchData::SORT_TYPE_POPULAR:
-                    $qb->addSelect('count(r.id) AS HIDDEN count_reviews')
-                        ->leftJoin('s.reviews', 'r')
-                        ->orderBy('s.rating', 'DESC')
-                        ->addOrderBy('count_reviews', 'DESC')
-                        ->groupBy('s.id', 'f.id', 'a.id');
+                    $qb
+                        ->orderBy('count_reviews', 'DESC')
+                        ->addOrderBy('s.rating', 'DESC');
                     break;
                 case SearchData::SORT_TYPE_LOCATION:
                     //$qb->orderBy('reviews', 'DESC');

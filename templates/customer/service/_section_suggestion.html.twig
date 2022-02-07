@@ -2,7 +2,7 @@
 
 <section id="suggestion" class="service-suggestion-container suggestion">
     <div class="service-suggestion">
-        <h2>Plus de service de <a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }}</a></h2>
+        <h2>Plus de service de <a href="{{ fixer_profile }}">{{ service.fixer.alias }}</a></h2>
         <ul class="list-column py-0.25 mb-0.25">
             {% for service in other_services %}
                 <li class="service-card list-item">
