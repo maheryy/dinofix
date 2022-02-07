@@ -1,4 +1,5 @@
 {% extends 'customer/customer.html.twig' %}
+{% from 'macros/utils.html.twig' import stars %}
 
 {% block title %}Liste des services disponible{% endblock %}
 
@@ -6,11 +7,24 @@
 <div class="container">
     <div class="row">
         {% if services is not empty %}
-            {% for service in services %}
-            <div class="col-3">
-                test 
-            </div>
-            {% endfor %}
+            <ul class="list-column py-0.25 mb-0.25">
+                {% for service in services %}
+                    <li class="service-card list-item ">
+                        <div class="content-top">
+                            <img src="https://picsum.photos/id/171/450/450" alt="">
+                        </div>
+                        <div class="content-bottom">
+                            <span class="name py-0.5">
+                                <a class="link-primary" href="">{{ service.name }}</a>
+                            </span>
+                            <p class="flex items-center py-0.5 text-xs">
+                                <span class="stars">{{ stars(service.rating) }}</span>
+                                <span class="review-total">({{ service.reviews }})</span>
+                            </p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
             <section class="request-container no-results">
                 <div class="no-results-text">
