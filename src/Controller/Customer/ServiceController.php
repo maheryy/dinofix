@@ -6,7 +6,6 @@ use App\Data\SearchData;
 use App\Form\SearchFilterType;
 use App\Repository\ReviewRepository;
 use App\Repository\ServiceRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,14 +31,11 @@ class ServiceController extends AbstractController
         ]);
     }
 
-    #[Route('/service/{id}', name: 'service', methods: ['GET'])]
-    public function service(int $id, ServiceRepository $serviceRepository, ReviewRepository $reviewRepository): Response
+    #[Route('/service/{slug}', name: 'service', methods: ['GET'])]
+    public function service(string $slug, ServiceRepository $serviceRepository, ReviewRepository $reviewRepository): Response
     {
-        try {
-            if (!($service = $serviceRepository->findServiceById($id))) {
-                throw new \Exception();
-            }
-        } catch (NonUniqueResultException | \Exception $e) {
+        $service = $serviceRepository->findServiceBySlug($slug);
+        if (!$service) {
             return $this->render('customer/service/search.html.twig', ['services' => []]);
         }
 

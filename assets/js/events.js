@@ -47,3 +47,28 @@ export const submitOnSelectedFilter = (element) => {
         $(element).closest('form').submit();
     });
 };
+
+export const checkableItems = (element) => {
+    let checkAll = $(element).find('input.check-all');
+    let checkboxes = $(element).find("input[type='checkbox']").not(checkAll);
+    const countCheckboxes = checkboxes.length;
+
+    if (checkboxes.filter(':checked').length === countCheckboxes && !checkAll.is(':checked')) {
+        checkAll.prop('checked', true);
+    }
+
+    checkAll.click(() => {
+        checkboxes.prop('checked', checkAll.is(':checked'));
+    });
+
+    checkboxes.click(function () {
+        const checkAllIsChecked = checkAll.is(':checked');
+        const allCheckboxesAreChecked = checkboxes.filter(':checked').length === countCheckboxes;
+
+        if (!allCheckboxesAreChecked && checkAllIsChecked) {
+            checkAll.prop('checked', false);
+        } else if (allCheckboxesAreChecked && !checkAllIsChecked) {
+            checkAll.prop('checked', true);
+        }
+    });
+};

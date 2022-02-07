@@ -14,7 +14,7 @@
                         <ul class="category-list">
                             {% for category in categories %}
                             <li class="category-card">
-                                <a href="{{ path('search', {'category': category.id}) }}">{{ category.name }}</a>
+                                <a href="{{ path('customer_search', {'category': category.id}) }}">{{ category.name }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -71,10 +71,10 @@
         <div class="content-bottom">
             <p class="flex-col">
                 <span class="name">
-                    <a class="link-primary" href="{{ path('service', {'id': data.id}) }}">{{ data.name }}</a>
+                    <a class="link-primary" href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
-                    par <a class="link-primary font-medium" href="#">{{ data.firstname }} {{ data.lastname }}</a>
+                    par <a class="link-primary font-medium" href="#">{{ data.alias }}</a>
                 </span>
             </p>
             <p class="flex items-center text-xs">
@@ -96,7 +96,7 @@
                     <a class="link-primary" href="#">{{ data.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
-                    par <a class="link-primary font-medium" href="#">{{ data.firstname }} {{ data.lastname }}</a>
+                    par <a class="link-primary font-medium" href="#">{{ data.alias }}</a>
                 </span>
             </p>
             <p class="text-sm font-medium py-0.5">

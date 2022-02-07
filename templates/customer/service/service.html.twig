@@ -12,7 +12,7 @@
                 </div>
                 <div class="profile-info">
                     <h1 class="pb-0.5 font-semibold">{{ service.name }}</h1>
-                    <span><a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }} ({{ service.fixer.alias }})</a></span>
+                    <span>par <a href="{{ fixer_profile }}">{{ service.fixer.alias }}</a></span>
                     <span>{{ service.fixer.address.street }}, {{ service.fixer.address.postcode }} {{ service.fixer.address.city }}</span>
                     <p class="profile-review pt-0.5">
                         <span> {{ stars(service.rating) }}</span>

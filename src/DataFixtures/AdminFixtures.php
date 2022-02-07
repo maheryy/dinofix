@@ -25,10 +25,7 @@ class AdminFixtures extends Fixture
             ->setEmail('contact@dinofix.fr')
             ->setPicture('no pic')
             ->setSettings('no settings')
-            ->setStatus(1)
-            ->setCreatedAt($faker->dateTimeBetween('-1 month'))
-            ->setUpdatedAt($faker->dateTimeBetween('-1 month'));
-
+            ->setStatus(1);
 
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'Dinofix2022'));
 

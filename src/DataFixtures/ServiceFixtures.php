@@ -20,7 +20,6 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $categories = $manager->getRepository(Category::class)->findAll();
-        $dinos = $manager->getRepository(Dino::class)->findAll();
         $fixers = $manager->getRepository(Fixer::class)->findAll();
         $customers = $manager->getRepository(Customer::class)->findAll();
 
@@ -32,10 +31,8 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                     ->setName("{$faker->catchPhrase()} ({$category->getName()})")
                     ->setDescription($faker->realText(500) . "\n\n" . $faker->text(500))
                     ->setStatus(1)
-                    ->setCreatedAt($faker->dateTime('now'))
-                    ->setUpdatedAt($faker->dateTime('now'))
                     ->setCategory($category)
-                    ->setDino($faker->randomElement($dinos))
+                    ->setDino($faker->randomElement($category->getDinos()->toArray()))
                     ->setFixer($faker->randomElement($fixers));
 
                 $rand_review = rand(1, 7);
@@ -48,9 +45,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                         ->setCustomer($faker->randomElement($customers))
                         ->setMessage($faker->sentence(20))
                         ->setRate($random_rate)
-                        ->setStatus(1)
-                        ->setCreatedAt($faker->dateTime('now'))
-                        ->setUpdatedAt($faker->dateTime('now'));
+                        ->setStatus(1);
 
                     $object->addReview($review);
                     $manager->persist($review);

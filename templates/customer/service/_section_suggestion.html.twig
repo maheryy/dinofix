@@ -2,7 +2,7 @@
 
 <section id="suggestion" class="service-suggestion-container suggestion">
     <div class="service-suggestion">
-        <h2>Plus de service de <a href="{{ fixer_profile }}">{{ service.fixer.firstname }} {{ service.fixer.lastname }}</a></h2>
+        <h2>Plus de service de <a href="{{ fixer_profile }}">{{ service.fixer.alias }}</a></h2>
         <ul class="list-column py-0.25 mb-0.25">
             {% for service in other_services %}
                 <li class="service-card list-item">
@@ -11,7 +11,7 @@
                     </div>
                     <div class="content-bottom">
                          <span class="name py-0.5">
-                             <a class="link-primary" href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
+                             <a class="link-primary" href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
                          </span>
                         <p class="flex items-center py-0.5 text-xs">
                             <span class="stars">{{ stars(service.rating) }}</span>

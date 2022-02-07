@@ -7,12 +7,13 @@ use App\Entity\Dino;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class DinoFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
 
         $categories = $manager->getRepository(Category::class)->findAll();
 
@@ -20,7 +21,6 @@ class DinoFixtures extends Fixture implements DependentFixtureInterface
             $object = (new Dino())
                 ->setName($faker->word)
                 ->setDescription($faker->sentence(20))
-                ->setSlug($faker->word)
                 ->setPicture('no pic')
                 ->setCategory($faker->randomElement($categories));
             $manager->persist($object);

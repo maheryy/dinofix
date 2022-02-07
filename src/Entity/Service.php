@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ServiceRepository")]
 class Service
@@ -19,6 +20,10 @@ class Service
 
     #[ORM\Column(type: 'text')]
     private $description;
+
+    #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $slug;
 
     #[ORM\ManyToOne(targetEntity: Fixer::class, inversedBy: 'services')]
     #[ORM\JoinColumn(nullable: false)]
@@ -42,9 +47,11 @@ class Service
     #[ORM\Column(type: 'smallint')]
     private $status;
 
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
     private $updated_at;
 
@@ -76,6 +83,11 @@ class Service
         return $this->description;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -100,23 +112,9 @@ class Service
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
     }
 
     public function getDino(): ?Dino

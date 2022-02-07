@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Entity\Category;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class SearchData
 {
@@ -11,6 +12,8 @@ class SearchData
     public ?int $page = null;
 
     public ?Category $category = null;
+
+    public ?ArrayCollection $dinos = null;
 
     public ?int $distance = null;
 
@@ -21,6 +24,8 @@ class SearchData
     public const SORT_TYPE_LOCATION = 'location';
 
     public const SORT_TYPE_REVIEW = 'review';
+
+    public const SORT_TYPE_POPULAR = 'popular';
 
     public const SORT_TYPE_NAME = 'name';
 
@@ -46,6 +51,14 @@ class SearchData
     public function getCategory(): ?Category
     {
         return $this->category;
+    }
+
+    /**
+     * @return ArrayCollection|null
+     */
+    public function getDinos(): ?ArrayCollection
+    {
+        return $this->dinos;
     }
 
     /**

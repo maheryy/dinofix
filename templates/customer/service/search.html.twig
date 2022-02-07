@@ -2,82 +2,138 @@
 
 {% block body %}
     <main class="main-container customer-container">
-        {% if services is not empty %}
-            <div class="search-container">
-                {{ form_start(form, {action : path('customer_search')}) }}
-                <div class="search-filters">
-                    <ul class="filter-list">
-                        {{ form_widget(form.query) }}
-                        <li class="filter-item">
-                            {{ form_widget(form.category, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
-                        </li>
-                        <li class="filter-item">
-                            {{ form_widget(form.distance, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
-                        </li>
-                        <li class="filter-item">
-                            <div class="dropdown-item" data-event="dropdownItemOnClick">
-                                <button class="dropdown-title">Avis</button>
-                                <div class="dropdown-content">
+
+        <div class="search-container">
+            {{ form_start(form, {action : path('customer_search')}) }}
+            <div class="search-filters">
+                <ul class="filter-list">
+                    {{ form_widget(form.query) }}
+                    <li class="filter-item">
+                        {{ form_widget(form.category, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                    </li>
+                    <li class="filter-item">
+                        {{ form_widget(form.distance, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                    </li>
+                    <li class="filter-item">
+                        <div class="dropdown-item" data-event="dropdownItemOnClick">
+                            <button class="dropdown-title btn-secondary">Dinosaure</button>
+                            <div class="dropdown-content bordered" data-event="checkableItems">
+                                <div class="dropdown-header">
+                                    <input id="check-all-dino" type="checkbox" class="check-all cursor-pointer">
+                                    <label for="check-all-dino" class="cursor-pointer">Sélectionner tout</label>
+                                </div>
+                                <div class="checkbox-list">
+                                    {{ form_widget(form.dinos) }}
+                                </div>
+                                <div class="filter-action">
+                                    <button class="text-sm btn-secondary">Appliquer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="filter-item">
+                        <div class="dropdown-item" data-event="dropdownItemOnClick">
+                            <button class="dropdown-title btn-secondary">Avis</button>
+                            <div class="dropdown-content bordered" data-event="checkableItems">
+                                <div class="dropdown-header">
+                                    <input id="check-all-review" type="checkbox" class="check-all cursor-pointer">
+                                    <label for="check-all-review" class="cursor-pointer">Sélectionner tout</label>
+                                </div>
+                                <div class="checkbox-list">
                                     {{ form_widget(form.reviews) }}
-                                    <button>Appliquer</button>
+                                </div>
+                                <div class="filter-action">
+                                    <button class="text-sm btn-secondary">Appliquer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="filter-actions">
+                    <button class="btn-secondary text-xs text-uppercase">Appliquer</button>
+                    <a class="btn-secondary text-xs text-uppercase"
+                       href="{{ path('customer_search', {'query' : form.query.vars.value}) }}">Réinitialiser</a>
+                </div>
+            </div>
+            <div class="search-results-head">
+                <div class="search-results-count">
+                    <span>{{ services.getTotalItemCount() }} résultats trouvés</span>
+                </div>
+                <div class="search-results-sort">
+                    {{ form_label(form.sort) }}
+                    {{ form_widget(form.sort, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+            {% if services is not empty %}
+            <section class="search-results">
+                <ul class="list-row">
+                    {% for service in services %}
+                        <li class="list-item search-item">
+                            <div class="content-left">
+                                <div class="item-title flex items-center">
+                                    <div class="profile-picture">
+                                        <img alt="" src="{{ asset('images/repair.png') }}">
+                                    </div>
+                                    <a href="#">{{ service.alias }}</a>
+                                    <span class="rating">
+                                            <span>
+                                                <img class="review-star" alt=""
+                                                     src="{{ asset("images/star-filled.svg") }}">
+                                            </span>
+                                            <label>{{ service.fixer_rating | round(1) }}</label>
+                                        </span>
+                                </div>
+                                <div class="item-description">
+                                    <span>{{ service.street }}</span>
+                                    <span>{{ service.city }}, {{ service.postcode }}</span>
+                                    <span>{{ service.region }}, {{ service.country }}</span>
+                                </div>
+                            </div>
+                            <div class="content-right">
+                                <div class="flex">
+                                    <div class="service-image">
+                                        <img src="https://picsum.photos/id/171/450/450" alt="">
+                                    </div>
+                                    <div class="service-content">
+                                        <div class="item-title flex items-start justify-between">
+                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
+                                            <div class="flex-col items-end">
+                                                <div class="rating">
+                                                        <span>
+                                                            <img class="review-star" alt=""
+                                                                 src="{{ asset("images/star-filled.svg") }}">
+                                                        </span>
+                                                    <label>{{ service.service_rating | round(1) }}</label>
+                                                </div>
+                                                <span class="count-reviews">({{ service.count_reviews }} avis)</span>
+                                            </div>
+                                        </div>
+                                        <div class="item-description">
+                                            <p>{{ service.description }}</p>
+                                        </div>
+                                        <div class="item-action">
+                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}"
+                                               class="btn-primary text-uppercase text-xs">Prendre RDV</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </li>
-                    </ul>
+                    {% endfor %}
+                </ul>
+                <div class="search-navigation">
+                    {{ knp_pagination_render(services) }}
                 </div>
-                <div class="search-results-head">
-                    <div class="search-results-count">
-                        <span>{{ services.getTotalItemCount() }} résultats trouvés</span>
+                {% else %}
+                    <div class="search-container no-results">
+                        <div class="no-results-text">
+                            <h1>Aucun résultat trouvé</h1>
+                            <p>Votre recherche n'a envoyé aucun résultat. Essayez de reformuler votre recherche</p>
+                        </div>
                     </div>
-                    <div class="search-results-sort">
-                        {{ form_label(form.sort) }}
-                        {{ form_widget(form.sort, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
-                    </div>
-                </div>
-                {{ form_end(form) }}
-                <section class="search-results">
-                    <ul class="list-row">
-                        {% for service in services %}
-                            <li class="list-item search-item">
-                                <div class="content-left">
-                                    <div class="item-title">
-                                        <h4>
-                                            <a href="{{ path('service', {'id': service.id}) }}">{{ service.firstname }} {{ service.lastname }}</a>
-                                        </h4>
-                                    </div>
-                                    <div class="item-description">
-                                        <span>{{ service.street }}</span>
-                                        <span>{{ service.city }}, {{ service.postcode }}</span>
-                                        <span>{{ service.region }}, {{ service.country }}</span>
-                                    </div>
-                                </div>
-                                <div class="content-right">
-                                    <div class="item-title">
-                                        <a href="{{ path('service', {'id': service.id}) }}">{{ service.name }}</a>
-                                    </div>
-                                    <div class="item-description">
-                                        Lorem ipsum
-                                    </div>
-                                    <div class="item-action">
-                                        <a href="{{ path('service', {'id': service.id}) }}"
-                                           class="btn-primary text-uppercase text-sm">Prendre RDV</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="search-navigation">
-                        {{ knp_pagination_render(services) }}
-                    </div>
-                </section>
-            </div>
-        {% else %}
-            <div class="search-container no-results">
-                <div class="no-results-text">
-                    <h1>Aucun résultat trouvé</h1>
-                    <p>Votre recherche n'a envoyé aucun résultat. Essayez de reformuler votre recherche</p>
-                </div>
-            </div>
-        {% endif %}
+                {% endif %}
+            </section>
+        </div>
     </main>
 {% endblock %}
