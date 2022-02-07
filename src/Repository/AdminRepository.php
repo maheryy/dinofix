@@ -36,6 +36,33 @@ class AdminRepository extends ServiceEntityRepository
     }
     */
 
+    public function findAllCustomer()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT c.first_name, c.last_name, c.email, c.phone
+            FROM App\Entity\Customer c
+            '
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
+    public function findAllFixer()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT f.first_name, f.last_name, f.email, f.phone
+            FROM App\Entity\Fixer f
+            '
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
     /*
     public function findOneBySomeField($value): ?Admin
     {
