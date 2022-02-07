@@ -36,8 +36,8 @@ class ServiceRepository extends ServiceEntityRepository
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->select(
-                's.id, s.name, s.slug, s.description,
-                f.firstname, f.lastname,
+                's.id, s.name, s.slug, s.description, s.rating service_rating,
+                f.firstname, f.lastname, f.rating as fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street'
             );
 
@@ -53,18 +53,39 @@ class ServiceRepository extends ServiceEntityRepository
                 ->setParameter('category', $filters->getCategory());
         }
 
+        if ($filters->getDinos() && !$filters->getDinos()->isEmpty()) {
+            $qb
+                ->andWhere('s.dino IN (:dinos)')
+                ->setParameter('dinos', array_map(fn($dino) => $dino->getId(), $filters->getDinos()->toArray()));
+        }
+
+        if (!empty($filters->getReviews())) {
+            $conditions = array_map(fn($rating) => $qb->expr()->andX(
+                $qb->expr()->gte('s.rating', $rating),
+                $qb->expr()->lt('s.rating', $rating + 1)
+            ), $filters->getReviews());
+
+            $qb->andWhere($qb->expr()->orX(...$conditions));
+        }
+
         if ($filters->getSort()) {
             switch ($filters->getSort()) {
                 case SearchData::SORT_TYPE_NAME:
-                    $qb->orderBy('s.name', 'DESC');
+                    $qb->orderBy('s.name', 'ASC');
                     break;
                 case SearchData::SORT_TYPE_REVIEW:
-                    //$qb->orderBy('reviews', 'D');
+                    $qb->orderBy('s.rating', 'DESC');
+                    break;
+                case SearchData::SORT_TYPE_POPULAR:
+                    $qb->addSelect('count(r.id) AS HIDDEN count_reviews')
+                        ->leftJoin('s.reviews', 'r')
+                        ->orderBy('s.rating', 'DESC')
+                        ->addOrderBy('count_reviews', 'DESC')
+                        ->groupBy('s.id', 'f.id', 'a.id');
                     break;
                 case SearchData::SORT_TYPE_LOCATION:
                     //$qb->orderBy('reviews', 'DESC');
                     break;
-
             }
         }
 

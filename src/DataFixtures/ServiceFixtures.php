@@ -20,7 +20,6 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $categories = $manager->getRepository(Category::class)->findAll();
-        $dinos = $manager->getRepository(Dino::class)->findAll();
         $fixers = $manager->getRepository(Fixer::class)->findAll();
         $customers = $manager->getRepository(Customer::class)->findAll();
 
@@ -33,7 +32,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                     ->setDescription($faker->realText(500) . "\n\n" . $faker->text(500))
                     ->setStatus(1)
                     ->setCategory($category)
-                    ->setDino($faker->randomElement($dinos))
+                    ->setDino($faker->randomElement($category->getDinos()->toArray()))
                     ->setFixer($faker->randomElement($fixers));
 
                 $rand_review = rand(1, 7);

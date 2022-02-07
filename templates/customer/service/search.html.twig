@@ -12,6 +12,15 @@
                             {{ form_widget(form.category, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
                         </li>
                         <li class="filter-item">
+                            <div class="dropdown-item" data-event="dropdownItemOnClick">
+                                <button class="dropdown-title">Dinosaure</button>
+                                <div class="dropdown-content">
+                                    {{ form_widget(form.dinos) }}
+                                    <button>Appliquer</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="filter-item">
                             {{ form_widget(form.distance, {attr : {'data-event' : 'submitOnSelectedFilter'}}) }}
                         </li>
                         <li class="filter-item">
@@ -42,7 +51,7 @@
                                 <div class="content-left">
                                     <div class="item-title">
                                         <h4>
-                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.firstname }} {{ service.lastname }}</a>
+                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.firstname }} ({{ service.fixer_rating }})</a>
                                         </h4>
                                     </div>
                                     <div class="item-description">
@@ -53,7 +62,7 @@
                                 </div>
                                 <div class="content-right">
                                     <div class="item-title">
-                                        <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
+                                        <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }} ({{ service.service_rating }})</a>
                                     </div>
                                     <div class="item-description">
                                         Lorem ipsum

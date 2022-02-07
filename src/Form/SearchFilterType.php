@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Data\SearchData;
 use App\Entity\Category;
+use App\Entity\Dino;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,6 +23,13 @@ class SearchFilterType extends AbstractType
                 'label' => 'Catégorie',
                 'required' => false,
                 'class' => Category::class
+            ])
+            ->add('dinos', EntityType::class, [
+                'label' => 'Dinosaure',
+                'required' => false,
+                'class' => Dino::class,
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('distance', ChoiceType::class, [
                 'label' => 'Distance',
@@ -50,6 +58,7 @@ class SearchFilterType extends AbstractType
                     'nom' => SearchData::SORT_TYPE_NAME,
                     'distance' => SearchData::SORT_TYPE_LOCATION,
                     'avis' => SearchData::SORT_TYPE_REVIEW,
+                    'populaire' => SearchData::SORT_TYPE_POPULAR,
                 ],
             ])
             ->add('query', HiddenType::class);
