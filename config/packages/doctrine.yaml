@@ -16,3 +16,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        dql:
+            numeric_functions:
+                GEO_DISTANCE: App\Doctrine\GeoDistance
+                ROUND: App\Doctrine\Round
+                FLOOR: App\Doctrine\Floor
+                CEIL: App\Doctrine\Ceil

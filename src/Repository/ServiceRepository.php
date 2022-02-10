@@ -30,14 +30,14 @@ class ServiceRepository extends ServiceEntityRepository
 
     }
 
-    public function findAllBySearch(SearchData $filters): PaginationInterface
+    public function findAllBySearch(SearchData $filters, int $maxPageResults = 5): PaginationInterface
     {
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->leftJoin('s.reviews', 'r')
             ->select(
-                's.id, s.name, s.slug, s.description, s.rating service_rating, COUNT(r.id) AS count_reviews,
+                's.id, s.name, s.slug, s.description, s.rating AS service_rating, COUNT(r.id) AS count_reviews,
                 f.firstname, f.lastname, f.alias, f.rating as fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street'
             )
@@ -62,12 +62,9 @@ class ServiceRepository extends ServiceEntityRepository
         }
 
         if (!empty($filters->getReviews())) {
-            $conditions = array_map(fn($rating) => $qb->expr()->andX(
-                $qb->expr()->gte('s.rating', $rating),
-                $qb->expr()->lt('s.rating', $rating + 1)
-            ), $filters->getReviews());
-
-            $qb->andWhere($qb->expr()->orX(...$conditions));
+            $qb
+                ->andWhere('FLOOR(s.rating) IN (:reviews)')
+                ->setParameter('reviews', $filters->getReviews());
         }
 
         if ($filters->getSort()) {
@@ -89,7 +86,7 @@ class ServiceRepository extends ServiceEntityRepository
             }
         }
 
-        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), 5);
+        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), $maxPageResults);
     }
 
 
