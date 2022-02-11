@@ -5,7 +5,8 @@
             <form action="{{ path('customer_search') }}" method="GET">
                 <div class="form-control-wrapper w-4/5">
                     <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
-                    <input class="searchbar form-control" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}">
+                    <input class="searchbar form-control" type="text" id="searchbar" name="query"
+                           value="{{ previousQuery ?? null }}">
                 </div>
             </form>
         </div>
@@ -22,58 +23,45 @@
                         </li>
                     </ul>
                 </li>
-                <li class="header-nav-item">
-                    <a href="#">Se connecter</a>
-                </li>
-                <li class="header-nav-item">
-                    <a href="#">S'inscrire</a>
-                </li>
-                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
-                    <a class="dropdown-title" href="#">Mon compte</a>
-                    <ul class="dropdown-content">
-                        <li>
-                            <a href="#">Profil</a>
-                        </li>
-                        <li>
-                            <a href="#">Historique</a>
-                        </li>
-                        <li>
-                            <a href="#">Mes demandes</a>
-                        </li>
-                        <li>
-                            <a href="#">Historique</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('app_logout') }}">Deconnexion</a>
-                        </li>
-                    </ul>
-                </li>
+                {% if is_logged_in() %}
+                    <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
+                        <a class="dropdown-title" href="#">Mon compte</a>
+                        <ul class="dropdown-content">
+                            <li>
+                                <a href="#">Profil</a>
+                            </li>
+                            <li>
+                                <a href="#">Historique</a>
+                            </li>
+                            <li>
+                                <a href="#">Mes demandes</a>
+                            </li>
+                            <li>
+                                <a href="#">Historique</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('app_logout') }}">Déconnexion</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="header-nav-item">
+                        <a href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                    <li class="header-nav-item">
+                        <a href="#">S'inscrire</a>
+                    </li>
+                {% endif %}
             </ul>
         </nav>
     </div>
     <nav class="header-nav">
         <ul class="header-nav-list">
-            <li class="header-nav-item">
-                <a href="#">Moteur défaillant</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Ailes déformés</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Epaules trop large</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Manque d'hydratation</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Trouble de la communication</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Manque d'hygiène</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Crises d'anxiété</a>
-            </li>
+            {% for item in ld_popular_categories %}
+                <li class="header-nav-item">
+                    <a href="#">{{ item.name }}</a>
+                </li>
+            {% endfor %}
         </ul>
     </nav>
 </header>

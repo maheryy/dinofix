@@ -2,22 +2,23 @@
     <div class="footer-top">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4 class="link-list-head">Categories</h4>
+                <h4 class="link-list-head">Catégories</h4>
                 <ul class="link-list categories">
-                    <li><a href="#">Réparation dinosaures volants</a></li>
-                    <li><a href="#">Réparation dinosaures terrestre</a></li>
-                    <li><a href="#">Problèmes pattes</a></li>
-                    <li><a href="#">Problèmes ailes</a></li>
-                    <li><a href="#">Bien être</a></li>
+                    {% for item in ld_popular_categories %}
+                        <li>
+                            <a href="#">{{ item.name }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="footer-col">
                 <h4 class="link-list-head">Recherches fréquentes</h4>
                 <ul class="link-list trending">
-                    <li><a href="#">Blessure pattes avant</a></li>
-                    <li><a href="#">Ligaments croisés</a></li>
-                    <li><a href="#">Massage dinosaure</a></li>
-                    <li><a href="#">Petits soins dinosaure</a></li>
+                    {% for item in get_frequent_keywords() %}
+                        <li>
+                            <a href="#">{{ item.term }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="footer-col">

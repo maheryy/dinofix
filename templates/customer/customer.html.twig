@@ -12,6 +12,7 @@
     {% endblock %}
 </head>
 <body>
+{% set ld_popular_categories = get_popular_categories() %}
 {% block header %} {% include 'customer/layout/_header.html.twig' %} {% endblock %}
 {% block body %}{% endblock %}
 {% block footer %} {% include 'customer/layout/_footer.html.twig' %} {% endblock %}
