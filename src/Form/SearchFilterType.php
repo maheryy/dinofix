@@ -36,10 +36,12 @@ class SearchFilterType extends AbstractType
                 'label' => 'Distance',
                 'attr' => ['class' => 'form-control'],
                 'choices' => [
-                    '< 5km' => 5,
-                    '< 15km' => 15,
-                    '< 30km' => 30,
-                    '< 50km' => 50,
+                    '' => null,
+                    '< 5 km' => 5,
+                    '< 15 km' => 15,
+                    '< 30 km' => 30,
+                    '< 50 km' => 50,
+                    '< 200 km' => 200,
                 ],
             ])
             ->add('reviews', ChoiceType::class, [
@@ -59,10 +61,10 @@ class SearchFilterType extends AbstractType
                 'label' => 'Trier par',
                 'attr' => ['class' => 'form-control'],
                 'choices' => [
-                    'Popularité' => SearchData::SORT_TYPE_POPULAR,
-                    'Nom' => SearchData::SORT_TYPE_NAME,
-                    'Avis' => SearchData::SORT_TYPE_REVIEW,
                     'Distance' => SearchData::SORT_TYPE_LOCATION,
+                    'Avis' => SearchData::SORT_TYPE_REVIEW,
+                    'Popularité' => SearchData::SORT_TYPE_POPULAR,
+                    //'Nom' => SearchData::SORT_TYPE_NAME,
                 ],
             ])
             ->add('query', HiddenType::class);

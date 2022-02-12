@@ -22,7 +22,7 @@ class ServiceController extends AbstractController
         $filterForm = $this->createForm(SearchFilterType::class, $searchData);
         $filterForm->handleRequest($request);
 
-        $services = $serviceRepository->findAllBySearch($searchData);
+        $services = $serviceRepository->findAllBySearch($searchData, 10);
 
         return $this->render('customer/service/search.html.twig', [
             'services' => $services,

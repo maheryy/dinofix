@@ -5,7 +5,8 @@
     <main class="main-container customer-container">
         <div class="home-container">
             <section class="top-content section-box">
-                <h2>Bonjour <span class="color-secondary">{{ user.firstname }}</span>, et si vous faisiez plaisir à votre dino...</h2>
+                <h2>Bonjour <span class="color-secondary">{{ user.firstname }}</span>, et si vous faisiez plaisir à
+                    votre dino...</h2>
                 <div class="category-content">
                     <div class="content-left flex items-center">
                         <span class="text-center text-lg font-medium text-uppercase">Quel type de service recherchez-vous ?</span>
@@ -13,9 +14,9 @@
                     <div class="content-right">
                         <ul class="category-list">
                             {% for category in categories %}
-                            <li class="category-card">
-                                <a href="{{ path('customer_search', {'category': category.id}) }}">{{ category.name }}</a>
-                            </li>
+                                <li class="category-card">
+                                    <a href="{{ path('customer_search', {'category': category.id}) }}">{{ category.name }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -71,7 +72,8 @@
         <div class="content-bottom">
             <p class="flex-col">
                 <span class="name">
-                    <a class="link-primary" href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
+                    <a class="link-primary"
+                       href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
                     par <a class="link-primary font-medium" href="#">{{ data.alias }}</a>

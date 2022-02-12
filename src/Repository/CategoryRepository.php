@@ -19,7 +19,7 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function findPopularCategories(int $max = null)
+    public function findPopularCategories(?int $max = null)
     {
         $qb = $this->createQueryBuilder('c')
             ->select('c', 'COUNT(s.id) AS HIDDEN services')

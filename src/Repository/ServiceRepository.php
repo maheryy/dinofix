@@ -30,66 +30,74 @@ class ServiceRepository extends ServiceEntityRepository
 
     }
 
-    public function findAllBySearch(SearchData $filters): PaginationInterface
+    public function findAllBySearch(SearchData $filters, int $maxPageResults = 5): PaginationInterface
     {
+        $location = [
+            'address' => '242 Rue du Faubourg Saint-Antoine, 75012 Paris',
+            'latitude' => 48.849372876032064,
+            'longitude' => 2.390356710312387
+        ];
+
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->leftJoin('s.reviews', 'r')
             ->select(
-                's.id, s.name, s.slug, s.description, s.rating service_rating, COUNT(r.id) AS count_reviews,
+                's.id, s.name, s.slug, s.description, s.rating AS service_rating, COUNT(r.id) AS count_reviews,
                 f.firstname, f.lastname, f.alias, f.rating as fixer_rating,
-                a.country, a.region, a.postcode, a.city, a.street'
+                a.country, a.region, a.postcode, a.city, a.street, GEO_DISTANCE(a.latitude, a.longitude, :latitude, :longitude) AS distance'
             )
+            ->setParameter('latitude', $location['latitude'])
+            ->setParameter('longitude', $location['longitude'])
             ->groupBy('s.id', 'f.id', 'a.id');
 
         if ($filters->getQuery()) {
-            $qb
-                ->andWhere('lower(s.name) LIKE :query')
+            $qb->andWhere('lower(s.name) LIKE :query')
                 ->setParameter('query', '%' . strtolower($filters->getQuery()) . '%');
         }
 
         if ($filters->getCategory()) {
-            $qb
-                ->andWhere('s.category = :category')
+            $qb->andWhere('s.category = :category')
                 ->setParameter('category', $filters->getCategory());
         }
 
         if ($filters->getDinos() && !$filters->getDinos()->isEmpty()) {
-            $qb
-                ->andWhere('s.dino IN (:dinos)')
+            $qb->andWhere('s.dino IN (:dinos)')
                 ->setParameter('dinos', array_map(fn($dino) => $dino->getId(), $filters->getDinos()->toArray()));
         }
 
         if (!empty($filters->getReviews())) {
-            $conditions = array_map(fn($rating) => $qb->expr()->andX(
-                $qb->expr()->gte('s.rating', $rating),
-                $qb->expr()->lt('s.rating', $rating + 1)
-            ), $filters->getReviews());
+            $qb->andWhere('FLOOR(s.rating) IN (:reviews)')
+                ->setParameter('reviews', $filters->getReviews());
+        }
 
-            $qb->andWhere($qb->expr()->orX(...$conditions));
+        if ($filters->getDistance()) {
+            $qb->andWhere('GEO_DISTANCE(a.latitude, a.longitude, :latitude, :longitude) <= :distance')
+                ->setParameter('distance', $filters->getDistance());
         }
 
         if ($filters->getSort()) {
             switch ($filters->getSort()) {
                 case SearchData::SORT_TYPE_NAME:
-                    $qb->orderBy('s.name', 'ASC');
+                    $qb->addOrderBy('s.name', 'ASC');
                     break;
                 case SearchData::SORT_TYPE_REVIEW:
-                    $qb->orderBy('s.rating', 'DESC');
+                    $qb->addOrderBy('s.rating', 'DESC');
                     break;
                 case SearchData::SORT_TYPE_POPULAR:
                     $qb
-                        ->orderBy('count_reviews', 'DESC')
+                        ->addOrderBy('count_reviews', 'DESC')
                         ->addOrderBy('s.rating', 'DESC');
                     break;
                 case SearchData::SORT_TYPE_LOCATION:
-                    //$qb->orderBy('reviews', 'DESC');
+                    $qb->addOrderBy('distance', 'ASC');
                     break;
             }
+        } else {
+            $qb->addOrderBy('distance', 'ASC');
         }
 
-        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), 5);
+        return $this->paginator->paginate($qb->getQuery(), $filters->getPage(), $maxPageResults);
     }
 
 
