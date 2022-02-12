@@ -18,10 +18,11 @@ input.form-control {
 
   .icon-left, .icon-right {
     position: absolute;
-    height: 1em;
-    width: 1em;
+    height: 1.15em;
+    width: 1.15em;
     top: 50%;
     transform: translateY(-50%);
+    color: $text-primary;
   }
 
   .icon-left {

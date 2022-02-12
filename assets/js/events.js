@@ -72,3 +72,10 @@ export const checkableItems = (element) => {
         }
     });
 };
+
+export const clearInput = (element, data) => {
+    const input = $(`#${data.target}`);
+    if (input.length) {
+        $(element).click(() => input.val('').focus());
+    }
+};
