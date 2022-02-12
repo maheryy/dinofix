@@ -87,6 +87,10 @@
                                     <span>{{ service.street }}</span>
                                     <span>{{ service.city }}, {{ service.postcode }}</span>
                                     <span>{{ service.region }}, {{ service.country }}</span>
+                                    <span class="py-0.25 font-medium color-secondary">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <label>{{ service.distance | round() }} km</label>
+                                    </span>
                                 </div>
                             </div>
                             <div class="content-right">

@@ -30,8 +30,11 @@ class Address
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $additional;
 
-    #[ORM\Column(type: 'string', length: 20)]
-    private $location;
+    #[ORM\Column(type: 'float')]
+    private $latitude;
+
+    #[ORM\Column(type: 'float')]
+    private $longitude;
 
     public function getId(): ?int
     {
@@ -110,15 +113,28 @@ class Address
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLatitude(): ?float
     {
-        return $this->location;
+        return $this->latitude;
     }
 
-    public function setLocation(string $location): self
+    public function setLatitude(float $latitude): self
     {
-        $this->location = $location;
+        $this->latitude = $latitude;
 
         return $this;
     }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
 }
