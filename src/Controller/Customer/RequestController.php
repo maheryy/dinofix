@@ -6,6 +6,8 @@ use App\Entity\Request as RequestEntity;
 use App\Form\RequestType;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +52,33 @@ class RequestController extends AbstractController
             'request' => $requestEntity,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/new/{slug}', name: 'request_new_by_service', methods: ['GET'])]
+    public function newByService(string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository): Response
+    {
+        $service = $serviceRepository->findServiceBySlug($slug);
+        if (!$service) {
+            return $this->render('customer/service/search.html.twig', ['services' => []]);
+        }
+        $user = $this->getUser();
+        $requestEntity = new RequestEntity();
+        $reference = $requestRepository->generateReference();
+        $datetime = new \DateTime('now');
+        $requestEntity->setCustomer($user)
+        ->setReference($reference)
+        ->setStatus(0)
+        ->setService($service)
+        ->setCategory($service->getCategory())
+        ->setDino($service->getDino())
+        ->setSubject($service->getName())
+        ->setDescription($service->getDescription())
+        ->setExpectedAt($datetime);
+
+        $entityManager->persist($requestEntity);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'request_show', methods: ['GET'])]
