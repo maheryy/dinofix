@@ -28,17 +28,6 @@ class Request
     #[ORM\Column(type: 'smallint')]
     private $status;
 
-    #[ORM\Column(type: 'datetime')]
-    private $expected_at;
-
-    #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(type: 'datetime')]
-    private $created_at;
-
-    #[Gedmo\Timestampable(on: 'update')]
-    #[ORM\Column(type: 'datetime')]
-    private $updated_at;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'requests')]
     #[ORM\JoinColumn(nullable: false)]
     private $customer;
@@ -49,12 +38,17 @@ class Request
     #[ORM\ManyToOne(targetEntity: Dino::class)]
     private $dino;
 
-    public function __construct()
-    {
-        $this->setCreatedAt(new \DateTimeImmutable());
-        $this->setUpdatedAt(new \DateTimeImmutable());
-    }
+    #[ORM\Column(type: 'datetime')]
+    private $expected_at;
 
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(type: 'datetime')]
+    private $updated_at;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -123,13 +117,6 @@ class Request
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
