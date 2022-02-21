@@ -76,12 +76,12 @@
                                     </div>
                                     <a href="#">{{ service.alias }}</a>
                                     <span class="rating">
-                                            <span>
-                                                <img class="review-star" alt=""
-                                                     src="{{ asset("images/star-filled.svg") }}">
-                                            </span>
-                                            <label>{{ service.fixer_rating | round(1) }}</label>
+                                        <span>
+                                            <img class="review-star" alt=""
+                                                 src="{{ asset("images/star-filled.svg") }}">
                                         </span>
+                                        <label>{{ service.fixer_rating | round(1) }}</label>
+                                    </span>
                                 </div>
                                 <div class="item-description">
                                     <span>{{ service.street }}</span>
