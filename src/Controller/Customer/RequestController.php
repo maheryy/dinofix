@@ -95,31 +95,4 @@ class RequestController extends AbstractController
 
         return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
-    #[Route('/{id}/services', name: 'request_services', methods: ['GET'])]
-    public function services(RequestEntity $requestEntity, ServiceRepository $serviceRepository): Response
-    {
-        $catId = $requestEntity->getCategory() ? $requestEntity->getCategory()->getId() : null;
-        $dinoId = $requestEntity->getDino() ? $requestEntity->getDino()->getId() : null;
-        if($catId && $dinoId) {
-            $services = $serviceRepository->findAllByCategoryAndDino($catId, $dinoId);
-            return $this->render('customer/request/services.html.twig', [
-                'services' => $services,
-            ]);
-        }
-        if($catId) {
-            $services = $serviceRepository->findAllByCategory($catId);
-            return $this->render('customer/request/services.html.twig', [
-                'services' => $services,
-            ]);
-        }
-        if($dinoId) {
-            $services = $serviceRepository->findAllByDino($dinoId);
-            return $this->render('customer/request/services.html.twig', [
-                'services' => $services,
-            ]);
-        }
-        return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
