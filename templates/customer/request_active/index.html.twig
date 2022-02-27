@@ -4,55 +4,53 @@
 
 {% block body %}
 <div class="container">
-    <div class="row">
-        <section class="search-results">
-            <ul class="list-row">
-                {% if request_actives is not empty %}
-                    {% for request_active in request_actives %}
-                        <div class="col-12">
-                            <ul class="progressbar">
-                                {% for step in request_active.request.service.steps|sort((a, b) => a.step <=> b.step) %}
-                                    <li class="{{ request_active.step.step == step.step ? "active" : ""}}">{{ step.name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <li class="list-item search-item">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="item-title">
-                                            <h4>
-                                                <a href="{{ path('customer_request_show', {'id': request_active.request.id}) }}">#{{ request_active.request.reference }} {{ request_active.request.subject }}</a>
-                                            </h4>
-                                        </div>
-                                        <div class="item-description">
-                                            <span>Créée le {{ request_active.createdAt ? request_active.request.createdAt|date('d-m-Y H:i:s') : '' }}</span>
-                                            <span>{{ request_active.content }}</span>
-                                            <span>{{ request_active.request.description }}</span>
-                                        </div>
+    <section class="request-container">
+        <ul class="list-row">
+            {% if request_actives is not empty %}
+                {% for request_active in request_actives %}
+                    <div class="col-12">
+                        <ul class="progressbar">
+                            {% for step in request_active.request.service.steps|sort((a, b) => a.step <=> b.step) %}
+                                <li class="{{ request_active.step.step == step.step ? "active" : ""}}">{{ step.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <li class="list-item">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="item-title">
+                                        <h4>
+                                            <a href="{{ path('customer_request_show', {'id': request_active.request.id}) }}">#{{ request_active.request.reference }} {{ request_active.request.subject }}</a>
+                                        </h4>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="item-title">
-                                            <a href="">Début le {{ request_active.createdAt ? request_active.createdAt|date('d-m-Y H:i:s') : '' }}</a>
-                                        </div>
-                                        <div class="item-description">
-                                        LoloZJZFEF EFIEFH E
-                                        </div>
+                                    <div class="item-description">
+                                        <span>Créée le {{ request_active.createdAt ? request_active.request.createdAt|date('d-m-Y H:i:s') : '' }}</span>
+                                        <span>{{ request_active.content }}</span>
+                                        <span>{{ request_active.request.description }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="item-title">
+                                        <a href="">Début le {{ request_active.createdAt ? request_active.createdAt|date('d-m-Y H:i:s') : '' }}</a>
+                                    </div>
+                                    <div class="item-description">
+                                    LoloZJZFEF EFIEFH E
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    <section class="request-container no-results">
-                        <div class="no-results-text">
-                            <h1>Aucune demande trouvée</h1>
-                            <p>Veuillez faire une demande</p>
                         </div>
-                    </section>
-                {% endif %}
-            </ul>
-        </section>
-    </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <section class="request-container no-results">
+                    <div class="no-results-text">
+                        <h1>Aucune demande trouvée</h1>
+                        <p>Veuillez faire une demande</p>
+                    </div>
+                </section>
+            {% endif %}
+        </ul>
+    </section>
 </div>
 {% endblock %}

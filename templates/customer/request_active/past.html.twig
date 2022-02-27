@@ -7,7 +7,7 @@
     <div class="row">
         {% if request_actives is not empty %}
             {% for request_active in request_actives %}
-                <div class="col-4">
+                <div class="col-3">
                     <ul class="request-card">
                         <li>
                             <a href="{{ path('customer_request_show', {'id': request_active.request.id}) }}" class="card">
