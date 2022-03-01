@@ -2,11 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Admin;
+use App\Entity\Category;
+use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\FixerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -23,6 +28,28 @@ class UserListController extends AbstractController
         return $this->render('admin/user_list/admin.html.twig', [
             'controller_name' => 'UserListController',
             'allUser' => $allUser,
+        ]);
+    }
+
+    #[Route('AddCategory', name: 'addCategory')]
+    public function addCategory(Request $request, EntityManagerInterface $entityManager ): Response
+    {
+
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category );
+
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $category->setPicture('no pic');
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_list');
+        }
+
+
+
+        return $this->render('admin/add_category/add_category.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
