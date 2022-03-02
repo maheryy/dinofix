@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Dino;
+use App\Form\DinoType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Admin;
 use App\Entity\Category;
@@ -31,7 +33,7 @@ class UserListController extends AbstractController
         ]);
     }
 
-    #[Route('AddCategory', name: 'addCategory')]
+    #[Route('addcategory', name: 'addCategory')]
     public function addCategory(Request $request, EntityManagerInterface $entityManager ): Response
     {
 
@@ -49,6 +51,28 @@ class UserListController extends AbstractController
 
 
         return $this->render('admin/add_category/add_category.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('adddino', name: 'addDino')]
+    public function addDino(Request $request, EntityManagerInterface $entityManager ): Response
+    {
+
+        $dino = new Dino();
+        $form = $this->createForm(DinoType::class, $dino );
+
+        if ($form->handleRequest($request)->isSubmitted() && $form->isValid()) {
+            $dino->setPicture('no pic');
+            $entityManager->persist($dino);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_list');
+        }
+
+
+
+        return $this->render('admin/add_dino/add_dino.html.twig', [
             'form' => $form->createView()
         ]);
     }
