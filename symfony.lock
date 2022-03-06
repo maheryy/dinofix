@@ -300,6 +300,9 @@
             "config/packages/stof_doctrine_extensions.yaml"
         ]
     },
+    "stripe/stripe-php": {
+        "version": "v7.114.0"
+    },
     "symfony/asset": {
         "version": "v6.0.3"
     },

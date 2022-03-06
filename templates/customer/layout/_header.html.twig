@@ -26,33 +26,36 @@
                     </ul>
                 </li>
                 {% if is_logged_in() %}
-                    <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
-                        <a class="dropdown-title" href="#">Mon compte</a>
-                        <ul class="dropdown-content">
-                            <li>
-                                <a href="#">Profil</a>
-                            </li>
-                            <li>
-                                <a href="#">Historique</a>
-                            </li>
-                            <li>
-                                <a href="#">Mes demandes</a>
-                            </li>
-                            <li>
-                                <a href="#">Historique</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_logout') }}">Déconnexion</a>
-                            </li>
-                        </ul>
-                    </li>
+                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
+                    <a class="dropdown-title" href="#">Mon compte</a>
+                    <ul class="dropdown-content">
+                        <li>
+                            <a href="#">Profil</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_new') }}">Faire une demande</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_index') }}">Mes demandes en attente</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_active_index') }}">Mes demandes en cours</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_active_past') }}">Historique</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_logout') }}">Deconnexion</a>
+                        </li>
+                    </ul>
+                </li>
                 {% else %}
-                    <li class="header-nav-item">
-                        <a href="{{ path('app_login') }}">Se connecter</a>
-                    </li>
-                    <li class="header-nav-item">
-                        <a href="#">S'inscrire</a>
-                    </li>
+                <li class="header-nav-item">
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="header-nav-item">
+                    <a href="#">S'inscrire</a>
+                </li>
                 {% endif %}
             </ul>
         </nav>

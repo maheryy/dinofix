@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\RequestActive;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @method RequestActive|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +17,32 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RequestActiveRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, RequestActive::class);
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * @param $id
+     * @param $status
+     * @return array
+     */
+    public function findUserRequestsByStatus($id, $status): array
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('ra')
+            ->innerJoin('ra.request', 'r')
+            ->innerJoin('r.customer', 'c')
+            ->andwhere('c.id = :id')
+            ->andWhere('r.status = :status')
+            ->setParameter('id', $id)
+            ->setParameter('status', $status)
+            ->orderBy('ra.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

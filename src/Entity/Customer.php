@@ -40,10 +40,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(targetEntity: Address::class)]
     private $address;
-
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Request::class)]
-    private $requests;
-
+    
     #[ORM\Column(type: 'object')]
     private $settings;
 
@@ -219,24 +216,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Request[]
-     */
-    public function getRequests(): Collection
-    {
-        return $this->requests;
-    }
-
-    public function addRequest(Request $request): self
-    {
-        if (!$this->requests->contains($request)) {
-            $this->requests[] = $request;
-            $request->setCustomer($this);
-        }
 
         return $this;
     }

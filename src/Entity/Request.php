@@ -13,10 +13,6 @@ class Request
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'requests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $customer;
-
     #[ORM\Column(type: 'string', length: 20)]
     private $reference;
 
@@ -32,6 +28,16 @@ class Request
     #[ORM\Column(type: 'smallint')]
     private $status;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'requests')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $customer;
+
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    private $category;
+
+    #[ORM\ManyToOne(targetEntity: Dino::class)]
+    private $dino;
+
     #[ORM\Column(type: 'datetime')]
     private $expected_at;
 
@@ -42,7 +48,7 @@ class Request
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
     private $updated_at;
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -118,18 +124,6 @@ class Request
         return $this->updated_at;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     public function getService(): ?Service
     {
         return $this->service;
@@ -138,6 +132,42 @@ class Request
     public function setService(?Service $service): self
     {
         $this->service = $service;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getDino(): ?Dino
+    {
+        return $this->dino;
+    }
+
+    public function setDino(?Dino $dino): self
+    {
+        $this->dino = $dino;
 
         return $this;
     }

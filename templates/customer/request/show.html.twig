@@ -1,0 +1,45 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Informations sur la demande{% endblock %}
+
+{% block body %}
+<section class="request-container">
+    <section id="description" class="request-section">
+        <h2 class="title">Reference</h2>
+        <div class="content">
+            <p class="pb-0.5">
+                {{ request.reference }}
+            </p>
+        </div>
+    </section>
+    <section id="description" class="request-section">
+        <h2 class="title">Titre</h2>
+        <div class="content">
+            <p class="pb-0.5">
+                <td>{{ request.subject }}</td>
+            </p>
+        </div>
+    </section>
+    <section id="description" class="request-section">
+        <h2 class="title">Description</h2>
+        <div class="content">
+            <p class="pb-0.5">
+                <td>{{ request.description }}</td>
+            </p>
+        </div>
+    </section>
+    <section id="description" class="request-section">
+        <h2 class="title">Prévu pour</h2>
+        <div class="content">
+            <p class="pb-0.5">
+                <td>{{ request.expectedAt ? request.expectedAt|date('d-m-Y H:i:s') : '' }}</td>
+            </p>
+        </div>
+    </section>
+</section>
+<div class="container">
+    <a class="btn-primary" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
+    {{ include('customer/request/_delete_form.html.twig') }}
+    <a class="btn-secondary" href="{{ path('customer_request_index') }}">Retour</a>
+</div>
+{% endblock %}
