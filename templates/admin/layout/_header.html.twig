@@ -1,14 +1,6 @@
 <header id="customer-header" class="app-header customer-header">
     <div class="header-main">
         <div class="logo-container"><a href="{{ path('customer_search') }}">Dinofix</a></div>
-        <div class="searchbar-container">
-            <form action="{{ path('customer_search') }}" method="GET">
-                <div class="searchbar-wrapper">
-                    <img class="searchbar-icon" src="{{ asset('images/search.svg') }}" alt="">
-                    <input class="searchbar" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}">
-                </div>
-            </form>
-        </div>
         <nav class="main-header-nav">
             <ul class="header-nav-list">
                 <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
@@ -35,15 +27,6 @@
                             <a href="#">Profil</a>
                         </li>
                         <li>
-                            <a href="#">Historique</a>
-                        </li>
-                        <li>
-                            <a href="#">Mes demandes</a>
-                        </li>
-                        <li>
-                            <a href="#">Historique</a>
-                        </li>
-                        <li>
                             <a href="#">Deconnexion</a>
                         </li>
                     </ul>
@@ -54,25 +37,16 @@
     <nav class="header-nav">
         <ul class="header-nav-list">
             <li class="header-nav-item">
-                <a href="#">Moteur défaillant</a>
+                <a href="{{ path('user_list') }}">Liste des Utilisateurs</a>
             </li>
             <li class="header-nav-item">
-                <a href="#">Ailes déformés</a>
+                <a href="{{ path('addCategory') }}">Créer Catégorie</a>
             </li>
             <li class="header-nav-item">
-                <a href="#">Epaules trop large</a>
+                <a href="{{ path('addDino') }}">Créer Dino</a>
             </li>
             <li class="header-nav-item">
-                <a href="#">Manque d'hydratation</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Trouble de la communication</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Manque d'hygiène</a>
-            </li>
-            <li class="header-nav-item">
-                <a href="#">Crises d'anxiété</a>
+                <a href="#">Liste des services en cours </a>
             </li>
         </ul>
     </nav>
