@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class UserListController extends AbstractController
+class AdminController extends AbstractController
 {
     #[Route('admin', name: 'user_list')]
     public function index(FixerRepository $fixerRepository, CustomerRepository $customerRepository): Response
@@ -28,7 +28,7 @@ class UserListController extends AbstractController
         $allUser = array_merge($fixer,$customer );
 
         return $this->render('admin/user_list/admin.html.twig', [
-            'controller_name' => 'UserListController',
+            'controller_name' => 'AdminController',
             'allUser' => $allUser,
         ]);
     }
