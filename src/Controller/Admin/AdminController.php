@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Dino;
 use App\Form\DinoType;
+use App\Repository\ServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Admin;
 use App\Entity\Category;
@@ -52,6 +53,14 @@ class AdminController extends AbstractController
 
         return $this->render('admin/add_category/add_category.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/', name: 'service_index', methods: ['GET'])]
+    public function listService(ServiceRepository $serviceRepository): Response
+    {
+        return $this->render('admin/service_list/index.html.twig', [
+            'services' => $serviceRepository->findAll(),
         ]);
     }
 
