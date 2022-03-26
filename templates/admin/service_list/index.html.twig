@@ -15,7 +15,6 @@
 <body>
 {% block header %} {% include 'admin/layout/_header.html.twig' %} {% endblock %}
 
-{% block body %}
 <section class="home-section">
     <nav>
         <div class="sidebar-button">
@@ -37,7 +36,7 @@
 
             <h1>Liste des services en cours</h1>
 
-    <table class="table">
+    <table class="content-table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -48,7 +47,6 @@
                 <th>Status</th>
                 <th>Created_at</th>
                 <th>Updated_at</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -62,11 +60,6 @@
                 <td>{{ service.status }}</td>
                 <td>{{ service.createdAt ? service.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ service.updatedAt ? service.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -79,5 +72,5 @@
 </body>
 </html>
 
-{% endblock %}
+
 
