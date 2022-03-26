@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Admin{% endblock %}</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <title>{% block title %}Admin créer categorie{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -13,6 +14,24 @@
 </head>
 <body>
 {% block header %} {% include 'admin/layout/_header.html.twig' %} {% endblock %}
+<section class="home-section">
+    <nav>
+        <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn'></i>
+            <span class="dashboard">Dinofix</span>
+        </div>
+
+        <div class="profile-details">
+            <img src="images/profile.jpg" alt="">
+            <span class="admin_name">Admin Name</span>
+        </div>
+    </nav>
+
+    <div class="home-content">
+
+
+        <div class="sales-boxes">
+            <div class="recent-sales box">
 
 <h2> Créer une nouvelle catégorie :</h2>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -25,8 +44,9 @@
 <input type="submit" value="Insérer nouvelle catégorie">
 {{ form_end(form, {'render_rest': false}) }}
 
-
-
-{% block footer %} {% include 'admin/layout/_footer.html.twig' %} {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>

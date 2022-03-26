@@ -1,39 +1,43 @@
-<header id="customer-header" class="app-header customer-header">
-    <div class="header-main">
-        <div class="logo-container"><a href="{{ path('customer_search') }}">Dinofix</a></div>
-        <nav class="main-header-nav">
-            <ul class="header-nav-list">
-                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
-                    <a class="dropdown-title" href="#">Français</a>
-                    <ul class="dropdown-content">
-                        <li>
-                            <a href="#">Français</a>
-                        </li>
-                        <li>
-                            <a href="#">Anglais</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="header-nav-item">
-                    <a href="#">Se connecter</a>
-                </li>
-                <li class="header-nav-item">
-                    <a href="#">S'inscrire</a>
-                </li>
-                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
-                    <a class="dropdown-title" href="#">Mon compte</a>
-                    <ul class="dropdown-content">
-                        <li>
-                            <a href="#">Profil</a>
-                        </li>
-                        <li>
-                            <a href="#">Deconnexion</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+<header>
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="{{ path('addCategory') }}">
+                    <i class='bx bx-grid-alt' ></i>
+                    <span class="links_name">Ajouter catégorie</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('user_list') }}">
+                    <i class='bx bx-box' ></i>
+                    <span class="links_name">Liste des Utilisateurs</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('addDino') }}">
+                    <i class='bx bx-list-ul' ></i>
+                    <span class="links_name">Recenser Dino</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('service_index') }}">
+                    <i class='bx bx-pie-chart-alt-2' ></i>
+                    <span class="links_name">Services en cours</span>
+                </a>
+            </li>
+
+            <li class="log_out">
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Log out</span>
+                </a>
+            </li>
+        </ul>
     </div>
+
     <nav class="header-nav">
         <ul class="header-nav-list">
             <li class="header-nav-item">
@@ -46,7 +50,7 @@
                 <a href="{{ path('addDino') }}">Créer Dino</a>
             </li>
             <li class="header-nav-item">
-                <a href="#">Liste des services en cours </a>
+                <a href="{{ path('service_index') }}">Liste des services en cours</a>
             </li>
         </ul>
     </nav>

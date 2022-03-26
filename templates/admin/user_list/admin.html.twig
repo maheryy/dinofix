@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Admin{% endblock %}</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <title>{% block title %}Liste Utilisateur{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -14,27 +15,48 @@
 <body>
 {% block header %} {% include 'admin/layout/_header.html.twig' %} {% endblock %}
 
-<table>
-    <thead>
-    <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Numero de Tel</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in allUser %}
-        <tr>
-            <td>{{user.firstname}}</td>
-            <td>{{user.lastname}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.phone}}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<section class="home-section">
+    <nav>
+        <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn'></i>
+            <span class="dashboard">Dinofix</span>
+        </div>
 
-{% block footer %} {% include 'admin/layout/_footer.html.twig' %} {% endblock %}
+        <div class="profile-details">
+            <img src="images/profile.jpg" alt="">
+            <span class="admin_name">Admin Name</span>
+        </div>
+    </nav>
+
+    <div class="home-content">
+
+
+        <div class="sales-boxes">
+            <div class="recent-sales box">
+
+                <table>
+                    <thead class="sales-details">
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Numero de Tel</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in allUser %}
+                        <tr>
+                            <td>{{user.firstname}}</td>
+                            <td>{{user.lastname}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phone}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
