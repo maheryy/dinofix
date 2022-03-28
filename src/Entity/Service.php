@@ -35,10 +35,10 @@ class Service
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'services')]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'service_list', targetEntity: ServiceStep::class)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: ServiceStep::class)]
     private $steps;
 
-    #[ORM\OneToMany(mappedBy: 'service_list', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: Review::class)]
     private $reviews;
 
     #[ORM\Column(type: 'float')]
