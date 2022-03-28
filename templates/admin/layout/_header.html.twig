@@ -1,28 +1,29 @@
     <div class="sidebar">
         <div class="logo-details">
-
+                <i class="bx bxl-c-plus-plus"></i>
+                <span class="logo_name"> <a>Dinofix</a></span>
         </div>
         <ul class="nav-links">
             <li>
-                <a href="{{ path('addCategory') }}">
+                <a href="{{ path('admin_add_category') }}">
                     <i class='bx bx-grid-alt' ></i>
                     <span class="links_name">Ajouter catégorie</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('user_list') }}">
+                <a href="{{ path('admin_user_list') }}">
                     <i class='bx bx-box' ></i>
                     <span class="links_name">Liste des Utilisateurs</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('addDino') }}">
+                <a href="{{ path('admin_add_dino') }}">
                     <i class='bx bx-list-ul' ></i>
                     <span class="links_name">Recenser Dino</span>
                 </a>
             </li>
             <li>
-                <a href="{{ path('service_index') }}">
+                <a href="{{ path('admin_service_list') }}">
                     <i class='bx bx-pie-chart-alt-2' ></i>
                     <span class="links_name">Services en cours</span>
                 </a>
@@ -36,4 +37,4 @@
             </li>
         </ul>
     </div>
-    
+

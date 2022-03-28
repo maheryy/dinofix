@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+#[Route('/admin')]
 class AdminController extends AbstractController
 {
-    #[Route('admin', name: 'user_list')]
+    #[Route('/user_list', name: 'admin_user_list')]
     public function index(FixerRepository $fixerRepository, CustomerRepository $customerRepository): Response
     {
 
@@ -34,7 +34,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('addcategory', name: 'addCategory')]
+    #[Route('/addcategory', name: 'admin_add_category')]
     public function addCategory(Request $request, EntityManagerInterface $entityManager ): Response
     {
 
@@ -56,7 +56,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'service_index', methods: ['GET'])]
+    #[Route('/service_list', name: 'admin_service_list', methods: ['GET'])]
     public function listService(ServiceRepository $serviceRepository): Response
     {
         return $this->render('admin/service_list/index.html.twig', [
@@ -64,7 +64,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('adddino', name: 'addDino')]
+    #[Route('/adddino', name: 'admin_add_dino')]
     public function addDino(Request $request, EntityManagerInterface $entityManager ): Response
     {
 
