@@ -34,7 +34,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/addcategory', name: 'admin_add_category')]
+    #[Route('/add_category', name: 'admin_add_category')]
     public function addCategory(Request $request, EntityManagerInterface $entityManager ): Response
     {
 
@@ -64,7 +64,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/adddino', name: 'admin_add_dino')]
+    #[Route('/add_dino', name: 'admin_add_dino')]
     public function addDino(Request $request, EntityManagerInterface $entityManager ): Response
     {
 
