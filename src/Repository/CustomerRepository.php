@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -36,6 +37,20 @@ class CustomerRepository extends ServiceEntityRepository
     }
     */
 
+    public function findAllCustomer()
+    {
+        return $this->createQueryBuilder('c')
+            ->select(
+                'c.firstname, c.lastname, 
+                c.email, c.phone'
+            )
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+        ;
+
+        // returns an array of Product objects
+
+    }
     /*
     public function findOneBySomeField($value): ?Customer
     {

@@ -16,6 +16,7 @@
 @import 'components/form';
 @import 'components/progress';
 
+
 /* Extra styles for page content */
 @import 'content/home';
 @import 'content/landing';
@@ -23,9 +24,11 @@
 @import 'content/service';
 @import 'content/request';
 @import 'content/login';
+@import 'content/table';
 
 /* App theme  */
 @import 'themes/default';
+@import 'themes/dashboard';
 
 /* Utility classes that overrides all styles above (tailwind included) */
 @import 'utils/utils';

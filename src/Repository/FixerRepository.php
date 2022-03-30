@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Fixer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,7 +36,20 @@ class FixerRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllFixer()
+    {
+        return $this->createQueryBuilder('f')
+            ->select(
+                'f.firstname, f.lastname, 
+                f.email, f.phone'
+            )
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+        ;
 
+        // returns an array of Product objects
+
+    }
     /*
     public function findOneBySomeField($value): ?Fixer
     {
