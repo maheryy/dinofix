@@ -20,6 +20,18 @@ class FixerRepository extends ServiceEntityRepository
         parent::__construct($registry, Fixer::class);
     }
 
+    /**
+     * @param $id int The id of the fixer
+     * @return Fixer Returns a fixer
+     */
+    public function findOneById($id) {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Fixer[] Returns an array of Fixer objects
     //  */

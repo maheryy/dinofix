@@ -1,0 +1,13 @@
+{% extends 'fixer/fixer.html.twig' %}
+
+{% block body %}
+	<main class="main-container customer-container">
+		<div class="home-container">
+			<h1>Créer un nouveau service</h1>
+
+			{{ include('fixer/service/_form.html.twig') }}
+
+			<a href="{{ path('fixer_home') }}">Retour à votre page</a>
+		</div>
+	</main>
+{% endblock %}

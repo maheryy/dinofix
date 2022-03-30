@@ -1,0 +1,63 @@
+<header id="customer-header" class="app-header customer-header">
+    <div class="header-main">
+        <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
+        <div class="searchbar-container">
+            <form action="{{ path('customer_search') }}" method="GET">
+                <div class="form-control-wrapper w-4/5">
+                    <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
+                    <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg') }}" alt=""
+                         data-event="clearInput" data-json="{{ {'target' : 'searchbar'} | json_encode }}">
+                    <input class="searchbar form-control" type="text" id="searchbar" name="query"
+                           value="{{ previousQuery ?? null }}">
+                </div>
+            </form>
+        </div>
+        <nav class="main-header-nav">
+            <ul class="header-nav-list">
+                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
+                    <a class="dropdown-title" href="#">Français</a>
+                    <ul class="dropdown-content">
+                        <li>
+                            <a href="#">Français</a>
+                        </li>
+                        <li>
+                            <a href="#">Anglais</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if is_logged_in() %}
+                <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
+                    <a class="dropdown-title" href="#">Mon compte</a>
+                    <ul class="dropdown-content">
+                        <li>
+                            <a href="#">Profil</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_new') }}">Faire une demande</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_index') }}">Mes demandes en attente</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_active_index') }}">Mes demandes en cours</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('customer_request_active_past') }}">Historique</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_logout') }}">Deconnexion</a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="header-nav-item">
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="header-nav-item">
+                    <a href="#">S'inscrire</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Fixer{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% set ld_popular_categories = get_popular_categories() %}
+{% block header %} {% include 'fixer/layout/_header.html.twig' %} {% endblock %}
+{% block body %}{% endblock %}
+{% block footer %} {% include 'fixer/layout/_footer.html.twig' %} {% endblock %}
+</body>
+</html>

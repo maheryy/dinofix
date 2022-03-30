@@ -209,5 +209,23 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
-
+    /**
+     * @param int $fixerId
+     * @param int $maxResults
+     * @return array
+     */
+    public function findFixerServicesById(int $fixerId, int $maxResults = 15): array {
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.reviews', 'r')
+            ->andWhere('f.id = :fixerId')
+            ->setParameter('fixerId', $fixerId)
+            ->orderBy('s.rating', 'DESC')
+            ->addOrderBy('reviews', 'DESC')
+            ->groupBy('s.id, f.id')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 }
