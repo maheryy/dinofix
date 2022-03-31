@@ -107,7 +107,7 @@ routes: #### Run debug:router
 	@docker-compose exec php bin/console debug:router
 
 fixtures: #### Run doctrine:fixtures:load
-	@docker-compose exec php bin/console doctrine:fixtures:load
+	@docker-compose exec php bin/console doctrine:fixtures:load --no-interaction
 
 ### Display Makefile command list
 list:
