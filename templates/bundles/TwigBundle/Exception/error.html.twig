@@ -1,0 +1,13 @@
+{% extends 'error.html.twig' %}
+
+{% block body %}
+    <main class="main-container error-container">
+        <div class="error">
+            <h1 class="text-4xl">Oops !</h1>
+            <p class="text-lg">It seems like something went wrong ! We're looking to see what happened.</p>
+            <div class="text-center w-full text-base">
+                <a href="#" onclick="history.back()">Go back</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

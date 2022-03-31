@@ -17,11 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/request')]
 class RequestController extends AbstractController
 {
-    public function __toString()
-    {
-        return $this->requestEntity;
-    }
-
     #[Route('/', name: 'request_index', methods: ['GET'])]
     public function index(RequestRepository $requestRepository): Response
     {
