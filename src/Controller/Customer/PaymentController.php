@@ -9,22 +9,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractController
 {
-    public function __toString()
-    {
-        return $this->requestEntity;
-    }
-
     #[Route('/payment/{slug}', name: 'payment', methods: ['GET'])]
     public function index(string $slug, ServiceRepository $serviceRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
-            return $this->render('customer/service/search.html.twig', ['services' => []]);
+            throw new BadRequestHttpException();
         }
 
         return $this->render('customer/payment/index.html.twig', [
@@ -47,7 +43,7 @@ class PaymentController extends AbstractController
         if ($charge) {
             $service = $serviceRepository->findServiceBySlug($slug);
             if (!$service) {
-                return $this->render('customer/service/search.html.twig', ['services' => []]);
+                throw new BadRequestHttpException();
             }
             $requestEntity = new RequestEntity();
             $reference = $requestRepository->generateReference();

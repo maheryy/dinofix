@@ -25,22 +25,22 @@
             <div class="service-content-wrapper flex align-start">
                 <div class="col-8 pl-0">
                     <div class="service-content-container flex-col">
-                        {% include 'customer/service_list/_section_description.html.twig' %}
-                        {% include 'customer/service_list/_section_location.html.twig' %}
+                        {% include 'customer/service/_section_description.html.twig' %}
+                        {% include 'customer/service/_section_location.html.twig' %}
                         {% if reviews_count > 0 %}
-                            {% include 'customer/service_list/_section_reviews.html.twig' %}
+                            {% include 'customer/service/_section_reviews.html.twig' %}
                         {% endif %}
                     </div>
                 </div>
                 <div class="col-4 pr-0">
                     <div class="service-sidebar-container">
-                        {% include 'customer/service_list/_section_request.html.twig' %}
-                        {% include 'customer/service_list/_section_contact.html.twig' %}
+                        {% include 'customer/service/_section_request.html.twig' %}
+                        {% include 'customer/service/_section_contact.html.twig' %}
                     </div>
                 </div>
             </div>
             {% if other_services is not empty %}
-                {% include 'customer/service_list/_section_suggestion.html.twig' %}
+                {% include 'customer/service/_section_suggestion.html.twig' %}
             {% endif %}
         </div>
     </main>

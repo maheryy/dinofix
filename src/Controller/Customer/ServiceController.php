@@ -9,6 +9,7 @@ use App\Repository\ServiceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ServiceController extends AbstractController
@@ -36,7 +37,7 @@ class ServiceController extends AbstractController
     {
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
-            return $this->render('customer/service/search.html.twig', ['services' => []]);
+            throw new NotFoundHttpException();
         }
 
         $reviews = $reviewRepository->findServiceReviews($service->getId());
