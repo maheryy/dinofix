@@ -29,7 +29,7 @@ class RequestActiveController extends AbstractController
     public function past(RequestActiveRepository $requestActiveRepository): Response
     {
         $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 1);
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 3);
         return $this->render('customer/request_active/past.html.twig', [
             'request_actives' => $requests_actives,
         ]);

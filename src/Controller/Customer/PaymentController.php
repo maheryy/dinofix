@@ -3,8 +3,10 @@
 namespace App\Controller\Customer;
 
 use App\Entity\Request as RequestEntity;
+use App\Entity\RequestActive;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\ServiceStepRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +32,7 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/checkout/{slug}', name: 'checkout', methods: ['POST'])]
-    public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository): Response
+    public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository, ServiceStepRepository $serviceStepRepository): Response
     {
         $token = $request->request->get('stripeToken');
         \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret'));
@@ -51,7 +53,7 @@ class PaymentController extends AbstractController
             $user = $this->getUser();
             $requestEntity->setCustomer($user)
             ->setReference($reference)
-            ->setStatus(1)
+            ->setStatus(2)
             ->setService($service)
             ->setCategory($service->getCategory())
             ->setDino($service->getDino())
@@ -61,8 +63,18 @@ class PaymentController extends AbstractController
     
             $entityManager->persist($requestEntity);
             $entityManager->flush();
+
+            $requestActiveEntity = new RequestActive();
+            $requestActiveEntity->setRequest($requestEntity)
+            ->setFixer($service->getFixer())
+            ->setStep($serviceStepRepository->find(2))
+            ->setContent("description")
+            ->setStatus(1);
+
+            $entityManager->persist($requestActiveEntity);
+            $entityManager->flush();
     
-            return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('customer_request_active_index', [], Response::HTTP_SEE_OTHER);
         } else {
             return $this->redirectToRoute('service');
         }
