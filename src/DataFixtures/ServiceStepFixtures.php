@@ -37,21 +37,21 @@ class ServiceStepFixtures extends Fixture
         $manager->persist($object);
 
         $object = (new ServiceStep())
-        ->setStep('5')
+        ->setStep('-1')
         ->setName('En pause')
         ->setDescription('Demande en pause');
         $manager->persist($object);
 
         $object = (new ServiceStep())
-        ->setStep('6')
-        ->setName('Rejeté')
-        ->setDescription('Demande rejeté par le Dinofixer');
+        ->setStep('-2')
+        ->setName('Annulé')
+        ->setDescription('Demande annulé par le client');
         $manager->persist($object);
 
         $object = (new ServiceStep())
-        ->setStep('20')
-        ->setName('Annulé')
-        ->setDescription('Demande annulé par le client');
+        ->setStep('-3')
+        ->setName('Rejeté')
+        ->setDescription('Demande rejeté par le Dinofixer');
         $manager->persist($object);
 
         $manager->flush();

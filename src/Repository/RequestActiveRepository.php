@@ -61,6 +61,7 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     // /**
     //  * @return RequestActive[] Returns an array of RequestActive objects
     //  */

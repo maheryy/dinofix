@@ -5,18 +5,27 @@
 	<main class="main-container customer-container">
 		<div class="home-container">
 			<section class="top-content section-box">
-				<h2>Vos services en cours</h2>
+				<h2>Vos demandes en cours</h2>
 				<ul class="fixer-service-list">
 					{% for ra in active_requests %}
 						<li class="service-card">
 							<h4 class="service-name">{{ ra.request.service.name }}</h4>
 							<h4 class="service-name">{{ ra.getCreatedAt() | date("H:m:s d/m/Y") }}</h4>
-							<h4 class="service-name">{{ ra.request.customer.getFirstName() }} {{ ra.request.customer.getLastName() }}</h4>
-							<a class="btn btn-primary">Modifier</a>
+							<h4 class="service-name">{{ ra.request.customer.getFirstName() }}
+								{{ ra.request.customer.getLastName() }}</h4>
+							{% if ra.step.step == 1 %}
+								<form action="/fixer/active" method="POST">
+									<input type="hidden" name="id" value="{{ra.id}}">
+									<button class="btn btn-primary">Accepter</button>
+								</form>
+							{% endif %}
+							{% if ra.step.step != 1 %}
+								<a href="{{ path('fixer_update_step', {'id': ra.id}) }}" class="btn btn-primary">Modifier</a>
+							{% endif %}
 						</li>
 					{% endfor %}
-				</ul>
-			</section>
-		</div>
-	</main>
-{% endblock %}
+				</li>
+			</ul>
+		</section>
+	</div>
+</main>{% endblock %}
