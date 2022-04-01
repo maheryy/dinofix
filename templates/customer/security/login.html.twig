@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-    <main class="main-container login-container sided">
+    <main class="main-container login-container customer-login sided">
         <div class="content-left content-background">
             <div class="logo-container">
                 <a href="{{ path('customer_landing') }}">
@@ -22,7 +22,6 @@
         </div>
         <div class="content-right">
             <div class="form-container">
-
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -48,9 +47,6 @@
             </div>
         </div>
     </main>
-
 {% endblock %}
 
-{% block footer %}
-
-{% endblock %}
+{% block footer %}{% endblock %}
