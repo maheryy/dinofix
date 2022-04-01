@@ -49,6 +49,21 @@
   @include base-btn(#f44336);
 }
 
+.btn-login {
+  display: inline-block;
+  line-height: 2.75em;
+  padding: 0 2em;
+  height: 2.75em;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.7em;
+  background-color: #000000;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+}
+
 a.link-primary {
   color: $text-primary;
 

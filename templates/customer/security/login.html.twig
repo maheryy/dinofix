@@ -1,42 +1,56 @@
-{% extends 'base.html.twig' %}
+{% extends 'customer/customer.html.twig' %}
 
-{% block title %}Log in Customer!{% endblock %}
+{% block header %}
+    <header class="login-header">
+        <nav class="nav-right">
+{#            <ul>#}
+{#                <li><a href="#">Vous êtes un professionel ?</a></li>#}
+{#                <li><a href="{{ path('homepage') }}">Se connecter</a></li>#}
+{#            </ul>#}
+        </nav>
+    </header>
+{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    <main class="main-container login-container sided">
+        <div class="content-left content-background">
+            <div class="logo-container">
+                <a href="{{ path('customer_landing') }}">
+                    <span>Dino</span><span>Fix</span>
+                </a>
+            </div>
         </div>
-    {% endif %}
+        <div class="content-right">
+            <div class="form-container">
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in Customer</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    <div class="form-control-wrapper py-0.5">
+                        <i class="icon-left fa-solid fa-envelope"></i>
+                        <input type="email" value="{{ last_username }}" name="email" class="form-control" autocomplete="email" placeholder="Adresse e-mail" required autofocus>
+                    </div>
+                    <div class="form-control-wrapper py-0.5">
+                        <i class="icon-left fa-solid fa-lock"></i>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="Mot de passe" required>
+                    </div>
+                    <div class="py-1 flex justify-center">
+                        <button class="btn-login" type="submit">Se connecter</button>
+                    </div>
+                    <div class="flex justify-center">
+                        <span>Vous n'avez pas de compte ? <a href="#">S'inscrire</a></span>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </form>
+            </div>
         </div>
-    #}
+    </main>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}
