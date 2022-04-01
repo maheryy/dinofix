@@ -55,7 +55,7 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->select('ra')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
-            ->andwhere('c.fixer_id = :id')
+            ->andwhere('ra.fixer = :id')
             ->setParameter('id', $id)
             ->orderBy('ra.created_at', 'DESC')
             ->getQuery()

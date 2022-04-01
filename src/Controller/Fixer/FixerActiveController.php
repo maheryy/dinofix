@@ -14,8 +14,10 @@ class FixerActiveController extends AbstractController
     #[Route('/fixer/active', name: 'fixer_active', methods: ['GET'])]
     public function getHome(RequestActiveRepository $activeRepository): Response
     {
-        // $activeRequests = $activeRepository->findUserRequestsByFixerId(1);
-        // dump($activeRequests);
-        return $this->render('fixer/service/active_services.html.twig');
+        $activeRequests = $activeRepository->findUserRequestsByFixerId(1);
+        dump($activeRequests);
+        return $this->render('fixer/service/active_services.html.twig', [
+            'active_requests' => $activeRequests
+        ]);
     }
 }
