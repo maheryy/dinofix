@@ -31,7 +31,6 @@ class CustomerFixtures extends Fixture
                 ->setSettings('no settings')
                 ->setStatus(1);
 
-
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
             $manager->persist($object);
