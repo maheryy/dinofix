@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    <script src="https://js.stripe.com/v3/"></script>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block header %} {% include 'admin/layout/_header.html.twig' %} {% endblock %}
+{% block body %}{% endblock %}
+{% block footer %} {% include 'admin/layout/_footer.html.twig' %} {% endblock %}
+</body>
+</html>

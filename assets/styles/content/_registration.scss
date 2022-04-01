@@ -127,6 +127,31 @@ header.login-header {
     }
   }
 
+  &.admin-login {
+    .content-back {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+      background-image: url('../../images/background2.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      .content-center {
+        flex: 0.5;
+        align-items: center;
+        max-width: 500px;
+        min-width: 375px;
+        background-color: #DAD7CD;
+        border-radius: .5em;
+        padding: 3em;
+        width: 75%;
+      }
+    }
+  }
+
   .form-container {
     width: 75%;
     border-radius: .5em;
