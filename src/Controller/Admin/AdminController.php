@@ -54,7 +54,7 @@ class AdminController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('admin_user_list');
         }
 
         return $this->render('admin/add_category/add_category.html.twig', [
@@ -66,7 +66,7 @@ class AdminController extends AbstractController
     public function listService(ServiceRepository $serviceRepository): Response
     {
         return $this->render('admin/service_list/index.html.twig', [
-            'services' => $serviceRepository->findAll(),
+            'services' => $serviceRepository->findServicesDashboard(),
         ]);
     }
 
@@ -81,7 +81,7 @@ class AdminController extends AbstractController
             $entityManager->persist($dino);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('admin_user_list');
         }
 
         return $this->render('admin/add_dino/add_dino.html.twig', [

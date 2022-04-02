@@ -31,10 +31,6 @@ class DinoType extends AbstractType
                 'required' => true,
 
             ])
-            ->add('slug', TextType::class, [
-                'label' => 'Slug',
-                'required' => true,
-            ])
             ->add('picture', TextType::class, [
                 'label' => 'Picture',
                 'required' => false,
