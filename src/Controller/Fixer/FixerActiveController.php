@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FixerActiveController extends AbstractController
 {
-    #[Route('/fixer/active', name: 'fixer_active', methods: ['GET', 'POST'])]
+    #[Route('/active', name: 'active', methods: ['GET', 'POST'])]
     public function getHome(RequestActiveRepository $activeRepository, RequestRepository $requestRepository, ServiceRepository $serviceRepository, Request $request, EntityManagerInterface $em, ServiceStepRepository $serviceStep): Response
     {
         if ($request->getMethod() == 'POST') {

@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class FixerServicesController extends AbstractController
 {
-    #[Route('/fixer/services/new', name: 'fixer_services_create', methods: ['GET', 'POST'])]
+    #[Route('/services/new', name: 'services_create', methods: ['GET', 'POST'])]
     public function createService(Request $request, EntityManagerInterface $entityManager, FixerRepository $fixerRepository): Response
     {
         $service = new Service();
@@ -37,7 +37,7 @@ class FixerServicesController extends AbstractController
         ]);
     }
 
-    #[Route('/fixer/services/{id}', name: 'fixer_services_edit', methods: ['GET', 'POST'])]
+    #[Route('/services/{id}', name: 'services_edit', methods: ['GET', 'POST'])]
     public function editService(Request $request, ServiceRepository $serviceRepository, EntityManagerInterface $entityManager): Response
     {
         $service = $serviceRepository->find($request->get('id'));

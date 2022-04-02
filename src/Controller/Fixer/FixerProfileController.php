@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FixerProfileController extends AbstractController
 {
-    #[Route('/fixer/profile/{id}', name: 'fixer_profile', methods: ['GET'])]
+    #[Route('/profile/{id}', name: 'profile', methods: ['GET'])]
     public function getHome(Request $request, FixerRepository $fixerRepository, ServiceRepository $serviceRepository): Response
     {
         $fixer = $fixerRepository->find($request->get('id'));

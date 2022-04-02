@@ -28,7 +28,7 @@ class FixerRegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('GET') && $this->getUser()) {
-            return $this->redirectToRoute('customer_home');
+            return $this->redirectToRoute('fixer_home');
         }
 
         $user = new Fixer();

@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FixerHomeController extends AbstractController
 {
-    #[Route('/fixer', name: 'fixer_home', methods: ['GET'])]
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function getHome(ServiceRepository $serviceRepository): Response
     {
         $fixerServices = $serviceRepository->findFixerServicesById(1, 10);
