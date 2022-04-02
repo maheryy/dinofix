@@ -10,12 +10,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class FixerSecurityController extends AbstractController
 {
     /**
-     * @Route("/fixer/login", name="login")
+     * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             return $this->redirectToRoute('homepage');
+             return $this->redirectToRoute('customer_home');
          }
 
         // get the login error if there is one
@@ -27,7 +27,7 @@ class FixerSecurityController extends AbstractController
     }
 
     /**
-     * @Route("/fixer/logout", name="logout")
+     * @Route("/logout", name="logout")
      */
     public function logout(): void
     {
