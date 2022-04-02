@@ -19,6 +19,15 @@ class ServiceStepRepository extends ServiceEntityRepository
         parent::__construct($registry, ServiceStep::class);
     }
 
+    public function findOneByStepValue($value): ?ServiceStep
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.step = :value')
+            ->setParameter('value', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return ServiceStep[] Returns an array of ServiceStep objects
     //  */

@@ -45,6 +45,23 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public function findUserRequestsByFixerId($id): array
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('ra')
+            ->innerJoin('ra.request', 'r')
+            ->innerJoin('r.customer', 'c')
+            ->andwhere('ra.fixer = :id')
+            ->setParameter('id', $id)
+            ->orderBy('ra.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return RequestActive[] Returns an array of RequestActive objects
     //  */

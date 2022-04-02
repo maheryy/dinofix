@@ -27,7 +27,6 @@ class ServiceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Service::class);
         $this->paginator = $paginator;
-
     }
 
     public function findAllBySearch(SearchData $filters, int $maxPageResults = 5): PaginationInterface
@@ -63,7 +62,7 @@ class ServiceRepository extends ServiceEntityRepository
 
         if ($filters->getDinos() && !$filters->getDinos()->isEmpty()) {
             $qb->andWhere('s.dino IN (:dinos)')
-                ->setParameter('dinos', array_map(fn($dino) => $dino->getId(), $filters->getDinos()->toArray()));
+                ->setParameter('dinos', array_map(fn ($dino) => $dino->getId(), $filters->getDinos()->toArray()));
         }
 
         if (!empty($filters->getReviews())) {
@@ -209,5 +208,36 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
-
+    /**
+     * @param int $fixerId
+     * @param int $maxResults
+     * @return array
+     */
+    public function findFixerServicesById(int $fixerId, int $maxResults = 15): array
+    {
+        if ($maxResults == -1) {
+            return $this->createQueryBuilder('s')
+                ->select('s')
+                ->innerJoin('s.fixer', 'f')
+                ->leftJoin('s.reviews', 'r')
+                ->andWhere('f.id = :fixerId')
+                ->setParameter('fixerId', $fixerId)
+                ->orderBy('s.rating', 'DESC')
+                ->groupBy('s.id, f.id')
+                ->getQuery()
+                ->getResult();
+        }
+        return $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.reviews', 'r')
+            ->andWhere('f.id = :fixerId')
+            ->setParameter('fixerId', $fixerId)
+            ->orderBy('s.rating', 'DESC')
+            ->addOrderBy('reviews', 'DESC')
+            ->groupBy('s.id, f.id')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
 }

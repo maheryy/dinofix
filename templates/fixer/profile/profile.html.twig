@@ -1,0 +1,31 @@
+{% extends 'fixer/fixer.html.twig' %}
+{% from 'macros/utils.html.twig' import stars %}
+
+{% block body %}
+	<main class="main-container customer-container">
+		<div class="home-container">
+			<section class="top-content section-box">
+				<h2>{{fixer.alias}}</h2>
+                <p>Email: <a href="mailto://{{fixer.email}}">{{fixer.email}}</a></p>
+                <p>Téléphone: {{fixer.phone}}</p>
+			</section>
+
+			<section class="top-content section-box">
+				<h2>Services de {{fixer.alias}}</h2>
+				<ul class="fixer-service-list">
+					{% for service in fixer_services %}
+						<li class="service-card">
+							<h4 class="service-name">{{ service.name }}</h4>
+							<span class="service-price">{{ service.description|length > 50 ? service.description|slice(0, 80) ~ '...' : service.description }}</span>
+							<div class="rating-row">
+								<span class="stars">{{ stars(service.rating) }}</span>
+								<span class="review-total">({{ service.reviews }})</span>
+							</div>
+							<a class="btn btn-primary">Commander</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</main>
+{% endblock %}

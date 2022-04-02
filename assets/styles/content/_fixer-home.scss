@@ -1,0 +1,29 @@
+.fixer-service-list {
+    width: 100%;
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+    .service-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-inline: 1rem;
+
+        h4 {
+            margin-bottom: 1rem;
+        }
+        .rating-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn {
+            margin-top: 1rem;
+        }
+    }
+}

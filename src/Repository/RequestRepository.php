@@ -38,6 +38,20 @@ class RequestRepository extends ServiceEntityRepository
             return $reference;
         }
     }
+
+    public function findByCategoryAndDino($category, $dino): array
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.category', 'c')
+            ->innerJoin('r.dino', 'd')
+            ->andWhere('c.id = :category')
+            ->andWhere('d.id = :dino')
+            ->setParameter('category', $category)
+            ->setParameter('dino', $dino)
+            ->orderBy('r.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Request[] Returns an array of Request objects
     //  */
