@@ -28,6 +28,19 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
         $addresses = $manager->getRepository(Address::class)->findAll();
         $customers = $manager->getRepository(Customer::class)->findAll();
 
+        $object = (new Fixer())
+            ->setFirstName($faker->firstName())
+            ->setLastName($faker->lastName())
+            ->setAlias($faker->company())
+            ->setEmail('test@test.fr')
+            ->setPhone($faker->phoneNumber())
+            ->setAddress($faker->randomElement($addresses))
+            ->setSettings('no settings')
+            ->setStatus(1);
+
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+        $manager->persist($object);
+
         for ($i = 0; $i < 10; $i++) {
             $object = (new Fixer())
                 ->setFirstName($faker->firstName())
