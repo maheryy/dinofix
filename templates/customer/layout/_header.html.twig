@@ -1,6 +1,6 @@
 <header id="customer-header" class="app-header customer-header">
     <div class="header-main">
-        <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
+        <div class="logo-container"><a href="{{ path('homepage') }}">Dinofix</a></div>
         <div class="searchbar-container">
             <form action="{{ path('customer_search') }}" method="GET">
                 <div class="form-control-wrapper w-4/5">
@@ -51,10 +51,10 @@
                 </li>
                 {% else %}
                 <li class="header-nav-item">
-                    <a href="{{ path('homepage') }}">Se connecter</a>
+                    <a href="{{ path('customer_login') }}">Se connecter</a>
                 </li>
                 <li class="header-nav-item">
-                    <a href="#">S'inscrire</a>
+                    <a href="{{ path('customer_register') }}">S'inscrire</a>
                 </li>
                 {% endif %}
             </ul>

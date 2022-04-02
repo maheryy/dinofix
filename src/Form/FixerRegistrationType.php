@@ -22,39 +22,19 @@ class FixerRegistrationType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Prénom',
-                    'class' => 'form-control'
-                ]
+                'label' =>  'Prénom',
             ])
             ->add('lastname', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Nom',
-                    'class' => 'form-control'
-                ]
+                'label' =>  'Nom',
             ])
             ->add('alias', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Pseudonyme',
-                    'class' => 'form-control'
-                ]
+                'label' =>  'Pseudonyme',
             ])
             ->add('email', EmailType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Adresse e-mail',
-                    'class' => 'form-control'
-                ]
+                'label' =>  'Adresse e-mail',
             ])
             ->add('phone', TelType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Téléphone (optionel)',
-                    'class' => 'form-control'
-                ]
+                'label' =>  'Téléphone',
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -63,8 +43,7 @@ class FixerRegistrationType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'first_options' => [
-                    'label' => false,
-                    'attr' => ['placeholder' => 'Mot de passe'],
+                    'label' => 'Mot de passe',
                     'constraints' => [
                         new Length([
                             'min' => 6,
@@ -74,8 +53,7 @@ class FixerRegistrationType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => false,
-                    'attr' => ['placeholder' => 'Confirmation du mot de passe']
+                    'label' => 'Confirmation du mot de passe',
                 ],
             ]);
     }

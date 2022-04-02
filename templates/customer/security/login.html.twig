@@ -15,7 +15,7 @@
     <main class="main-container login-container customer-login sided">
         <div class="content-left content-background">
             <div class="logo-container">
-                <a href="{{ path('customer_landing') }}">
+                <a href="{{ path('homepage') }}">
                     <span>Dino</span><span>Fix</span>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                         <button class="btn-login" type="submit">Se connecter</button>
                     </div>
                     <div class="flex justify-center">
-                        <span>Vous n'avez pas de compte ? <a href="#">S'inscrire</a></span>
+                        <span>Vous n'avez pas de compte ? <a href="{{ path('customer_register') }}">S'inscrire</a></span>
                     </div>
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('authenticate') }}"

@@ -22,33 +22,17 @@ class CustomerRegistrationType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Prénom',
-                    'class' => 'form-control'
-                ]
+                'label' => 'Prénom',
             ])
             ->add('lastname', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Nom',
-                    'class' => 'form-control'
-                ]
+                'label' => 'Nom',
             ])
             ->add('email', EmailType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Adresse e-mail',
-                    'class' => 'form-control'
-                ]
+                'label' => 'Adresse e-mail',
             ])
             ->add('phone', TelType::class, [
-                'label' => false,
-                'required'=> false,
-                'attr' => [
-                    'placeholder' => 'Téléphone (optionel)',
-                    'class' => 'form-control'
-                ]
+                'label' => 'Téléphone (optionnel)',
+                'required' => false,
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -57,8 +41,7 @@ class CustomerRegistrationType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'first_options' => [
-                    'label' => false,
-                    'attr' => ['placeholder' => 'Mot de passe'],
+                    'label' => 'Mot de passe',
                     'constraints' => [
                         new Length([
                             'min' => 6,
@@ -68,29 +51,9 @@ class CustomerRegistrationType extends AbstractType
                     ],
                 ],
                 'second_options' => [
-                    'label' => false,
-                    'attr' => ['placeholder' => 'Confirmation du mot de passe']
+                    'label' => 'Confirmation du mot de passe',
                 ],
             ]);
-        //->add('plainPassword', PasswordType::class, [
-        //    'label' => false,
-        //    'mapped' => false,
-        //    'attr' => [
-        //        'placeholder' => 'Password',
-        //        'class' => 'form-control',
-        //        'autocomplete' => 'new-password',
-        //    ],
-        //    'constraints' => [
-        //        new NotBlank([
-        //            'message' => 'Please enter a password',
-        //        ]),
-        //        new Length([
-        //            'min' => 6,
-        //            'minMessage' => 'Your password should be at least {{ limit }} characters',
-        //            'max' => 4096,
-        //        ]),
-        //    ],
-        //])
     }
 
     public function configureOptions(OptionsResolver $resolver): void

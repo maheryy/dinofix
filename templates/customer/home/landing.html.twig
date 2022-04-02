@@ -3,11 +3,11 @@
 
 {% block header %}
     <header class="landing-header">
-        <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
+        <div class="logo-container"><a href="{{ path('homepage') }}">Dinofix</a></div>
         <nav class="nav-right">
             <ul>
-                <li><a href="#">Vous êtes un professionel ?</a></li>
-                <li><a href="{{ path('homepage') }}">Se connecter</a></li>
+                <li><a href="{{ path('fixer_login') }}">Vous êtes un professionel ?</a></li>
+                <li><a href="{{ path('customer_login') }}">Se connecter</a></li>
             </ul>
         </nav>
     </header>

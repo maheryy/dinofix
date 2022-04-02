@@ -15,18 +15,11 @@
     <main class="main-container login-container admin-login sided">
         <div class="content-back">
             <div class="content-center">
-                <div class"form-container">
+{#                <div>#}
                     <form method="post">
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
-                        {#
-                        {% if app.user %}
-                            <div class="mb-3">
-                                Bienvenue {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-                            </div>
-                        {% endif %}
-                        #}
                         <div class="form-control-wrapper py-0.5">
                             <i class="icon-left fa-solid fa-envelope"></i>
                             <input type="email" value="{{ last_username }}" name="email" class="form-control" autocomplete="email" placeholder="Adresse e-mail" required autofocus>
@@ -35,17 +28,14 @@
                             <i class="icon-left fa-solid fa-lock"></i>
                             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="Mot de passe" required>
                         </div>
-                        <div class="py-1 flex justify-center">
+                        <div class="pt-1 flex justify-center">
                             <button class="btn-login" type="submit">Se connecter</button>
-                        </div>
-                        <div class="flex justify-center">
-                            <span>Vous n'avez pas de compte ? <a href="#">S'inscrire</a></span>
                         </div>
                         <input type="hidden" name="_csrf_token"
                             value="{{ csrf_token('authenticate') }}"
                         >
                     </form>
-                </div>
+{#                </div>#}
             </div>
         </div>
     </main>
