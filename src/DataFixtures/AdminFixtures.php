@@ -27,7 +27,7 @@ class AdminFixtures extends Fixture
             ->setSettings('no settings')
             ->setStatus(1);
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Dinofix2022'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
         $manager->persist($object);
 

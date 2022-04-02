@@ -1,6 +1,6 @@
 <header id="customer-header" class="app-header customer-header">
     <div class="header-main">
-        <div class="logo-container"><a href="{{ path('customer_landing') }}">Dinofix</a></div>
+        <div class="logo-container"><a href="{{ path('homepage') }}">Dinofix</a></div>
         <div class="searchbar-container">
             <form action="{{ path('customer_search') }}" method="GET">
                 <div class="form-control-wrapper w-4/5">
@@ -45,16 +45,16 @@
                             <a href="{{ path('customer_request_active_past') }}">Historique</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_logout') }}">Deconnexion</a>
+                            <a href="{{ path('customer_logout') }}">Deconnexion</a>
                         </li>
                     </ul>
                 </li>
                 {% else %}
                 <li class="header-nav-item">
-                    <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('customer_login') }}">Se connecter</a>
                 </li>
                 <li class="header-nav-item">
-                    <a href="#">S'inscrire</a>
+                    <a href="{{ path('customer_register') }}">S'inscrire</a>
                 </li>
                 {% endif %}
             </ul>

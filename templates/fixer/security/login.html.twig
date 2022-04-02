@@ -1,0 +1,53 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block header %}
+    <header class="login-header">
+        <nav class="nav-right">
+            {#            <ul>#}
+            {#                <li><a href="#">Vous êtes un professionel ?</a></li>#}
+            {#                <li><a href="{{ path('homepage') }}">Se connecter</a></li>#}
+            {#            </ul>#}
+        </nav>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <main class="main-container login-container fixer-login sided">
+        <div class="content-left">
+            <div class="form-container">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    <div class="form-control-wrapper py-0.5">
+                        <i class="icon-left fa-solid fa-envelope"></i>
+                        <input type="email" value="{{ last_username }}" name="email" class="form-control" autocomplete="email" placeholder="Adresse e-mail" required autofocus>
+                    </div>
+                    <div class="form-control-wrapper py-0.5">
+                        <i class="icon-left fa-solid fa-lock"></i>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="Mot de passe" required>
+                    </div>
+                    <div class="py-1 flex justify-center">
+                        <button class="btn-login" type="submit">Se connecter</button>
+                    </div>
+                    <div class="flex justify-center">
+                        <span>Vous n'avez pas de compte ? <a href="{{ path('fixer_register') }}">S'inscrire</a></span>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                </form>
+            </div>
+        </div>
+        <div class="content-right">
+            <div class="logo-container">
+                <a href="{{ path('homepage') }}">
+                    <span>Dino</span><span>Fix</span>
+                </a>
+                <span class="pro-mark">Pro</span>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block footer %}{% endblock %}

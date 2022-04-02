@@ -28,7 +28,7 @@ class Request
     #[ORM\Column(type: 'smallint')]
     private $status;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'requests')]
+    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'requests')]
     #[ORM\JoinColumn(nullable: false)]
     private $customer;
 

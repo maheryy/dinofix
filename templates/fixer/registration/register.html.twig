@@ -1,0 +1,80 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block header %}
+    <header class="login-header">
+        <nav class="nav-right">
+            {# <ul> #}
+            {# <li><a href="#">Vous êtes un professionel ?</a></li> #}
+            {# <li><a href="{{ path('homepage') }}">Se connecter</a></li> #}
+            {# </ul> #}
+        </nav>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <main class="main-container login-container fixer-login sided">
+        <div class="content-left">
+            <div class="form-container">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
+
+                {{ form_start(registrationForm) }}
+                {{ form_errors(registrationForm) }}
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.firstname) }}
+                    {{ form_widget(registrationForm.firstname) }}
+                    {{ form_errors(registrationForm.firstname) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.lastname) }}
+                    {{ form_widget(registrationForm.lastname) }}
+                    {{ form_errors(registrationForm.lastname) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.alias) }}
+                    {{ form_widget(registrationForm.alias) }}
+                    {{ form_errors(registrationForm.alias) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.phone) }}
+                    {{ form_widget(registrationForm.phone) }}
+                    {{ form_errors(registrationForm.phone) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.password.first) }}
+                    {{ form_widget(registrationForm.password.first) }}
+                    {{ form_errors(registrationForm.password.first) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.password.second) }}
+                    {{ form_widget(registrationForm.password.second) }}
+                    {{ form_errors(registrationForm.password.second) }}
+                </div>
+                <div class="py-1 flex justify-center">
+                    <button class="btn-login" type="submit">S'inscrire</button>
+                </div>
+                {{ form_end(registrationForm) }}
+                <div class="flex justify-center">
+                    <span>Vous avez déjà un compte ? <a href="{{ path('customer_login') }}">Se connecter</a></span>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="content-right">
+            <div class="logo-container">
+                <a href="{{ path('homepage') }}">
+                    <span>Dino</span><span>Fix</span>
+                </a>
+                <span class="pro-mark">Pro</span>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block footer %}{% endblock %}
