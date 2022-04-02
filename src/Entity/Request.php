@@ -136,12 +136,12 @@ class Request
         return $this;
     }
 
-    public function getCustomer(): ?User
+    public function getCustomer(): ?Customer
     {
         return $this->customer;
     }
 
-    public function setCustomer(?User $customer): self
+    public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
 
