@@ -1,5 +1,5 @@
-controllers:
-    resource: ../../src/Controller
+controllers_common:
+    resource: ../../src/Controller/Common
     type: annotation
 
 controllers_admin:
@@ -11,6 +11,7 @@ controllers_admin:
 controllers_fixer:
     resource: ../../src/Controller/Fixer
     type: annotation
+    prefix: '/fixer'
     name_prefix: 'fixer_'
 
 controllers_customer:

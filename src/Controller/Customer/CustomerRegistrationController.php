@@ -26,11 +26,11 @@ class CustomerRegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'customer_register')]
+    #[Route('/register', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('GET') && $this->getUser()) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('customer_home');
         }
 
         $user = new Customer();
@@ -66,7 +66,7 @@ class CustomerRegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'customer_verify_email')]
+    #[Route('/verify/email', name: 'verify_email')]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

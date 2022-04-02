@@ -24,11 +24,11 @@ class FixerRegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('fixer/register', name: 'fixer_register')]
+    #[Route('/register', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('GET') && $this->getUser()) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('customer_home');
         }
 
         $user = new Fixer();
@@ -65,7 +65,7 @@ class FixerRegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('fixer/verify/email', name: 'fixer_verify_email')]
+    #[Route('/verify/email', name: 'verify_email')]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
