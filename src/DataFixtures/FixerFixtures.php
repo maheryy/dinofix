@@ -35,8 +35,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             ->setEmail('test@test.fr')
             ->setPhone($faker->phoneNumber())
             ->setAddress($faker->randomElement($addresses))
-            ->setSettings('no settings')
-            ->setStatus(1);
+            ->setSettings('no settings');
 
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
         $manager->persist($object);
@@ -49,8 +48,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
                 ->setEmail($faker->freeEmail())
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->randomElement($addresses))
-                ->setSettings('no settings')
-                ->setStatus(1);
+                ->setSettings('no settings');
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 
@@ -63,8 +61,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
                 $review = (new Review())
                     ->setCustomer($faker->randomElement($customers))
                     ->setMessage($faker->sentence(20))
-                    ->setRate($random_rate)
-                    ->setStatus(1);
+                    ->setRate($random_rate);
 
                 $object->addReview($review);
                 $manager->persist($review);

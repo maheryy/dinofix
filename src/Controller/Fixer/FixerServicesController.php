@@ -19,8 +19,7 @@ class FixerServicesController extends AbstractController
     {
         $service = new Service();
         $service->setFixer($fixerRepository->findOneById(1))
-                ->setRating(0)
-                ->setStatus(1);
+                ->setRating(0);
 
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);

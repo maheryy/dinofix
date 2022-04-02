@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Constant;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,7 +16,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -30,8 +31,8 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'object')]
     private $settings;
 
-    #[ORM\Column(type: 'smallint')]
-    private $status;
+    #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
+    private $status = Constant::STATUS_DEFAULT;
 
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
@@ -65,7 +66,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -73,7 +74,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**

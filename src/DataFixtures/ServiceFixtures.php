@@ -30,7 +30,6 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                 $object = (new Service())
                     ->setName("{$faker->catchPhrase()} ({$category->getName()})")
                     ->setDescription($faker->realText(500) . "\n\n" . $faker->text(500))
-                    ->setStatus(1)
                     ->setCategory($category)
                     ->setDino($faker->randomElement($category->getDinos()->toArray()))
                     ->setFixer($faker->randomElement($fixers));
@@ -44,8 +43,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
                     $review = (new Review())
                         ->setCustomer($faker->randomElement($customers))
                         ->setMessage($faker->sentence(20))
-                        ->setRate($random_rate)
-                        ->setStatus(1);
+                        ->setRate($random_rate);
 
                     $object->addReview($review);
                     $manager->persist($review);

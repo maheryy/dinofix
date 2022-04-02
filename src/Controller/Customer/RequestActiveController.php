@@ -6,6 +6,7 @@ use App\Entity\RequestActive;
 use App\Form\RequestActiveType;
 use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
+use App\Service\Constant;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class RequestActiveController extends AbstractController
     public function index(RequestActiveRepository $requestActiveRepository): Response
     {
         $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 2);
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DEFAULT);
         return $this->render('customer/request_active/index.html.twig', [
             'request_actives' => $requests_actives,
         ]);
@@ -29,7 +30,7 @@ class RequestActiveController extends AbstractController
     public function past(RequestActiveRepository $requestActiveRepository): Response
     {
         $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, 3);
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DONE);
         return $this->render('customer/request_active/past.html.twig', [
             'request_actives' => $requests_actives,
         ]);

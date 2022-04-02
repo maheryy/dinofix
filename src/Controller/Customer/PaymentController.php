@@ -53,7 +53,6 @@ class PaymentController extends AbstractController
             $user = $this->getUser();
             $requestEntity->setCustomer($user)
             ->setReference($reference)
-            ->setStatus(2)
             ->setService($service)
             ->setCategory($service->getCategory())
             ->setDino($service->getDino())
@@ -68,8 +67,7 @@ class PaymentController extends AbstractController
             $requestActiveEntity->setRequest($requestEntity)
             ->setFixer($service->getFixer())
             ->setStep($serviceStepRepository->find(2))
-            ->setContent("description")
-            ->setStatus(1);
+            ->setContent("description");
 
             $entityManager->persist($requestActiveEntity);
             $entityManager->flush();

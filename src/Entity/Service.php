@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Constant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,8 +45,8 @@ class Service
     #[ORM\Column(type: 'float')]
     private $rating;
 
-    #[ORM\Column(type: 'smallint')]
-    private $status;
+    #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
+    private $status = Constant::STATUS_DEFAULT;
 
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]

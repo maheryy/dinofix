@@ -22,8 +22,7 @@ class AdminFixtures extends Fixture
         $object = (new Admin())
             ->setEmail('test@test.fr')
             ->setPicture('no pic')
-            ->setSettings('no settings')
-            ->setStatus(1);
+            ->setSettings('no settings');
 
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 

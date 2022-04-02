@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Constant;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -25,10 +26,10 @@ class Request
     #[ORM\ManyToOne(targetEntity: Service::class)]
     private $service;
 
-    #[ORM\Column(type: 'smallint')]
-    private $status;
+    #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
+    private $status = Constant::STATUS_DEFAULT;
 
-    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'requests')]
+    #[ORM\ManyToOne(targetEntity: Customer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $customer;
 

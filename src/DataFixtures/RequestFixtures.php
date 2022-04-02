@@ -30,7 +30,6 @@ class RequestFixtures extends Fixture implements DependentFixtureInterface
                 ->setReference($faker->unique()->numerify('######'))
                 ->setSubject($faker->realText(25))
                 ->setDescription($faker->realText(100))
-                ->setStatus(1)
                 ->setExpectedAt(new DateTime('now'));
             $manager->persist($object);
         }
