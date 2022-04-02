@@ -39,27 +39,20 @@
     <table class="content-table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Slug</th>
+                <th>Fixer</th>
                 <th>Rating</th>
-                <th>Status</th>
-                <th>Created_at</th>
-                <th>Updated_at</th>
+
             </tr>
         </thead>
         <tbody>
         {% for service in services %}
             <tr>
-                <td>{{ service.id }}</td>
                 <td>{{ service.name }}</td>
                 <td>{{ service.description }}</td>
-                <td>{{ service.slug }}</td>
+                <td>{{ service.alias }}</td>
                 <td>{{ service.rating }}</td>
-                <td>{{ service.status }}</td>
-                <td>{{ service.createdAt ? service.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ service.updatedAt ? service.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         {% endfor %}
         </tbody>

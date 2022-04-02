@@ -240,4 +240,15 @@ class ServiceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findServicesDashboard(){
+
+        return $this->createQueryBuilder('s')
+            ->select('s.name, s.description, s.rating, f.alias')
+            ->innerJoin('s.fixer', 'f')
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+    }
+
 }
