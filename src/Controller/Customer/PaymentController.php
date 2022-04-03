@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractController
 {
-    #[Route('/payment/{slug}', name: 'payment', methods: ['GET'])]
+    #[Route('/service/{slug}/payment', name: 'payment', methods: ['GET'])]
     public function index(string $slug, ServiceRepository $serviceRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -31,7 +31,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    #[Route('/checkout/{slug}', name: 'checkout', methods: ['POST'])]
+    #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
     public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository, ServiceStepRepository $serviceStepRepository): Response
     {
         $token = $request->request->get('stripeToken');
