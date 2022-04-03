@@ -11,24 +11,16 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
-        
-        $object = (new Category())
-            ->setName('Aquatique')
-            ->setDescription($faker->sentence(20))
-            ->setPicture('no pic');
-        $manager->persist($object);
 
-        $object = (new Category())
-            ->setName('Terrestre')
-            ->setDescription($faker->sentence(20))
-            ->setPicture('no pic');
-        $manager->persist($object);
+        $categories = ['Aquatique', 'Terrestre', 'Volant', 'Omnivore', 'Carnivore', 'Herbivore', 'Estropié', 'Alien'];
 
-        $object = (new Category())
-            ->setName('Volant')
-            ->setDescription($faker->sentence(20))
-            ->setPicture('no pic');
-        $manager->persist($object);
+        foreach ($categories as $category) {
+            $object = (new Category())
+                ->setName($category)
+                ->setDescription($faker->sentence(20))
+                ->setPicture('no pic');
+            $manager->persist($object);
+        }
 
         $manager->flush();
     }

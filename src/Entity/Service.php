@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Constant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,10 +43,13 @@ class Service
     private $reviews;
 
     #[ORM\Column(type: 'float')]
+    private $price;
+
+    #[ORM\Column(type: 'float')]
     private $rating;
 
-    #[ORM\Column(type: 'smallint')]
-    private $status;
+    #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
+    private $status = Constant::STATUS_DEFAULT;
 
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
@@ -221,6 +225,18 @@ class Service
     public function setRating(float $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

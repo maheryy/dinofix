@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Constant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -45,8 +46,8 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'object')]
     private $settings;
 
-    #[ORM\Column(type: 'smallint')]
-    private $status;
+    #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
+    private $status = Constant::STATUS_DEFAULT;
 
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]

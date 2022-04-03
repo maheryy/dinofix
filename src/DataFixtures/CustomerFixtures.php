@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Customer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CustomerFixtures extends Fixture
@@ -19,7 +20,18 @@ class CustomerFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
+
+        $object = (new Customer())
+            ->setFirstName($faker->firstName())
+            ->setLastName($faker->lastName())
+            ->setEmail('test@test.fr')
+            ->setPhone($faker->phoneNumber())
+            ->setPicture('no pic')
+            ->setSettings('no settings');
+
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+        $manager->persist($object);
 
         for($i = 0; $i < 10; $i++) {
             $object = (new Customer())
@@ -28,8 +40,7 @@ class CustomerFixtures extends Fixture
                 ->setEmail($faker->freeEmail())
                 ->setPhone($faker->phoneNumber())
                 ->setPicture('no pic')
-                ->setSettings('no settings')
-                ->setStatus(1);
+                ->setSettings('no settings');
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 

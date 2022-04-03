@@ -19,13 +19,10 @@ class AdminFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $faker = \Faker\Factory::create('fr_FR');
-
         $object = (new Admin())
-            ->setEmail('contact@dinofix.fr')
+            ->setEmail('test@test.fr')
             ->setPicture('no pic')
-            ->setSettings('no settings')
-            ->setStatus(1);
+            ->setSettings('no settings');
 
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
 

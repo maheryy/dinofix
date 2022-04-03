@@ -6,6 +6,7 @@ use App\Entity\Request as RequestEntity;
 use App\Form\RequestType;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
+use App\Service\Constant;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +23,7 @@ class RequestController extends AbstractController
     {
         $user_id = $this->getUser()->getId();
         return $this->render('customer/request/index.html.twig', [
-            'requests' => $requestRepository->findBy(['customer' => $user_id, 'status' => 1]),
+            'requests' => $requestRepository->findBy(['customer' => $user_id, 'status' => Constant::STATUS_DEFAULT]),
         ]);
     }
 
@@ -36,7 +37,7 @@ class RequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reference = $requestRepository->generateReference();
             $user = $this->getUser();
-            $requestEntity->setCustomer($user)->setReference($reference)->setStatus(1);
+            $requestEntity->setCustomer($user)->setReference($reference);
             $entityManager->persist($requestEntity);
             $entityManager->flush();
 

@@ -6,11 +6,11 @@
 
 <div class="container">
     <div class="row">
-        <form action="{{ path('checkout', {'slug': service.slug}) }}" method="POST">
+        <form action="{{ path('customer_checkout', {'slug': service.slug}) }}" method="POST">
             <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="{{ stripe }}"
-                data-amount="{{ 50 * 100 }}"
+                data-amount="{{ service.price * 100 }}"
                 data-name="Paiement du service"
                 data-description="Avec Stripe"
                 data-zip-code="true"

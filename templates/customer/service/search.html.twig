@@ -96,7 +96,9 @@
                             <div class="content-right">
                                 <div class="flex">
                                     <div class="service-image">
+                                        <a href="{{ path('customer_service', {'slug': service.slug}) }}">
                                         <img src="https://picsum.photos/id/171/450/450" alt="">
+                                        </a>
                                     </div>
                                     <div class="service-content">
                                         <div class="item-title flex items-start justify-between">
@@ -112,13 +114,16 @@
                                                 <span class="count-reviews">({{ service.count_reviews }} avis)</span>
                                             </div>
                                         </div>
+                                        <div class="item-price">
+                                            <span class="price">{{ service.price | number_format(0, ',', ' ') }} €</span>
+                                        </div>
                                         <div class="item-description">
                                             <p>{{ service.description }}</p>
                                         </div>
-                                        <div class="item-action">
-                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}"
-                                               class="btn-primary text-uppercase text-xs">Prendre RDV</a>
-                                        </div>
+{#                                        <div class="item-action">#}
+{#                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}"#}
+{#                                               class="btn-primary text-uppercase text-xs">Prendre RDV</a>#}
+{#                                        </div>#}
                                     </div>
                                 </div>
                             </div>

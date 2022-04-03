@@ -62,6 +62,7 @@ class SearchFilterType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'choices' => [
                     'Distance' => SearchData::SORT_TYPE_LOCATION,
+                    'Prix' => SearchData::SORT_TYPE_PRICE,
                     'Avis' => SearchData::SORT_TYPE_REVIEW,
                     'Popularité' => SearchData::SORT_TYPE_POPULAR,
                     //'Nom' => SearchData::SORT_TYPE_NAME,

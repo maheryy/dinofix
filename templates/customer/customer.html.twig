@@ -7,13 +7,13 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-    <script src="https://js.stripe.com/v3/"></script>
+{#    <script src="https://js.stripe.com/v3/"></script>#}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
 <body>
-{% set ld_popular_categories = get_popular_categories() %}
+{% set ld_popular_categories = get_popular_categories(10) %}
 {% block header %} {% include 'customer/layout/_header.html.twig' %} {% endblock %}
 {% block body %}{% endblock %}
 {% block footer %} {% include 'customer/layout/_footer.html.twig' %} {% endblock %}

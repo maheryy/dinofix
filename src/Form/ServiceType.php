@@ -8,6 +8,7 @@ use App\Entity\Request;
 use App\Entity\Service;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,18 +23,21 @@ class ServiceType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Titre',
-                'required' => TRUE,
+                'required' => true,
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description du service',
                 'label' => 'Description',
-                'required' => TRUE,
+                'required' => true,
+            ])
+            ->add('price', NumberType::class, [
+                'label' => 'Prix',
+                'required' => true,
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie du dinosaure',
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'required' => TRUE,
+                'required' => true,
             ])
             ->add('dino', EntityType::class, [
                 'label' => 'Nom du dinosaure',

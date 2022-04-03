@@ -4,9 +4,9 @@
             <div class="footer-col">
                 <h4 class="link-list-head">Catégories</h4>
                 <ul class="link-list categories">
-                    {% for item in ld_popular_categories %}
+                    {% for item in ld_popular_categories | slice (0, 6) %}
                         <li>
-                            <a href="#">{{ item.name }}</a>
+                            <a href="{{ path('customer_search', {'category': item.id}) }}">{{ item.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -16,7 +16,7 @@
                 <ul class="link-list trending">
                     {% for item in get_frequent_keywords() %}
                         <li>
-                            <a href="#">{{ item.term }}</a>
+                            <a href="{{ path('customer_search', {'query': item.term}) }}">{{ item.term }}</a>
                         </li>
                     {% endfor %}
                 </ul>

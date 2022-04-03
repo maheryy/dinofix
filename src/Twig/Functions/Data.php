@@ -20,19 +20,9 @@ class Data extends AbstractExtension
         ];
     }
 
-    // TODO : change these hardcoded values
     public function getPopularCategories(?int $maxResults = null): ?array
     {
-        //return $this->categoryRepository->findPopularCategories($maxResults);
-        return [
-          ['name' => 'Moteur défaillant'],
-          ['name' => 'Ailes déformés'],
-          ['name' => 'Epaules trop large'],
-          ['name' => 'Manque d\'hydratation'],
-          ['name' => 'Trouble de la communication'],
-          ['name' => 'Manque d\'hygiène'],
-          ['name' => 'Crises d\'anxiété'],
-        ];
+        return $this->categoryRepository->findPopularCategories($maxResults);
     }
 
     // TODO : change these hardcoded values

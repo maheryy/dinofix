@@ -43,7 +43,6 @@ class FixerRegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-            $user->setStatus(1);
 
             $entityManager->persist($user);
             $entityManager->flush();

@@ -26,7 +26,7 @@
                 <section class="active-services section-box mt-2">
                     <div class="flex justify-between items-center">
                         <h2>Vos services en cours</h2>
-                        <a class="link-primary underlined" href="#">Consulter mes services en cours</a>
+                        <a class="link-primary underlined" href="{{ path('customer_request_active_index') }}">Consulter mes services en cours</a>
                     </div>
                     <ul class="list-column py-1">
                         {% for service in active_services %}
@@ -95,14 +95,14 @@
         <div class="content-bottom">
             <p class="flex-col">
                 <span class="name">
-                    <a class="link-primary" href="#">{{ data.name }}</a>
+                    <a class="link-primary" href="{{ path('customer_request_show', {'id': data.request.id }) }}">{{ data.request.service.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
-                    par <a class="link-primary font-medium" href="#">{{ data.alias }}</a>
+                    par <a class="link-primary font-medium" href="#">{{ data.fixer.alias }}</a>
                 </span>
             </p>
             <p class="text-sm font-medium py-0.5">
-                <span class="color-secondary">Etat : {{ random(['En attente', 'Mise en marche', 'Nettoyage', 'Terminé']) }}</span>
+                <span class="color-secondary">Etat : {{ data.step.name }}</span>
             </p>
         </div>
     </li>

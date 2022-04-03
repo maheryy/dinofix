@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentController extends AbstractController
 {
-    #[Route('/payment/{slug}', name: 'payment', methods: ['GET'])]
+    #[Route('/service/{slug}/payment', name: 'payment', methods: ['GET'])]
     public function index(string $slug, ServiceRepository $serviceRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -31,7 +31,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    #[Route('/checkout/{slug}', name: 'checkout', methods: ['POST'])]
+    #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
     public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository, ServiceStepRepository $serviceStepRepository): Response
     {
         $token = $request->request->get('stripeToken');
@@ -53,7 +53,6 @@ class PaymentController extends AbstractController
             $user = $this->getUser();
             $requestEntity->setCustomer($user)
             ->setReference($reference)
-            ->setStatus(2)
             ->setService($service)
             ->setCategory($service->getCategory())
             ->setDino($service->getDino())
@@ -67,9 +66,8 @@ class PaymentController extends AbstractController
             $requestActiveEntity = new RequestActive();
             $requestActiveEntity->setRequest($requestEntity)
             ->setFixer($service->getFixer())
-            ->setStep($serviceStepRepository->find(2))
-            ->setContent("description")
-            ->setStatus(1);
+            ->setStep($serviceStepRepository->findOneBy(['step' => 3]))
+            ->setContent("description");
 
             $entityManager->persist($requestActiveEntity);
             $entityManager->flush();
