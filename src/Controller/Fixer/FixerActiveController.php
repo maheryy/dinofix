@@ -21,7 +21,6 @@ class FixerActiveController extends AbstractController
         if ($request->getMethod() == 'POST') {
             $id = $request->request->get('id');
             $acceptedReq = $activeRepository->find($id);
-            dump($acceptedReq);
             $acceptedReq->setStep($serviceStep->find(2));
             $em->persist($acceptedReq);
             $em->flush();
@@ -30,7 +29,6 @@ class FixerActiveController extends AbstractController
         $fixerServices = $serviceRepository->findFixerServicesById(1, -1);
         $matchingRequests = [];
         foreach ($fixerServices as $fixerService) {
-            dump($fixerService);
             $result = $requestRepository->findByCategoryAndDino($fixerService->getDino()->getId(), $fixerService->getCategory()->getId());
             if (sizeof($result) > 0 && $result[0]->getFixer()->getId() == null) {
                 array_push($matchingRequests, $result);
@@ -49,7 +47,6 @@ class FixerActiveController extends AbstractController
         $activeReq = $ra->find($id);
         $currentStep = $activeReq->getStep();
         $nextStep = $serviceStep->findOneByStepValue($currentStep->getStep() + 1);
-        dump($nextStep);
 
         if ($request->getMethod() == 'POST') {
             $activeReq->setStep($nextStep);

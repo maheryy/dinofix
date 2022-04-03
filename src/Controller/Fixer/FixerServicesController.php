@@ -18,7 +18,7 @@ class FixerServicesController extends AbstractController
     public function createService(Request $request, EntityManagerInterface $entityManager, FixerRepository $fixerRepository): Response
     {
         $service = new Service();
-        $service->setFixer($fixerRepository->findOneById(1))
+        $service->setFixer($this->getUser())
                 ->setRating(0);
 
         $form = $this->createForm(ServiceType::class, $service);

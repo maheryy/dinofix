@@ -42,7 +42,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->innerJoin('f.address', 'a')
             ->leftJoin('s.reviews', 'r')
             ->select(
-                's.id, s.name, s.slug, s.description, s.rating AS service_rating, COUNT(r.id) AS count_reviews,
+                's.id, s.name, s.slug, s.description, s.rating AS service_rating, s.price, COUNT(r.id) AS count_reviews,
                 f.firstname, f.lastname, f.alias, f.rating as fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street, GEO_DISTANCE(a.latitude, a.longitude, :latitude, :longitude) AS distance'
             )
@@ -90,6 +90,10 @@ class ServiceRepository extends ServiceEntityRepository
                     break;
                 case SearchData::SORT_TYPE_LOCATION:
                     $qb->addOrderBy('distance', 'ASC');
+                    break;
+
+                case SearchData::SORT_TYPE_PRICE:
+                    $qb->addOrderBy('s.price', 'ASC');
                     break;
             }
         } else {
@@ -153,7 +157,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
@@ -176,7 +180,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findPopularServices(int $maxResults = 15, float $minRating = 3.0): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->where('s.rating > :minRating')
@@ -198,7 +202,7 @@ class ServiceRepository extends ServiceEntityRepository
     {
         $sortType = ['ASC', 'DESC'];
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->orderBy("s.{$sortBy}", $sortType[array_rand($sortType)])

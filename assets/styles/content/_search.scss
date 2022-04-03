@@ -50,6 +50,7 @@
 
           .dropdown-content {
             padding: .5em 0;
+
             .dropdown-header, .checkbox-list, .filter-action {
               padding: .5em 1.5em
             }
@@ -139,7 +140,7 @@
           flex: 1;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          //justify-content: space-between;
 
           .item-title .rating {
             font-size: 1.1em;
@@ -153,7 +154,7 @@
       }
 
       .item-title {
-        font-size: 1em;
+        font-size: 1.1em;
 
         a {
           color: #107aca;
@@ -174,6 +175,16 @@
             padding: 0 0.2em;
             font-weight: 600;
           }
+        }
+      }
+
+      .item-price {
+        padding-bottom: 0.5em;
+
+        .price {
+          font-size: 1.1em;
+          font-weight: 500;
+          //color: #3fced2;
         }
       }
 

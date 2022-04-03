@@ -43,6 +43,9 @@ class Service
     private $reviews;
 
     #[ORM\Column(type: 'float')]
+    private $price;
+
+    #[ORM\Column(type: 'float')]
     private $rating;
 
     #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
@@ -222,6 +225,18 @@ class Service
     public function setRating(float $rating): self
     {
         $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

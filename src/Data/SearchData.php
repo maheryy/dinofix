@@ -29,6 +29,8 @@ class SearchData
 
     public const SORT_TYPE_NAME = 'name';
 
+    public const SORT_TYPE_PRICE = 'price';
+
     /**
      * @return null|string
      */

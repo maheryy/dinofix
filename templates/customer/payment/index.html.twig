@@ -10,7 +10,7 @@
             <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="{{ stripe }}"
-                data-amount="{{ 50 * 100 }}"
+                data-amount="{{ service.price * 100 }}"
                 data-name="Paiement du service"
                 data-description="Avec Stripe"
                 data-zip-code="true"
