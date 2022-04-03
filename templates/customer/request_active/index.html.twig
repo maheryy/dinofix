@@ -25,17 +25,19 @@
                                         </h4>
                                     </div>
                                     <div class="item-description">
-                                        <span>Créée le {{ request_active.createdAt ? request_active.request.createdAt|date('d-m-Y H:i:s') : '' }}</span>
-                                        <span>{{ request_active.content }}</span>
+                                        <span>Créée le {{ request_active.createdAt ? request_active.request.createdAt|date('d-m-Y H:i:s') : '' }}</span><br><br>
                                         <span>{{ request_active.request.description }}</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="item-title">
-                                        <a href="">Début le {{ request_active.createdAt ? request_active.createdAt|date('d-m-Y H:i:s') : '' }}</a>
+                                        <a href="">Le dinofixer {{ request_active.fixer.lastname }} {{ request_active.fixer.firstname }} a débuté le {{ request_active.createdAt ? request_active.createdAt|date('d-m-Y H:i:s') : '' }}</a>
                                     </div>
                                     <div class="item-description">
-                                    LoloZJZFEF EFIEFH E
+                                    <br>
+                                        Service : {{ request_active.request.service.name }}<br><br>
+                                        Mail : {{ request_active.fixer.email }}<br><br>
+                                        Tel : {{ request_active.fixer.phone }}
                                     </div>
                                 </div>
                             </div>

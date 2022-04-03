@@ -34,19 +34,19 @@ class PaymentController extends AbstractController
     #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
     public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository, ServiceStepRepository $serviceStepRepository): Response
     {
+        $service = $serviceRepository->findServiceBySlug($slug);
+        if (!$service) {
+            throw new BadRequestHttpException();
+        }
         $token = $request->request->get('stripeToken');
         \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret'));
         $charge = \Stripe\Charge::create([
-            "amount" => 50 * 100,
+            "amount" => $service->getPrice() * 100,
             "currency" => "eur",
             "source" => $token,
             "description" => "Paiement service"
         ]);
         if ($charge) {
-            $service = $serviceRepository->findServiceBySlug($slug);
-            if (!$service) {
-                throw new BadRequestHttpException();
-            }
             $requestEntity = new RequestEntity();
             $reference = $requestRepository->generateReference();
             $datetime = new \DateTime('now');
