@@ -10,9 +10,14 @@
                 {% for request_active in request_actives %}
                     <div class="col-12">
                         <ul class="progressbar">
-                            {% for step in request_active.request.service.steps|sort((a, b) => a.step <=> b.step) %}
-                                <li class="{{ request_active.step.step == step.step ? "active" : ""}}">{{ step.name }}</li>
+                            {% for step in steps|sort((a, b) => a.step <=> b.step) %}
+                                {% if step.step > 0 %}
+                                    <li class="{{ request_active.step.step == step.step ? "active" : ""}}">{{ step.name }}</li>
+                                {% endif %}
                             {% endfor %}
+                            {% if request_active.step.step == "-1" %}
+                                <li class="active">En pause</li>
+                            {% endif %}
                         </ul>
                     </div>
                     <li class="list-item">

@@ -6,6 +6,7 @@ use App\Entity\RequestActive;
 use App\Form\RequestActiveType;
 use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
+use App\Repository\ServiceStepRepository;
 use App\Service\Constant;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,12 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class RequestActiveController extends AbstractController
 {
     #[Route('/', name: 'request_active_index', methods: ['GET'])]
-    public function index(RequestActiveRepository $requestActiveRepository): Response
+    public function index(RequestActiveRepository $requestActiveRepository, ServiceStepRepository $serviceStepRepository): Response
     {
         $user_id = $this->getUser()->getId();
         $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DEFAULT);
+        $steps = $serviceStepRepository->findAll();
         return $this->render('customer/request_active/index.html.twig', [
             'request_actives' => $requests_actives,
+            'steps' => $steps
         ]);
     }
 
