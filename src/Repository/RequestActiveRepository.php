@@ -33,9 +33,12 @@ class RequestActiveRepository extends ServiceEntityRepository
     public function findUserRequestsByStatus($id, $status): array
     {
         return $this->createQueryBuilder('ra')
-            ->select('ra')
+            ->select('ra', 'r', 'st', 's', 'f')
             ->innerJoin('ra.request', 'r')
+            ->innerJoin('ra.fixer', 'f')
+            ->innerJoin('ra.step', 'st')
             ->innerJoin('r.customer', 'c')
+            ->innerJoin('r.service', 's')
             ->andwhere('c.id = :id')
             ->andWhere('r.status = :status')
             ->setParameter('id', $id)
