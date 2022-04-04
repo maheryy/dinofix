@@ -2,28 +2,63 @@
 {% from 'macros/utils.html.twig' import stars %}
 
 {% block body %}
-	<main class="main-container customer-container">
-		<div class="home-container">
-			<section class="top-content section-box">
-				<a href="{{ path('fixer_services_create') }}" class="btn btn-primary">Créer un nouveau service</a>
-				<a href="{{ path('fixer_active') }}" class="btn btn-primary">Vos services en cours</a>
-			</section>
-			<section class="top-content section-box">
-				<h2>Vos services</h2>
-				<ul class="fixer-service-list">
-					{% for service in fixer_services %}
-						<li class="service-card">
-							<h4 class="service-name">{{ service.name }}</h4>
-							<span class="service-price">{{ service.description|length > 50 ? service.description|slice(0, 80) ~ '...' : service.description }}</span>
-							<div class="rating-row">
-								<span class="stars">{{ stars(service.rating) }}</span>
-								<span class="review-total">({{ service.reviews }})</span>
-							</div>
-							<a href="{{ path('fixer_services_edit', {'id': service.id}) }}" class="btn btn-primary">Modifier</a>
-						</li>
-					{% endfor %}
-				</ul>
-			</section>
-		</div>
-	</main>
+    <main class="main-container customer-container">
+        <div class="home-container">
+            <section class="section-box">
+                <h2>Mes prestations en cours</h2>
+                {% if active_requests is not empty %}
+                    <ul class="fixer-service-list">
+                        {% for request in active_requests | slice(0, 3) %}
+                            <li class="service-card">
+                                <h4 class="service-name">{{ request.request.service.name }}</h4>
+                                <h4 class="service-name">{{ request.getCreatedAt() | date("H:m:s d/m/Y") }}</h4>
+                                <h4 class="service-name">{{ request.request.customer.getFirstName() }}
+                                    {{ request.request.customer.getLastName() }}</h4>
+                                {% if request.step.step != 1 %}
+                                    <a href="{{ path('fixer_update_step', {'id': request.id}) }}" class="btn btn-primary">Modifier</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="py-0.5 flex justify-center">
+                        <a class="btn-secondary" href="{{ path('fixer_active') }}">Voir plus</a>
+                    </div>
+                {% else %}
+                    <div class="no-results py-1 flex justify-center">
+                        <h4>Vous n'avez aucune prestation en cours pour le moment</h4>
+                    </div>
+                {% endif %}
+            </section>
+            <section class="section-box">
+                <h2>Demandes clients</h2>
+                {% if customer_requests is not empty %}
+                    <ul class="flex-col items-center py-2">
+                        {% for request in customer_requests | slice(0, 5) %}
+                            <li class="list-item w-10/12 border p-0.75 my-0.25">
+                                <div class="container">
+                                    <div class="item-title">
+                                        <h4>
+                                            <a class="link-primary" href="{{ path('fixer_request', {'slug': request.slug}) }}">{{ request.subject }}
+                                                | #{{ request.reference }} </a>
+                                        </h4>
+                                    </div>
+                                    <div class="item-description">
+                                        <span>Par {{ request.customer.firstname }} {{ request.customer.lastname }} - {{ request.createdAt ? request.createdAt|date('d-m-Y') : '' }}</span><br><br>
+                                        <span>{{ request.description }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="py-0.5 flex justify-center">
+                        <a class="btn-secondary" href="{{ path('fixer_requests') }}">Voir plus</a>
+                    </div>
+                {% else %}
+                    <div class="no-results py-1 flex justify-center">
+                        <h4>Il n'y a aucune demande disponible pour le moment</h4>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </main>
 {% endblock %}

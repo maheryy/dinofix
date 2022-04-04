@@ -3,7 +3,7 @@
 {% block title %}Informations sur la demande{% endblock %}
 
 {% block body %}
-<section class="request-container">
+<main class="request-container">
     <section id="description" class="request-section">
         <h2 class="title">Reference</h2>
         <div class="content">
@@ -36,10 +36,19 @@
             </p>
         </div>
     </section>
-</section>
-<div class="container">
-    <a class="btn-primary" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
-    {{ include('customer/request/_delete_form.html.twig') }}
-    <a class="btn-secondary" href="{{ path('customer_request_index') }}">Retour</a>
-</div>
+    <div class="container">
+        <div class="flex w-full justify-between">
+            <div class="action right">
+                {% if not request.service %}
+                    <a class="btn-primary" href="{{ path('customer_search', {'category': request.category ? request.category.id : '', 'dino': request.dino ? request.dino.id : ''}) }}">Rechercher les services associés</a>
+                {% endif %}
+            </div>
+            <div class="action-left flex">
+                <a class="btn-secondary" href="{{ path('customer_request_index') }}">Retour</a>
+                <a class="btn-primary mx-0.5" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
+                {{ include('customer/request/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}

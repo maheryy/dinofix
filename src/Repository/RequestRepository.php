@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Request;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -26,58 +27,30 @@ class RequestRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    /**
-     * @return string
-     */
-    public function generateReference(): string
-    {
-        $reference = mt_rand(100000, 999999);
-        if($referenceExist = $this->findBy(['reference' => $reference])) {
-            $this->generateReference();
-        } else {
-            return $reference;
-        }
-    }
-
-    public function findByCategoryAndDino($category, $dino): array
+    public function findFreeRequests(array $categories, array $dinos)
     {
         return $this->createQueryBuilder('r')
-            ->innerJoin('r.category', 'c')
-            ->innerJoin('r.dino', 'd')
-            ->andWhere('c.id = :category')
-            ->andWhere('d.id = :dino')
-            ->setParameter('category', $category)
-            ->setParameter('dino', $dino)
+            ->leftJoin('r.category', 'c')
+            ->leftJoin('r.dino', 'd')
+            ->where('c.id IN (:categories) OR d.id IN (:dinos)')
+            ->setParameter('categories', $categories)
+            ->setParameter('dinos', $dinos)
             ->orderBy('r.created_at', 'DESC')
             ->getQuery()
             ->getResult();
     }
-    // /**
-    //  * @return Request[] Returns an array of Request objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Request
+    public function findRequestBySlug(string $slug): ?Request
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.slug = :slug')
+            ->setParameter('slug', $slug);
+            try {
+                $res = $qb->getQuery()->getOneOrNullResult();
+            } catch (NonUniqueResultException $e) {
+                $res = null;
+            }
+
+        return $res;
     }
-    */
 }

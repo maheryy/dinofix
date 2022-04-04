@@ -1,4 +1,4 @@
-{% extends 'fixer/fixer.html.twig' %}
+{% extends 'common/common.html.twig' %}
 {% from 'macros/utils.html.twig' import stars %}
 
 {% block body %}
@@ -21,7 +21,7 @@
 								<span class="stars">{{ stars(service.rating) }}</span>
 								<span class="review-total">({{ service.reviews }})</span>
 							</div>
-							<a class="btn btn-primary">Commander</a>
+							<a href="{{ path('customer_service', {'slug': service.slug}) }}" class="btn btn-primary">Consulter</a>
 						</li>
 					{% endfor %}
 				</ul>

@@ -7,6 +7,7 @@ use App\Entity\RequestActive;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceStepRepository;
+use App\Service\Generator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,7 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
-    public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, RequestRepository $requestRepository, ServiceStepRepository $serviceStepRepository): Response
+    public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, Generator $generator, ServiceStepRepository $serviceStepRepository): Response
     {
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
@@ -48,7 +49,7 @@ class PaymentController extends AbstractController
         ]);
         if ($charge) {
             $requestEntity = new RequestEntity();
-            $reference = $requestRepository->generateReference();
+            $reference = $generator->generateRequestReference();
             $datetime = new \DateTime('now');
             $user = $this->getUser();
             $requestEntity->setCustomer($user)
@@ -66,7 +67,7 @@ class PaymentController extends AbstractController
             $requestActiveEntity = new RequestActive();
             $requestActiveEntity->setRequest($requestEntity)
             ->setFixer($service->getFixer())
-            ->setStep($serviceStepRepository->findOneBy(['step' => 3]))
+            ->setStep($serviceStepRepository->findOneBy(['step' => 2]))
             ->setContent("description");
 
             $entityManager->persist($requestActiveEntity);

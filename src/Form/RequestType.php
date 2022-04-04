@@ -28,12 +28,13 @@ class RequestType extends AbstractType
                 'label' => 'Catégorie du dinosaure',
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'required' => TRUE,
+                'required' => false,
             ])
             ->add('dino', EntityType::class, [
                 'label' => 'Nom du dinosaure',
                 'class' => Dino::class,
                 'choice_label' => 'name',
+                'required' => false,
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de la panne',

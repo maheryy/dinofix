@@ -25,7 +25,7 @@
             {% if  active_services is not empty %}
                 <section class="active-services section-box mt-2">
                     <div class="flex justify-between items-center">
-                        <h2>Vos services en cours</h2>
+                        <h2>Vos demandes en cours</h2>
                         <a class="link-primary underlined" href="{{ path('customer_request_active_index') }}">Consulter mes services en cours</a>
                     </div>
                     <ul class="list-column py-1">
@@ -76,7 +76,7 @@
                        href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
-                    par <a class="link-primary font-medium" href="#">{{ data.alias }}</a>
+                    par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': data.fixer_slug}) }}">{{ data.alias }}</a>
                 </span>
             </p>
             <p class="flex items-center text-xs">
@@ -98,7 +98,7 @@
                     <a class="link-primary" href="{{ path('customer_request_show', {'id': data.request.id }) }}">{{ data.request.service.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
-                    par <a class="link-primary font-medium" href="#">{{ data.fixer.alias }}</a>
+                    par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': data.fixer.slug}) }}">{{ data.fixer.alias }}</a>
                 </span>
             </p>
             <p class="text-sm font-medium py-0.5">

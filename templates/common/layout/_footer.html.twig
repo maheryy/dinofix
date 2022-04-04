@@ -1,0 +1,41 @@
+<footer class="footer">
+    <div class="footer-top">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="link-list-head">Catégories</h4>
+                <ul class="link-list categories">
+                    {% for item in ld_popular_categories | slice (0, 6) %}
+                        <li>
+                            <a href="{{ path('customer_search', {'category': item.id}) }}">{{ item.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="link-list-head">Recherches fréquentes</h4>
+                <ul class="link-list trending">
+                    {% for item in get_frequent_keywords() %}
+                        <li>
+                            <a href="{{ path('customer_search', {'query': item.term}) }}">{{ item.term }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="link-list-head">A propos</h4>
+                <ul class="link-list about-us">
+                    <li><a href="#">Notre vision</a></li>
+                    <li><a href="#">Comment ça marche ?</a></li>
+                    <li><a href="#">Nous contacter</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="copyright-wrapper">
+            <span class="copyright">Copyright © 2022 Dinofix, tous droits réservés.</span>
+        </div>
+    </div>
+</footer>

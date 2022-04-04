@@ -67,7 +67,7 @@
                                         <a class="link-primary" href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
                                     </span>
                                     <span class="text-xs font-light pt-0.5">
-                                        par <a class="link-primary font-medium" href="#">{{ service.alias }}</a>
+                                        par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': service.fixer_slug}) }}">{{ service.alias }}</a>
                                     </span>
                                 </span>
                                 <span class="flex items-center text-xs">
@@ -79,7 +79,7 @@
                     {% endfor %}
                 </ul>
                 <div class="flex justify-center w-full">
-                    <a class="btn-secondary" href="{{ path('customer_search') }}">Voir tout</a>
+                    <a class="btn-secondary" href="{{ path('customer_search') }}">Voir plus</a>
                 </div>
             </div>
         </section>
