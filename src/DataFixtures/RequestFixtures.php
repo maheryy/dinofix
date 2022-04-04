@@ -27,7 +27,7 @@ class RequestFixtures extends Fixture implements DependentFixtureInterface
                 ->setCustomer($customer)
                 ->setCategory($service->getCategory())
                 ->setDino($service->getDino())
-                ->setReference($faker->unique()->numerify('######'))
+                ->setReference($faker->unique()->numerify('########'))
                 ->setSubject($faker->realText(25))
                 ->setDescription($faker->realText(100))
                 ->setExpectedAt(new DateTime('now'));

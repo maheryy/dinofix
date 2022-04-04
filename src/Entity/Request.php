@@ -14,7 +14,7 @@ class Request
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 20)]
+    #[ORM\Column(type: 'string', length: 8, unique: true)]
     private $reference;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -22,6 +22,10 @@ class Request
 
     #[ORM\Column(type: 'text')]
     private $description;
+
+    #[Gedmo\Slug(fields: ['reference'])]
+    #[ORM\Column(type: 'string', length: 8, unique: true)]
+    private $slug;
 
     #[ORM\ManyToOne(targetEntity: Service::class)]
     private $service;
@@ -89,6 +93,11 @@ class Request
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
     }
 
     public function getStatus(): ?int

@@ -26,15 +26,6 @@ class RequestRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    /**
-     * @return string
-     */
-    public function generateReference(): string
-    {
-        $reference = mt_rand(100000, 999999);
-        return $this->findBy(['reference' => $reference]) ? $this->generateReference() : $reference;
-    }
-
     public function findByCategoryAndDino($category, $dino): array
     {
         return $this->createQueryBuilder('r')

@@ -7,6 +7,7 @@ use App\Form\RequestType;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Service\Constant;
+use App\Service\Generator;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,16 +29,16 @@ class RequestController extends AbstractController
     }
 
     #[Route('/new', name: 'request_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, RequestRepository $requestRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Generator $generator): Response
     {
         $requestEntity = new RequestEntity();
         $form = $this->createForm(RequestType::class, $requestEntity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $reference = $requestRepository->generateReference();
-            $user = $this->getUser();
-            $requestEntity->setCustomer($user)->setReference($reference);
+            $requestEntity
+                ->setCustomer($this->getUser())
+                ->setReference($generator->generateRequestReference());
             $entityManager->persist($requestEntity);
             $entityManager->flush();
 
@@ -58,9 +59,9 @@ class RequestController extends AbstractController
             return $this->render('customer/request/show.html.twig', [
                 'request' => $requestEntity,
             ]);
-        } else {
-            $this->redirectToRoute('customer_request_index');
         }
+
+        $this->redirectToRoute('customer_request_index');
     }
 
     #[Route('/{id}/edit', name: 'request_edit', methods: ['GET', 'POST'])]

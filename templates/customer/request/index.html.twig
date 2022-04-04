@@ -29,17 +29,7 @@
                                 {{ request.description }}
                             </p>
                         </div>
-                        </a>      
-                    </li>
-                    <li>
-                    {#
-                        {%if request.dino %}
-                            <a class="btn-primary" href="/search?category={{request.category.id}}&dinos={{request.dino.id}}">Chercher</a>
-                        {%else%}
-                            <a class="btn-primary" href="{{ path('customer_search', {'category': request.category.id}) }}">Chercher</a>
-                        {%endif%}
-                    #}
-                        <a class="btn-danger" href="{{ path('customer_request_delete', {'id': request.id}) }}">Supprimer</a>
+                        </a>
                     </li>
                 </ul>
             </div>
