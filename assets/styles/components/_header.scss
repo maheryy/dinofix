@@ -9,7 +9,27 @@ header {
 
     .header-main {
       justify-content: space-between;
+
+      .logo-container {
+        a {
+          position: relative;
+        }
+
+        .pro-mark {
+          font-size: 0.4em;
+          position: absolute;
+          font-weight: 800;
+          letter-spacing: .1em;
+          bottom: -5px;
+          right: -3px;
+        }
+      }
+
+      nav.main-header-nav {
+        flex: 0.7;
+      }
     }
+
   }
 
   .header-main {

@@ -236,15 +236,43 @@ class ServiceRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param $fixerId
+     * @return Service[]|Collection
+     */
+    public function findAllFixerServices($fixerId): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->innerJoin('s.fixer', 'f')
+            ->andWhere('f.id = :fixerId')
+            ->setParameter('fixerId', $fixerId)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function findServicesDashboard()
     {
-
         return $this->createQueryBuilder('s')
             ->select('s.name, s.description, s.rating, f.alias')
             ->innerJoin('s.fixer', 'f')
             ->getQuery()
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 
+    public function findFixerRequestRelatedServices($fixer, $category, $dino) {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.fixer', 'f')
+            ->leftJoin('s.dino', 'd')
+            ->leftJoin('s.category', 'c')
+            ->where('f.id = :fixerId')
+            ->andWhere('(d.id = :dinoId AND d.id IS NOT NULL) OR (c.id = :categoryId AND c.id IS NOT NULL)')
+            ->setParameter('fixerId', $fixer)
+            ->setParameter('dinoId', $dino)
+            ->setParameter('categoryId', $category)
+            ->getQuery()
+            ->getResult();
     }
 
 }

@@ -1,6 +1,11 @@
 <header id="customer-header" class="app-header fixer-header">
     <div class="header-main">
-        <div class="logo-container"><a href="{{ path('fixer_home') }}">Dinofix</a></div>
+        <div class="logo-container">
+            <a href="{{ path('fixer_home') }}">
+                <span>Dinofix</span>
+                <span class="pro-mark">Pro</span>
+            </a>
+        </div>
         <nav class="main-header-nav">
             <ul class="header-nav-list">
                 <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
@@ -18,7 +23,10 @@
                     <a href="{{ path('fixer_services_create') }}">Créer un service</a>
                 </li>
                 <li class="header-nav-item">
-                    <a href="{{ path('fixer_active') }}">Mes services en cours</a>
+                    <a href="{{ path('fixer_requests') }}">Consulter les demandes</a>
+                </li>
+                <li class="header-nav-item">
+                    <a href="{{ path('fixer_active') }}">Mes prestations en cours</a>
                 </li>
                 <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
                     <a class="dropdown-title" href="#">Mon compte</a>

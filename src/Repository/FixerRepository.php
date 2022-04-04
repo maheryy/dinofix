@@ -39,22 +39,7 @@ class FixerRepository extends ServiceEntityRepository
 
         return $res;
     }
-    // /**
-    //  * @return Fixer[] Returns an array of Fixer objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+
     public function findAllFixer()
     {
         return $this->createQueryBuilder('f')
@@ -69,15 +54,5 @@ class FixerRepository extends ServiceEntityRepository
         // returns an array of Product objects
 
     }
-    /*
-    public function findOneBySomeField($value): ?Fixer
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+
 }

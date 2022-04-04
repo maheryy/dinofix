@@ -6,10 +6,10 @@
 		<div class="home-container">
 			<section class="top-content section-box">
 				<a href="{{ path('fixer_services_create') }}" class="btn btn-primary">Créer un nouveau service</a>
-				<a href="{{ path('fixer_active') }}" class="btn btn-primary">Vos services en cours</a>
+				<a href="{{ path('fixer_active') }}" class="btn btn-primary">Mes prestations</a>
 			</section>
 			<section class="top-content section-box">
-				<h2>Vos services</h2>
+				<h2>Mes services</h2>
 				<ul class="fixer-service-list">
 					{% for service in fixer_services %}
 						<li class="service-card">

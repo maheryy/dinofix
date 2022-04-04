@@ -1,0 +1,37 @@
+{% extends 'fixer/fixer.html.twig' %}
+
+{% block title %}Les demandes clients{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <section class="request-container">
+        <h2>Liste des demandes clients</h2>
+            {% if requests is not empty %}
+                <ul class="list-row">
+                    {% for request in requests %}
+                        <li class="list-item">
+                            <div class="container">
+                                <div class="item-title">
+                                    <h4>
+                                        <a class="link-primary" href="{{ path('fixer_request', {'slug': request.slug}) }}">{{ request.subject }}
+                                            | #{{ request.reference }} </a>
+                                    </h4>
+                                </div>
+                                <div class="item-description">
+                                    <span>Par {{ request.customer.firstname }} {{ request.customer.lastname }} - {{ request.createdAt ? request.createdAt|date('d-m-Y') : '' }}</span><br><br>
+                                    <span>{{ request.description }}</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <section class="request-container no-results">
+                    <div class="no-results-text">
+                        <h1>Aucune demande trouvée</h1>
+                    </div>
+                </section>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}
