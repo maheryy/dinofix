@@ -10,6 +10,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CustomerRepository;
 use App\Repository\FixerRepository;
+use App\Repository\RequestActiveRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,6 +68,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/service_list/index.html.twig', [
             'services' => $serviceRepository->findServicesDashboard(),
+        ]);
+    }
+
+    #[Route('/active/list', name: 'active_list', methods: ['GET'])]
+    public function listActive(RequestActiveRepository $requestActiveRepository): Response
+    {
+        return $this->render('admin/active/index.html.twig', [
+            'request_actives' => $requestActiveRepository->findAll(),
         ]);
     }
 
