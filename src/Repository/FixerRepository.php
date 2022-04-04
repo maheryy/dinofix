@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Fixer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,17 +22,23 @@ class FixerRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id int The id of the fixer
-     * @return Fixer Returns a fixer
+     * @param $slug
+     * @return Fixer|null
      */
-    public function findOneById($id) {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
+    public function findFixerBySlug($slug): Fixer|null
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->where('f.slug = :slug')
+            ->setParameter('slug', $slug);
 
+        try {
+            $res = $qb->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $res = null;
+        }
+
+        return $res;
+    }
     // /**
     //  * @return Fixer[] Returns an array of Fixer objects
     //  */

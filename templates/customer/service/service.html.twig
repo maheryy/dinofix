@@ -2,7 +2,7 @@
 {% extends 'customer/customer.html.twig' %}
 
 {% block body %}
-    {% set fixer_profile = '#' %}
+    {% set fixer_profile = path('fixer_profile', {'slug': service.fixer.slug}) %}
     {% set reviews_count = reviews | length %}
     <main class="main-container customer-container no-padding">
         <div class="service-head-container">

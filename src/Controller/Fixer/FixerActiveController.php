@@ -26,21 +26,24 @@ class FixerActiveController extends AbstractController
             $em->flush();
         }
 
-        $fixerServices = $serviceRepository->findFixerServicesById(1, -1);
+        /*
+        $fixerServices = $serviceRepository->findFixerServicesById($this->getUser()->getId(), -1);
         $matchingRequests = [];
+        dump($fixerServices);
         foreach ($fixerServices as $fixerService) {
-            $result = $requestRepository->findByCategoryAndDino($fixerService->getDino()->getId(), $fixerService->getCategory()->getId());
+            $result = $requestRepository->findByCategoryAndDino($fixerService->getCategory()->getId(), $fixerService->getDino()->getId());
             if (sizeof($result) > 0 && $result[0]->getFixer()->getId() == null) {
                 array_push($matchingRequests, $result);
             }
         }
-        $activeRequests = $activeRepository->findUserRequestsByFixerId(1);
+        */
+        $activeRequests = $activeRepository->findUserRequestsByFixerId($this->getUser()->getId());
         return $this->render('fixer/service/active_services.html.twig', [
             'active_requests' => $activeRequests
         ]);
     }
 
-    #[Route('/fixer/active/{id}', name: 'fixer_update_step', methods: ['GET', 'POST'])]
+    #[Route('/active/{id}', name: 'update_step', methods: ['GET', 'POST'])]
     public function updateStep(Request $request, EntityManagerInterface $em, ServiceStepRepository $serviceStep, RequestActiveRepository $ra): Response
     {
         $id = $request->get('id');

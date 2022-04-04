@@ -9,7 +9,7 @@
 			{% if next_step %}
 				<p>Étape suivante:
 					{{next_step.name}}</p>
-			<form action="/fixer/active/{{request.id}}" method="POST">
+			<form action="{{ path('fixer_update_step', {'id': request.id}) }}" method="POST">
 				<input type="hidden" name="id" value="{{next_step.id}}">
 				<button class="btn btn-primary">Passer à l'étape suivante</button>
 			</form>

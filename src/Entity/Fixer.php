@@ -26,11 +26,15 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 50)]
     private $lastname;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
     private $alias;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     private $email;
+
+    #[Gedmo\Slug(fields: ['alias'])]
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    private $slug;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
@@ -130,6 +134,11 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
     }
 
     /**

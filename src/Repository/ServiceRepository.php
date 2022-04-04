@@ -43,7 +43,7 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('s.reviews', 'r')
             ->select(
                 's.id, s.name, s.slug, s.description, s.rating AS service_rating, s.price, COUNT(r.id) AS count_reviews,
-                f.firstname, f.lastname, f.alias, f.rating as fixer_rating,
+                f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, f.rating AS fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street, GEO_DISTANCE(a.latitude, a.longitude, :latitude, :longitude) AS distance'
             )
             ->setParameter('latitude', $location['latitude'])
@@ -62,7 +62,7 @@ class ServiceRepository extends ServiceEntityRepository
 
         if ($filters->getDinos() && !$filters->getDinos()->isEmpty()) {
             $qb->andWhere('s.dino IN (:dinos)')
-                ->setParameter('dinos', array_map(fn ($dino) => $dino->getId(), $filters->getDinos()->toArray()));
+                ->setParameter('dinos', array_map(fn($dino) => $dino->getId(), $filters->getDinos()->toArray()));
         }
 
         if (!empty($filters->getReviews())) {
@@ -157,7 +157,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
@@ -180,7 +180,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findPopularServices(int $maxResults = 15, float $minRating = 3.0): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug,COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->where('s.rating > :minRating')
@@ -202,7 +202,7 @@ class ServiceRepository extends ServiceEntityRepository
     {
         $sortType = ['ASC', 'DESC'];
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->orderBy("s.{$sortBy}", $sortType[array_rand($sortType)])
@@ -214,38 +214,30 @@ class ServiceRepository extends ServiceEntityRepository
 
     /**
      * @param int $fixerId
-     * @param int $maxResults
+     * @param int|null $maxResults
      * @return array
      */
-    public function findFixerServicesById(int $fixerId, int $maxResults = 15): array
+    public function findFixerServicesById(int $fixerId, ?int $maxResults = null): array
     {
-        if ($maxResults == -1) {
-            return $this->createQueryBuilder('s')
-                ->select('s')
-                ->innerJoin('s.fixer', 'f')
-                ->leftJoin('s.reviews', 'r')
-                ->andWhere('f.id = :fixerId')
-                ->setParameter('fixerId', $fixerId)
-                ->orderBy('s.rating', 'DESC')
-                ->groupBy('s.id, f.id')
-                ->getQuery()
-                ->getResult();
-        }
-        return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, COUNT(r.id) AS reviews')
+        $qb = $this->createQueryBuilder('s')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('f.id = :fixerId')
             ->setParameter('fixerId', $fixerId)
             ->orderBy('s.rating', 'DESC')
             ->addOrderBy('reviews', 'DESC')
-            ->groupBy('s.id, f.id')
-            ->setMaxResults($maxResults)
-            ->getQuery()
-            ->getResult();
+            ->groupBy('s.id, f.id');
+
+        if ($maxResults) {
+            $qb->setMaxResults($maxResults);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function findServicesDashboard(){
+    public function findServicesDashboard()
+    {
 
         return $this->createQueryBuilder('s')
             ->select('s.name, s.description, s.rating, f.alias')
