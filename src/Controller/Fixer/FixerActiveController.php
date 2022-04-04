@@ -26,17 +26,6 @@ class FixerActiveController extends AbstractController
             $em->flush();
         }
 
-        /*
-        $fixerServices = $serviceRepository->findFixerServicesById($this->getUser()->getId(), -1);
-        $matchingRequests = [];
-        dump($fixerServices);
-        foreach ($fixerServices as $fixerService) {
-            $result = $requestRepository->findByCategoryAndDino($fixerService->getCategory()->getId(), $fixerService->getDino()->getId());
-            if (sizeof($result) > 0 && $result[0]->getFixer()->getId() == null) {
-                array_push($matchingRequests, $result);
-            }
-        }
-        */
         $activeRequests = $activeRepository->findUserRequestsByFixerId($this->getUser()->getId());
         return $this->render('fixer/service/active_services.html.twig', [
             'active_requests' => $activeRequests

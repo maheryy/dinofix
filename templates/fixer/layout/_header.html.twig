@@ -32,10 +32,13 @@
                     <a class="dropdown-title" href="#">Mon compte</a>
                     <ul class="dropdown-content">
                         <li>
-                            <a href="{{ path('fixer_profile', {'slug' : app.user.slug}) }}">Profil public</a>
+                            <a href="{{ path('fixer_services') }}">Mes services</a>
                         </li>
                         <li>
                             <a href="#">Paramètres</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('fixer_profile', {'slug' : app.user.slug}) }}">Profil public</a>
                         </li>
                         <li>
                             <a href="{{ path('fixer_logout') }}">Deconnexion</a>

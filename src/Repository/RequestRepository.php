@@ -29,7 +29,6 @@ class RequestRepository extends ServiceEntityRepository
 
     public function findFreeRequests(array $categories, array $dinos)
     {
-        dump($categories, $dinos);
         return $this->createQueryBuilder('r')
             ->leftJoin('r.category', 'c')
             ->leftJoin('r.dino', 'd')

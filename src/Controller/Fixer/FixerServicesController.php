@@ -19,7 +19,7 @@ class FixerServicesController extends AbstractController
     {
         $service = new Service();
         $service->setFixer($this->getUser())
-                ->setRating(0);
+            ->setRating(0);
 
         $form = $this->createForm(ServiceType::class, $service);
         $form->handleRequest($request);
@@ -30,7 +30,7 @@ class FixerServicesController extends AbstractController
 
             return $this->redirectToRoute('fixer_home', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('fixer/service/services.html.twig', [
+        return $this->render('fixer/service/service_edit.html.twig', [
             'service' => $service,
             'form' => $form->createView(),
         ]);
@@ -49,10 +49,21 @@ class FixerServicesController extends AbstractController
 
             return $this->redirectToRoute('fixer_home', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('fixer/service/services.html.twig', [
+        return $this->render('fixer/service/service_edit.html.twig', [
             'service' => $service,
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/services', name: 'services', methods: ['GET'])]
+    public function listService(ServiceRepository $serviceRepository): Response
+    {
+        $fixerServices = $serviceRepository->findFixerServicesById($this->getUser()->getId(), 10);
+
+        return $this->render('fixer/service/services.html.twig', [
+            'fixer_services' => $fixerServices
+        ]);
+    }
+
 
 }

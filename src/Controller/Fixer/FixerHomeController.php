@@ -2,20 +2,25 @@
 
 namespace App\Controller\Fixer;
 
-use App\Repository\ServiceRepository;
+use App\Repository\RequestActiveRepository;
+use App\Repository\RequestRepository;
+use App\Service\ResolverService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FixerHomeController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
-    public function getHome(ServiceRepository $serviceRepository): Response
+    public function getHome(ResolverService $resolverService, RequestActiveRepository $requestActiveRepository, RequestRepository $requestRepository): Response
     {
-        $fixerServices = $serviceRepository->findFixerServicesById($this->getUser()->getId(), 10);
+        $expertise = $resolverService->getFixerExpertise($this->getUser()->getId());
+        $activeRequests = $requestActiveRepository->findUserRequestsByFixerId($this->getUser()->getId());
+        $customerRequests = $requestRepository->findFreeRequests(array_keys($expertise['categories']), array_keys($expertise['dinos']));
+
         return $this->render('fixer/home/home.html.twig', [
-            'fixer_services' => $fixerServices
+            'active_requests' => $activeRequests,
+            'customer_requests' => $customerRequests,
         ]);
     }
 }

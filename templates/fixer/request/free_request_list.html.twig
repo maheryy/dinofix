@@ -3,13 +3,13 @@
 {% block title %}Les demandes clients{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <section class="request-container">
-        <h2>Liste des demandes clients</h2>
+    <main class="main-container customer-container">
+        <section class="request-container section-box">
+        <h2 class="section-title">Liste des demandes clients</h2>
             {% if requests is not empty %}
-                <ul class="list-row">
+                <ul class="list-row flex-col items-center py-2">
                     {% for request in requests %}
-                        <li class="list-item">
+                        <li class="list-item w-10/12 border p-0.75 my-0.25" >
                             <div class="container">
                                 <div class="item-title">
                                     <h4>
@@ -33,5 +33,5 @@
                 </section>
             {% endif %}
         </section>
-    </div>
+    </main>
 {% endblock %}
