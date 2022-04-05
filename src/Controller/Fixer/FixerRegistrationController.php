@@ -37,13 +37,24 @@ class FixerRegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setPassword(
-            $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+            $fakeAddress = (new \App\Entity\Address())
+                ->setStreet('4 Rue de l\'Entente')
+                ->setCity('Athis-mons')
+                ->setRegion('Île-de-France')
+                ->setPostcode('91200')
+                ->setCountry('France')
+                ->setLatitude(48.70560223684846)
+                ->setLongitude(2.362543754878404);
 
+            $user
+                ->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                )
+                ->setAddress($fakeAddress);
+            $entityManager->persist($fakeAddress);
             $entityManager->persist($user);
             $entityManager->flush();
 
