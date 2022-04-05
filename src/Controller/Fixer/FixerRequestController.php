@@ -39,7 +39,7 @@ class FixerRequestController extends AbstractController
             $requestActive = (new RequestActive())
                 ->setFixer($service->getFixer())
                 ->setRequest($requestEntity)
-                ->setStep($serviceStepRepository->findOneBy(['step' => 2]));
+                ->setStep($serviceStepRepository->findOneBy(['step' => 1]));
 
             $em->persist($requestEntity);
             $em->persist($requestActive);

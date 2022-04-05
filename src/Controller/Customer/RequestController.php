@@ -24,7 +24,7 @@ class RequestController extends AbstractController
     {
         $user_id = $this->getUser()->getId();
         return $this->render('customer/request/index.html.twig', [
-            'requests' => $requestRepository->findBy(['customer' => $user_id, 'status' => Constant::STATUS_DEFAULT]),
+            'requests' => $requestRepository->findBy(['customer' => $user_id, 'status' => Constant::STATUS_DEFAULT, 'service' => null]),
         ]);
     }
 

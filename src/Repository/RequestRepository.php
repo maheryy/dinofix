@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Request;
+use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,7 +33,9 @@ class RequestRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->leftJoin('r.category', 'c')
             ->leftJoin('r.dino', 'd')
-            ->where('c.id IN (:categories) OR d.id IN (:dinos)')
+            ->where('r.status = :defaultStatus')
+            ->andWhere('c.id IN (:categories) OR d.id IN (:dinos)')
+            ->setParameter('defaultStatus', Constant::STATUS_DEFAULT)
             ->setParameter('categories', $categories)
             ->setParameter('dinos', $dinos)
             ->orderBy('r.created_at', 'DESC')

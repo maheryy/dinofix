@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\RequestActive;
+use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -58,8 +59,10 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->select('ra')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
-            ->andwhere('ra.fixer = :id')
+            ->andWhere('ra.fixer = :id')
+            ->andWhere('ra.status NOT IN(:statuses)')
             ->setParameter('id', $id)
+            ->setParameter('statuses', Constant::STATUS_DONE)
             ->orderBy('ra.created_at', 'DESC')
             ->getQuery()
             ->getResult();
