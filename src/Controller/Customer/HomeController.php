@@ -22,15 +22,13 @@ class HomeController extends AbstractController
 
         $popularServices = $serviceRepository->findPopularServices(12, 1.5);
         $activeServices = $requestActiveRepository->findUserRequestsByStatus($user->getId(), Constant::STATUS_DEFAULT);
-        $randomPastServices = $serviceRepository->findRandomServices(4, 'rating');
+        $pastServices = $requestActiveRepository->findUserRequestsByStatus($user->getId(), Constant::STATUS_DONE);
         $categories = $categoryRepository->findPopularCategories(4);
-
         return $this->render('customer/home/home.html.twig', [
             'popular_services' => $popularServices,
             'active_services' => $activeServices,
-            'past_services' => $randomPastServices,
+            'past_services' => $pastServices,
             'categories' => $categories,
-            'user' => $user,
         ]);
     }
 

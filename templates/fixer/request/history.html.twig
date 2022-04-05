@@ -1,0 +1,22 @@
+{% extends 'fixer/fixer.html.twig' %}
+{% from 'macros/utils.html.twig' import stars %}
+
+{% block body %}
+	<main class="main-container customer-container">
+		<div class="home-container">
+			<section class="top-content section-box">
+				<h2>Mes prestations effectuées</h2>
+				<ul class="fixer-service-list">
+					{% for request in requests %}
+						<li class="service-card border p-1.5 h-fit">
+							<h4 class="service-name">{{ request.request.service.name }}</h4>
+							<h4 class="service-name">{{ request.getCreatedAt() | date("d/m/Y à H:m:s") }}</h4>
+							<h4 class="service-name">{{ request.request.customer.firstname }}
+								{{ request.request.customer.lastname }}</h4>
+						</li>
+					{% endfor %}
+				</li>
+			</ul>
+		</section>
+	</div>
+</main>{% endblock %}

@@ -67,7 +67,7 @@ class PaymentController extends AbstractController
             $requestActiveEntity = new RequestActive();
             $requestActiveEntity->setRequest($requestEntity)
             ->setFixer($service->getFixer())
-            ->setStep($serviceStepRepository->findOneBy(['step' => 2]))
+            ->setStep($serviceStepRepository->findOneBy(['step' => 1]))
             ->setContent("description");
 
             $entityManager->persist($requestActiveEntity);

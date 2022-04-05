@@ -29,16 +29,6 @@ class RequestActiveController extends AbstractController
         ]);
     }
 
-    #[Route('/past', name: 'request_active_past', methods: ['GET'])]
-    public function past(RequestActiveRepository $requestActiveRepository): Response
-    {
-        $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DONE);
-        return $this->render('customer/request_active/past.html.twig', [
-            'request_actives' => $requests_actives,
-        ]);
-    }
-
     #[Route('/new', name: 'request_active_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

@@ -30,9 +30,6 @@
                     <a class="dropdown-title" href="#">Mon compte</a>
                     <ul class="dropdown-content">
                         <li>
-                            <a href="#">Profil</a>
-                        </li>
-                        <li>
                             <a href="{{ path('customer_request_new') }}">Faire une demande</a>
                         </li>
                         <li>
@@ -42,7 +39,10 @@
                             <a href="{{ path('customer_request_active_index') }}">Mes demandes en cours</a>
                         </li>
                         <li>
-                            <a href="{{ path('customer_request_active_past') }}">Historique</a>
+                            <a href="{{ path('customer_request_history') }}">Historique</a>
+                        </li>
+                        <li>
+                            <a href="#">Profil</a>
                         </li>
                         <li>
                             <a href="{{ path('customer_logout') }}">Deconnexion</a>

@@ -8,20 +8,12 @@
 				<h2>Mes prestations en cours</h2>
 				<ul class="fixer-service-list">
 					{% for ra in active_requests %}
-						<li class="service-card">
+						<li class="service-card border p-1.5 h-fit">
 							<h4 class="service-name">{{ ra.request.service.name }}</h4>
-							<h4 class="service-name">{{ ra.getCreatedAt() | date("H:m:s d/m/Y") }}</h4>
+							<h4 class="service-name">{{ ra.getCreatedAt() | date("d/m/Y à H:m:s") }}</h4>
 							<h4 class="service-name">{{ ra.request.customer.getFirstName() }}
 								{{ ra.request.customer.getLastName() }}</h4>
-							{% if ra.step.step == 1 %}
-								<form action="/fixer/active" method="POST">
-									<input type="hidden" name="id" value="{{ra.id}}">
-									<button class="btn btn-primary">Accepter</button>
-								</form>
-							{% endif %}
-							{% if ra.step.step != 1 %}
 								<a href="{{ path('fixer_update_step', {'id': ra.id}) }}" class="btn btn-primary">Modifier</a>
-							{% endif %}
 						</li>
 					{% endfor %}
 				</li>

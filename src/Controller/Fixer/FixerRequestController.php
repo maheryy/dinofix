@@ -3,6 +3,7 @@
 namespace App\Controller\Fixer;
 
 use App\Entity\RequestActive;
+use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceStepRepository;
@@ -39,7 +40,7 @@ class FixerRequestController extends AbstractController
             $requestActive = (new RequestActive())
                 ->setFixer($service->getFixer())
                 ->setRequest($requestEntity)
-                ->setStep($serviceStepRepository->findOneBy(['step' => 2]));
+                ->setStep($serviceStepRepository->findOneBy(['step' => 1]));
 
             $em->persist($requestEntity);
             $em->persist($requestActive);
@@ -51,6 +52,15 @@ class FixerRequestController extends AbstractController
         return $this->render('fixer/request/request.html.twig', [
             'request' => $requestEntity,
             'available_services' => $availableServices
+        ]);
+    }
+
+    #[Route('/history', name: 'history', methods: ['GET'])]
+    public function getHome(RequestActiveRepository $activeRepository): Response
+    {
+        $requests = $activeRepository->findFixerDoneRequests($this->getUser()->getId());
+        return $this->render('fixer/request/history.html.twig', [
+            'requests' => $requests
         ]);
     }
 }

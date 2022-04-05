@@ -36,15 +36,13 @@
         {% else %}
             <section class="request-container no-results">
                 <div class="no-results-text">
-                    <h1>Aucune demande trouvée</h1>
-                    <p>Veuillez faire une demande</p>
+                    <h1>Vous n'avez aucune demande enregistré pour le moment</h1>
                 </div>
             </section>
         {% endif %}
     </div>
 </div>
 <div class="container">
-    <a href="{{ path('customer_request_new') }}">Créer une demande</a>
     <a href="{{ path('customer_request_index') }}">Retour</a>
 </div>
 {% endblock %}

@@ -5,7 +5,7 @@
     <main class="main-container customer-container">
         <div class="home-container">
             <section class="top-content section-box">
-                <h2>Bonjour <span class="color-secondary">{{ user.firstname }}</span>, et si vous faisiez plaisir à
+                <h2>Bonjour <span class="color-secondary">{{ app.user.firstname }}</span>, et si vous faisiez plaisir à
                     votre dino...</h2>
                 <div class="category-content">
                     <div class="content-left flex items-center">
@@ -49,12 +49,27 @@
             {% if  past_services is not empty %}
                 <section class="past-services section-box">
                     <div class="flex justify-between items-center">
-                        <h2>Vos services passés</h2>
-                        <a class="link-primary underlined" href="#">Consulter mes anciennes demandes</a>
+                        <h2>Vos demandes passées</h2>
+                        <a class="link-primary underlined" href="{{ path('customer_request_history') }}">Consulter mes anciennes demandes</a>
                     </div>
                     <ul class="list-column py-1">
                         {% for service in past_services %}
-                            {{ _self.home_basic_card(service) }}
+                            <li class="list-item service-card">
+                                <div class="content-top">
+                                    <img src="https://picsum.photos/id/171/450/450" alt="">
+                                </div>
+                                <div class="content-bottom">
+                                    <p class="flex-col">
+                                        <span class="name">
+                                            <a class="link-primary"
+                                               href="{{ path('customer_request_show', {'id': service.request.id}) }}">{{ service.request.service.name }} | #{{ service.request.reference }}</a>
+                                        </span>
+                                        <span class="text-xs font-light pt-0.5">
+                                            par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': service.fixer.slug}) }}">{{ service.fixer.alias }}</a>
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </section>
