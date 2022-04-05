@@ -21,7 +21,7 @@ class FixerRequestController extends AbstractController
     public function freeRequests(ResolverService $resolverService, RequestRepository $requestRepository): Response
     {
         $expertise = $resolverService->getFixerExpertise($this->getUser()->getId());
-        $freeRequests = $requestRepository->findFreeRequests(array_keys($expertise['categories']), array_keys($expertise['dinos']));
+        $freeRequests = !empty($expertise) ? $requestRepository->findFreeRequests(array_keys($expertise['categories']), array_keys($expertise['dinos'])) : [];
 
         return $this->render('fixer/request/free_request_list.html.twig', [
             'requests' => $freeRequests

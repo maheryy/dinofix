@@ -16,7 +16,7 @@ class FixerHomeController extends AbstractController
     {
         $expertise = $resolverService->getFixerExpertise($this->getUser()->getId());
         $activeRequests = $requestActiveRepository->findUserRequestsByFixerId($this->getUser()->getId());
-        $customerRequests = $requestRepository->findFreeRequests(array_keys($expertise['categories']), array_keys($expertise['dinos']));
+        $customerRequests = !empty($expertise) ? $requestRepository->findFreeRequests(array_keys($expertise['categories']), array_keys($expertise['dinos'])) : [];
 
         return $this->render('fixer/home/home.html.twig', [
             'active_requests' => $activeRequests,

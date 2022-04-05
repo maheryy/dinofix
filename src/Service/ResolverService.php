@@ -18,9 +18,11 @@ class ResolverService
 
     public function getFixerExpertise($fixerId) : array
     {
-        $services = $this->serviceRepository->findAllFixerServices($fixerId);
-
         $res = [];
+        $services = $this->serviceRepository->findAllFixerServices($fixerId);
+        if (!$services) {
+            return [];
+        }
 
         foreach ($services as $service) {
             $category = $service->getCategory();
