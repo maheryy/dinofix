@@ -45,8 +45,10 @@
             </div>
             <div class="action-left flex">
                 <a class="btn-secondary" href="{{ path('customer_request_index') }}">Retour</a>
-                <a class="btn-primary mx-0.5" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
-                {{ include('customer/request/_delete_form.html.twig') }}
+                {% if request.status != 4 %}
+                    <a class="btn-primary mx-0.5" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
+                    {{ include('customer/request/_delete_form.html.twig') }}
+                {% endif %}
             </div>
         </div>
     </div>

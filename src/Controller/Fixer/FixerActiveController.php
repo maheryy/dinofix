@@ -19,13 +19,13 @@ class FixerActiveController extends AbstractController
     #[Route('/active', name: 'active', methods: ['GET', 'POST'])]
     public function getHome(RequestActiveRepository $activeRepository, Request $request, EntityManagerInterface $em, ServiceStepRepository $serviceStepRepository): Response
     {
-        if ($request->getMethod() == 'POST') {
-            $id = $request->request->get('id');
-            $acceptedReq = $activeRepository->find($id);
-            $acceptedReq->setStep($serviceStepRepository->findOneBy(['step' => 1]));
-            $em->persist($acceptedReq);
-            $em->flush();
-        }
+        //if ($request->getMethod() == 'POST') {
+        //    $id = $request->request->get('id');
+        //    $acceptedReq = $activeRepository->find($id);
+        //    $acceptedReq->setStep($serviceStepRepository->findOneBy(['step' => 1]));
+        //    $em->persist($acceptedReq);
+        //    $em->flush();
+        //}
 
         $activeRequests = $activeRepository->findUserRequestsByFixerId($this->getUser()->getId());
         return $this->render('fixer/service/active_services.html.twig', [

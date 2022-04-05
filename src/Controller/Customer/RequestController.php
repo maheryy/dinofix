@@ -4,6 +4,7 @@ namespace App\Controller\Customer;
 
 use App\Entity\Request as RequestEntity;
 use App\Form\RequestType;
+use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Service\Constant;
@@ -48,6 +49,16 @@ class RequestController extends AbstractController
         return $this->renderForm('customer/request/new.html.twig', [
             'request' => $requestEntity,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/history', name: 'request_history', methods: ['GET'])]
+    public function past(RequestActiveRepository $requestActiveRepository): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DONE);
+        return $this->render('customer/request/history.html.twig', [
+            'request_actives' => $requests_actives,
         ]);
     }
 
