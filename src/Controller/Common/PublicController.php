@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicController extends AbstractController
 {
     #[Route('/profile/{slug}', name: 'fixer_profile', methods: ['GET'])]
-    public function getHome(string $slug, FixerRepository $fixerRepository, ServiceRepository $serviceRepository): Response
+    public function fixerProfile(string $slug, FixerRepository $fixerRepository, ServiceRepository $serviceRepository): Response
     {
         $fixer = $fixerRepository->findFixerBySlug($slug);
 
@@ -21,7 +21,7 @@ class PublicController extends AbstractController
         }
 
         $fixerServices = $serviceRepository->findFixerServicesById($fixer->getId(), 10);
-        return $this->render('common/fixer_profile/fixer_profile.html.twig', [
+        return $this->render('common/public/fixer_profile.html.twig', [
             'fixer' => $fixer,
             'fixer_services' => $fixerServices
         ]);

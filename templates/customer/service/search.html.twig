@@ -74,7 +74,7 @@
                                     <div class="profile-picture">
                                         <img alt="" src="{{ asset('images/repair.png') }}">
                                     </div>
-                                    <a href="#">{{ service.alias }}</a>
+                                    <a href="{{ path('fixer_profile', {'slug': service.fixer_slug}) }}">{{ service.alias }}</a>
                                     <span class="rating">
                                         <span>
                                             <img class="review-star" alt=""
