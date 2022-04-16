@@ -6,8 +6,10 @@
         <div class="logo-container"><a href="{{ path('homepage') }}">Dinofix</a></div>
         <nav class="nav-right">
             <ul>
-                <li><a href="{{ path('fixer_login') }}">Vous êtes un professionel ?</a></li>
-                <li><a href="{{ path('customer_login') }}">Se connecter</a></li>
+                <li><a href="{{ path('fixer_home') }}">Vous êtes un professionel ?</a></li>
+                {% if not is_logged_in() %}
+                    <li><a href="{{ path('customer_login') }}">Se connecter</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
