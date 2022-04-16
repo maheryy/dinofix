@@ -79,3 +79,17 @@ export const clearInput = (element, data) => {
         $(element).click(() => input.val('').focus());
     }
 };
+
+export const showRemainingItems = (element, data) => {
+    const list = $(data.target);
+
+    $(element).click(() => {
+        if (list.hasClass('minimized')) {
+            list.removeClass('minimized');
+            $(element).text('Afficher moins');
+        } else {
+            list.addClass('minimized');
+            $(element).text('Afficher plus');
+        }
+    });
+}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Fixer;
+use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;

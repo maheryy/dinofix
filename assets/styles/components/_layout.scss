@@ -24,7 +24,7 @@ a {
   padding: 0 35px;
   font-size: 0.875rem;
 
-  &.customer-container {
+  &.customer-container, &.fixer-container {
     position: relative;
     background-color: #eef2f65c;
   }

@@ -30,6 +30,23 @@ class ReviewRepository extends ServiceEntityRepository
             ->select('r', 'c')
             ->where('r.service = :service')
             ->setParameter('service', $serviceId)
+            ->orderBy('r.rate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int $fixerId
+     * @return Review[]
+     */
+    public function findFixerReviews(int $fixerId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.customer', 'c')
+            ->select('r', 'c')
+            ->where('r.fixer = :fixer')
+            ->setParameter('fixer', $fixerId)
+            ->orderBy('r.rate', 'DESC')
             ->getQuery()
             ->getResult();
     }

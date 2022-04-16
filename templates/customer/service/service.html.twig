@@ -1,5 +1,5 @@
-{% from 'macros/utils.html.twig' import stars %}
 {% extends 'customer/customer.html.twig' %}
+{% from 'macros/utils.html.twig' import stars %}
 
 {% block body %}
     {% set fixer_profile = path('fixer_profile', {'slug': service.fixer.slug}) %}
