@@ -1,35 +1,20 @@
 {% extends 'fixer/fixer.html.twig' %}
 
-{% block title %}Demande - {{ request.subject }}{% endblock %}
-
 {% block body %}
-    <main class="main-container request-container">
-        <section id="description" class="request-section">
-            <h2 class="title">{{ request.subject }} | #{{ request.reference }}</h2>
-            <div class="content">
-                <div class="pb-0.5">
-                    <p>
-                        <span>{{ request.subject }} | #{{ request.reference }}</span>
-                    </p>
-                    <p>
-                        par <span>{{ request.customer.firstname }} {{ request.customer.lastname }}</span>
-                    </p>
-                </div>
-                <p class="pb-0.5">{{ request.description }}</p>
-            </div>
-        </section>
-        <div class="container">
-            <form method="post" class="w-full">
-                <div class="flex-col justify-center items-center">
-                    <select class="form-control" id="service-select" name="service" required>
-                        <option value="" disabled selected>Associer un service</option>
-                        {% for service in available_services %}
-                            <option value="{{ service.id }}">{{ service.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <button class="btn-primary">Prendre en charge ce service</button>
-                </div>
-            </form>
-        </div>
-    </main>
+	<main class="main-container fixer-container">
+		<div class="home-container">
+			<h1>Modifier un service</h1>
+			<p>Étape actuelle:
+				{{current_step.name}}</p>
+			{% if next_step %}
+				<p>Étape suivante:
+					{{next_step.name}}</p>
+			<form action="{{ path('fixer_request', {'id': request.id}) }}" method="POST">
+				<input type="hidden" name="id" value="{{next_step.id}}">
+				<button class="btn btn-primary">Passer à l'étape suivante</button>
+			</form>
+			{% endif %}
+			<a href="{{ path('fixer_requests') }}">Retour à votre page</a>
+		</div>
+	</main>
 {% endblock %}

@@ -9,20 +9,16 @@ class ResolverService
 {
 
     public function __construct(
-        private FixerRepository   $fixerRepository,
+        private FixerRepository $fixerRepository,
         private ServiceRepository $serviceRepository,
     )
     {
     }
 
-
     public function getFixerExpertise($fixerId): array
     {
         $res = [];
         $services = $this->serviceRepository->findAllFixerServices($fixerId);
-        if (!$services) {
-            return [];
-        }
 
         foreach ($services as $service) {
             if ($category = $service->getCategory()) {
@@ -32,9 +28,6 @@ class ResolverService
                 $res['dinos'][$dino->getId()] = $dino;
             }
         }
-
-        $res['categories'] = array_unique($res['categories']);
-        $res['dinos'] = array_unique($res['dinos']);
 
         return $res;
     }

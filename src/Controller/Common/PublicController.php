@@ -21,7 +21,7 @@ class PublicController extends AbstractController
         }
 
         $services = $serviceRepository->findFixerServicesById($fixer->getId());
-        $reviews = $reviewRepository->findFixerReviews($fixer->getId());
+        $reviews = $reviewRepository->findFixerReviews($fixer->getId(), 3);
         return $this->render('common/public/fixer_profile.html.twig', [
             'fixer' => $fixer,
             'reviews' => $reviews,

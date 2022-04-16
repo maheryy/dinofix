@@ -12,7 +12,7 @@ use App\Entity\Service;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
-class FixerServicesController extends AbstractController
+class FixerServiceController extends AbstractController
 {
     #[Route('/services/new', name: 'services_create', methods: ['GET', 'POST'])]
     public function createService(Request $request, EntityManagerInterface $entityManager, FixerRepository $fixerRepository): Response
