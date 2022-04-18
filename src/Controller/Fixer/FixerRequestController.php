@@ -30,7 +30,7 @@ class FixerRequestController extends AbstractController
     }
 
     #[Route('/open/request/{slug}', name: 'open_request', methods: ['GET', 'POST'])]
-    public function openRequest(Request $request, string $slug, RequestRepository $requestRepository, ServiceRepository $serviceRepository, EntityManagerInterface $em, ServiceStepRepository $serviceStepRepository): Response
+    public function openRequest(Request $request, string $slug, RequestRepository $requestRepository, ServiceRepository $serviceRepository, RequestManager $requestManager): Response
     {
         $requestEntity = $requestRepository->findRequestBySlug($slug);
 
@@ -40,16 +40,8 @@ class FixerRequestController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $service = $serviceRepository->find($request->request->get('service'));
-            $requestEntity->setService($service);
+            $requestManager->acceptOpenRequest($requestEntity, $service);
 
-            $requestActive = (new RequestActive())
-                ->setFixer($service->getFixer())
-                ->setRequest($requestEntity)
-                ->setStep($serviceStepRepository->findOneBy(['step' => 1]));
-
-            $em->persist($requestEntity);
-            $em->persist($requestActive);
-            $em->flush();
             return $this->redirectToRoute('fixer_requests');
         }
 
@@ -80,13 +72,14 @@ class FixerRequestController extends AbstractController
         $currentStep = $activeRequest->getStep();
         $nextStep = $requestManager->getActiveRequestNextStep($activeRequest);
         $countSteps = $requestManager->countActiveRequestSteps($activeRequest);
-
+        $logs = $requestManager->getRequestLogs($activeRequest->getRequest());
 
         return $this->render('fixer/request/request.html.twig', [
             'current_step' => $currentStep,
             'next_step' => $nextStep,
             'active_request' => $activeRequest,
-            'count_steps' => $countSteps
+            'count_steps' => $countSteps,
+            'logs' => $logs
         ]);
     }
 

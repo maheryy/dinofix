@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Service;
 use App\Entity\ServiceStep;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -29,7 +30,7 @@ class ServiceStepRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findStepsByService($service): array
+    public function findStepsByService(?Service $service): array
     {
         $qb = $this->createQueryBuilder('s')
             ->andWhere('s.service = :service')
@@ -47,7 +48,7 @@ class ServiceStepRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countStepsByService($service): ?int
+    public function countStepsByService(?Service $service): ?int
     {
         $qb = $this->createQueryBuilder('s')
             ->select('COUNT(s.id)')
@@ -64,7 +65,7 @@ class ServiceStepRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
-    public function findOneStepByService($service, int $stepValue): ?ServiceStep
+    public function findOneStepByService(?Service $service, int $stepValue): ?ServiceStep
     {
         $qb = $this->createQueryBuilder('s')
             ->andWhere('s.step = :step')
@@ -80,7 +81,7 @@ class ServiceStepRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function findLastStepByService($service)
+    public function findLastStepByService(?Service $service)
     {
         $qb = $this->createQueryBuilder('s')
             ->select('s')
@@ -97,7 +98,7 @@ class ServiceStepRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function findFirstStepByService($service)
+    public function findFirstStepByService(?Service $service)
     {
         $qb = $this->createQueryBuilder('s')
             ->select('s')

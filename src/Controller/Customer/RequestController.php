@@ -7,8 +7,10 @@ use App\Form\RequestType;
 use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
+use App\Repository\ServiceStepRepository;
 use App\Service\Constant;
 use App\Service\Generator;
+use App\Service\RequestManager;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,18 +32,15 @@ class RequestController extends AbstractController
     }
 
     #[Route('/new', name: 'request_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, Generator $generator): Response
+    public function new(Request $request, RequestManager $requestManager): Response
     {
         $requestEntity = new RequestEntity();
         $form = $this->createForm(RequestType::class, $requestEntity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $requestEntity
-                ->setCustomer($this->getUser())
-                ->setReference($generator->generateRequestReference());
-            $entityManager->persist($requestEntity);
-            $entityManager->flush();
+            $requestEntity->setCustomer($this->getUser());
+            $requestManager->createOpenRequest($requestEntity);
 
             $this->addFlash('success', 'Votre demande a été créée !');
             return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
@@ -50,6 +49,18 @@ class RequestController extends AbstractController
         return $this->renderForm('customer/request/new.html.twig', [
             'request' => $requestEntity,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/active', name: 'request_active', methods: ['GET'])]
+    public function activeRequestList(RequestActiveRepository $requestActiveRepository, ServiceStepRepository $serviceStepRepository): Response
+    {
+        $user_id = $this->getUser()->getId();
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DEFAULT);
+        $steps = $serviceStepRepository->findAll();
+        return $this->render('customer/request/active.html.twig', [
+            'request_actives' => $requests_actives,
+            'steps' => $steps
         ]);
     }
 
@@ -67,7 +78,7 @@ class RequestController extends AbstractController
     public function show(RequestEntity $requestEntity): Response
     {
         $user_id = $this->getUser()->getId();
-        if($user_id == $requestEntity->getCustomer()->getId()) {
+        if ($user_id == $requestEntity->getCustomer()->getId()) {
             return $this->render('customer/request/show.html.twig', [
                 'request' => $requestEntity,
             ]);
@@ -97,7 +108,7 @@ class RequestController extends AbstractController
     #[Route('/{id}', name: 'request_delete', methods: ['POST'])]
     public function delete(Request $request, RequestEntity $requestEntity, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$requestEntity->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $requestEntity->getId(), $request->request->get('_token'))) {
             $entityManager->remove($requestEntity);
             $entityManager->flush();
         }
