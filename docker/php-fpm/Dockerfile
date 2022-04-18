@@ -16,7 +16,7 @@ RUN apt-get remove cmdtest && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Set default timezone
+RUN echo 'date.timezone=Europe/Paris' > /usr/local/etc/php/conf.d/timezone.ini
 
 WORKDIR /var/www/html
-
-COPY php.ini /usr/local/etc/php/php.ini

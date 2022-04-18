@@ -5,15 +5,12 @@ services:
     container_name: dinofix_php
     build:
       context: ./docker/php-fpm
-#      cache_from:
-#        - php:8.1-fpm
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
       - ./:/var/www/html
-#      - app-cache:/var/www/html/var
     depends_on:
         - postgres
 
@@ -54,4 +51,3 @@ services:
 
 volumes:
   db-data: {}
-#  app-cache: {}
