@@ -7,12 +7,13 @@ use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceStepRepository;
-use App\Service\Constant;
+use App\Service\RequestManager;
 use App\Service\ResolverService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FixerRequestController extends AbstractController
@@ -32,6 +33,10 @@ class FixerRequestController extends AbstractController
     public function openRequest(Request $request, string $slug, RequestRepository $requestRepository, ServiceRepository $serviceRepository, EntityManagerInterface $em, ServiceStepRepository $serviceStepRepository): Response
     {
         $requestEntity = $requestRepository->findRequestBySlug($slug);
+
+        if (!$requestEntity) {
+            throw new BadRequestHttpException();
+        }
 
         if ($request->isMethod('POST')) {
             $service = $serviceRepository->find($request->request->get('service'));
@@ -55,8 +60,8 @@ class FixerRequestController extends AbstractController
         ]);
     }
 
-    #[Route('/request', name: 'requests', methods: ['GET', 'POST'])]
-    public function requestList(RequestActiveRepository $activeRepository, Request $request, EntityManagerInterface $em, ServiceStepRepository $serviceStepRepository): Response
+    #[Route('/request', name: 'requests', methods: ['GET'])]
+    public function requestList(RequestActiveRepository $activeRepository): Response
     {
         $activeRequests = $activeRepository->findUserRequestsByFixerId($this->getUser()->getId());
         return $this->render('fixer/request/request_list.html.twig', [
@@ -64,35 +69,37 @@ class FixerRequestController extends AbstractController
         ]);
     }
 
-    #[Route('/request/{id}', name: 'request', methods: ['GET', 'POST'])]
-    public function request(int $id, Request $request, EntityManagerInterface $em, ServiceStepRepository $serviceStep, RequestActiveRepository $ra): Response
+    #[Route('/request/{slug}', name: 'request', methods: ['GET'])]
+    public function request(string $slug, RequestManager $requestManager): Response
     {
-        $activeReq = $ra->find($id);
-        $currentStep = $activeReq->getStep();
-        $nextStep = $serviceStep->findOneByStepValue($currentStep->getStep() + 1);
-
-        if ($request->isMethod('POST') && $nextStep) {
-            $activeReq->setStep($nextStep);
-            $currentStep = $nextStep;
-            $nextStep = $serviceStep->findOneByStepValue($currentStep->getStep() + 1);
-
-            // This is final step
-            if (!$nextStep) {
-                $activeReq->setStatus(Constant::STATUS_DONE);
-                $requestEntity = $activeReq->getRequest();
-                $requestEntity->setStatus(Constant::STATUS_DONE);
-                $em->persist($requestEntity);
-            }
-
-            $em->persist($activeReq);
-            $em->flush();
+        $activeRequest = $requestManager->getActiveRequest($slug);
+        if (!$activeRequest) {
+            throw new BadRequestHttpException();
         }
+
+        $currentStep = $activeRequest->getStep();
+        $nextStep = $requestManager->getActiveRequestNextStep($activeRequest);
+        $countSteps = $requestManager->countActiveRequestSteps($activeRequest);
+
 
         return $this->render('fixer/request/request.html.twig', [
             'current_step' => $currentStep,
             'next_step' => $nextStep,
-            'request' => $activeReq
+            'active_request' => $activeRequest,
+            'count_steps' => $countSteps
         ]);
+    }
+
+    #[Route('/request/{slug}', name: 'request_action', methods: ['POST'])]
+    public function requestAction(Request $request, string $slug, RequestManager $requestManager): Response
+    {
+        $activeRequest = $requestManager->getActiveRequest($slug);
+        if (!$activeRequest) {
+            throw new BadRequestHttpException();
+        }
+        $requestManager->handleRequestAction($activeRequest, $request->request->get('action'));
+
+        return $this->redirectToRoute('fixer_request', ['slug' => $slug]);
     }
 
     #[Route('/history', name: 'history', methods: ['GET'])]

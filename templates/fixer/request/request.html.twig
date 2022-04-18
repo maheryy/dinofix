@@ -1,20 +1,31 @@
 {% extends 'fixer/fixer.html.twig' %}
 
 {% block body %}
-	<main class="main-container fixer-container">
-		<div class="home-container">
-			<h1>Modifier un service</h1>
-			<p>Étape actuelle:
-				{{current_step.name}}</p>
-			{% if next_step %}
-				<p>Étape suivante:
-					{{next_step.name}}</p>
-			<form action="{{ path('fixer_request', {'id': request.id}) }}" method="POST">
-				<input type="hidden" name="id" value="{{next_step.id}}">
-				<button class="btn btn-primary">Passer à l'étape suivante</button>
-			</form>
-			{% endif %}
-			<a href="{{ path('fixer_requests') }}">Retour à votre page</a>
-		</div>
-	</main>
+    <main class="main-container fixer-container">
+        <div class="step-manager-head-container">
+            <div class="step-manager-head">
+                <h2>Demande #{{ active_request.request.reference }}</h2>
+                <div>{{ active_request.request.customer.firstname }} {{ active_request.request.customer.lastname }}</div>
+                <div>{{ active_request.request.customer.email }}</div>
+                <div>{{ active_request.request.service.name }}</div>
+            </div>
+        </div>
+        <div class="step-manager-container">
+            <div class="step-manager">
+                <h1>Modifier un service</h1>
+                <p>Étape actuelle:{{ current_step.name }} ({{ current_step.step }}/{{ count_steps }})</p>
+                {% if next_step %}
+                    <p>Étape suivante:
+                        {{ next_step.name }}</p>
+                     <form action="{{ path('fixer_request_action', {'slug': active_request.request.slug}) }}" method="POST">
+                         <button type="submit" name="action" value="{{ const('ACTION_FINISH') }}" class="btn-success">Terminer l'intervention</button>
+                         <button type="submit" name="action" value="{{ const('ACTION_CANCEL') }}" class="btn-danger">Annuler l'intervention</button>
+                         <button type="submit" name="action" value="{{ const('ACTION_PAUSE') }}" class="btn-secondary">Suspendre l'intervention</button>
+                         <button type="submit" name="action" value="{{ const('ACTION_CONTINUE') }}" class="btn-primary">Passer à l'étape suivante</button>
+                     </form>
+                {% endif %}
+                <a href="{{ path('fixer_requests') }}">Retour à votre page</a>
+            </div>
+        </div>
+    </main>
 {% endblock %}

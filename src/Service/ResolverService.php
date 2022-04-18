@@ -9,8 +9,8 @@ class ResolverService
 {
 
     public function __construct(
-        private FixerRepository $fixerRepository,
-        private ServiceRepository $serviceRepository,
+        private FixerRepository       $fixerRepository,
+        private ServiceRepository     $serviceRepository,
     )
     {
     }
@@ -31,6 +31,4 @@ class ResolverService
 
         return $res;
     }
-
-
 }

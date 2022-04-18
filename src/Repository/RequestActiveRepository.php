@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\RequestActive;
 use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -86,32 +87,27 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // /**
-    //  * @return RequestActive[] Returns an array of RequestActive objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $slug
+     * @return RequestActive|null
+     */
+    public function findRequestBySlug($slug): ?RequestActive
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('ra')
+            ->select('ra', 'r', 'c')
+            ->innerJoin('ra.request', 'r')
+            ->innerJoin('r.customer', 'c')
+            ->andWhere('r.slug = :slug')
+            ->setParameter('slug', $slug);
 
-    /*
-    public function findOneBySomeField($value): ?RequestActive
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        try {
+            $res = $qb->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            $res = null;
+        }
+
+        return $res;
     }
-    */
+
+
 }

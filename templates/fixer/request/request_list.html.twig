@@ -13,7 +13,7 @@
 							<h4 class="service-name">{{ ra.getCreatedAt() | date("d/m/Y à H:m:s") }}</h4>
 							<h4 class="service-name">{{ ra.request.customer.getFirstName() }}
 								{{ ra.request.customer.getLastName() }}</h4>
-								<a href="{{ path('fixer_request', {'id': ra.id}) }}" class="btn btn-primary">Modifier</a>
+								<a href="{{ path('fixer_request', {'slug': ra.request.slug}) }}" class="btn btn-primary">Modifier</a>
 						</li>
 					{% endfor %}
 				</li>

@@ -18,7 +18,10 @@ class Generator
      */
     public function generateRequestReference(): string
     {
-        return $this->generateReference(3, 5);
+        $reference = $this->generateReference(3, 5);
+        return $this->requestRepository->findBy(['reference' => $reference])
+            ? $this->generateRequestReference()
+            : $reference;
     }
 
     /**
@@ -36,7 +39,6 @@ class Generator
             $res[] = rand(0, 9);
         }
 
-        $reference = implode('', $res);
-        return $this->requestRepository->findBy(['reference' => $reference]) ? $this->generateReference($letters, $digits) : $reference;
+        return implode('', $res);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ServiceStep;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,32 +29,90 @@ class ServiceStepRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    // /**
-    //  * @return ServiceStep[] Returns an array of ServiceStep objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findStepsByService($service): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.service = :service')
+            ->andWhere('s.step > :step')
+            ->setParameter('service', $service)
+            ->setParameter('step', 0);
 
-    /*
-    public function findOneBySomeField($value): ?ServiceStep
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($service) {
+            $qb->andWhere('s.service = :service')
+                ->setParameter('service', $service);
+        } else {
+            $qb->andWhere('s.service IS NULL');
+        }
+
+        return $qb->getQuery()->getResult();
     }
-    */
+
+    public function countStepsByService($service): ?int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->andWhere('s.step > :step')
+            ->setParameter('step', 0);
+
+        if ($service) {
+            $qb->andWhere('s.service = :service')
+                ->setParameter('service', $service);
+        } else {
+            $qb->andWhere('s.service IS NULL');
+        }
+
+        return $qb->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
+    }
+
+    public function findOneStepByService($service, int $stepValue): ?ServiceStep
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.step = :step')
+            ->setParameter('step', $stepValue);
+
+        if ($service) {
+            $qb->andWhere('s.service = :service')
+                ->setParameter('service', $service);
+        } else {
+            $qb->andWhere('s.service IS NULL');
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findLastStepByService($service)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.step', 'DESC')
+            ->setMaxResults(1);
+
+        if ($service) {
+            $qb->andWhere('s.service = :service')
+                ->setParameter('service', $service);
+        } else {
+            $qb->andWhere('s.service IS NULL');
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function findFirstStepByService($service)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.step >= :step')
+            ->setParameter('step', 0)
+            ->orderBy('s.step', 'ASC')
+            ->setMaxResults(1);
+
+        if ($service) {
+            $qb->andWhere('s.service = :service')
+                ->setParameter('service', $service);
+        } else {
+            $qb->andWhere('s.service IS NULL');
+        }
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
