@@ -33,9 +33,7 @@ class ServiceStepRepository extends ServiceEntityRepository
     public function findStepsByService(?Service $service): array
     {
         $qb = $this->createQueryBuilder('s')
-            ->andWhere('s.service = :service')
             ->andWhere('s.step > :step')
-            ->setParameter('service', $service)
             ->setParameter('step', 0);
 
         if ($service) {

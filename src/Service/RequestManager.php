@@ -47,6 +47,11 @@ class RequestManager
         return $this->serviceStepRepository->findLastStepByService($requestActive->getStep()->getService());
     }
 
+    public function getActiveRequestAllSteps(RequestActive $requestActive): array
+    {
+        return $this->serviceStepRepository->findStepsByService($requestActive->getStep()->getService());
+    }
+
     public function getRequestLogs(Request $request): array
     {
         return $this->requestLogRepository->findAllRequestLog($request);
@@ -113,8 +118,10 @@ class RequestManager
                 if (!$nextStep) {
                     return;
                 }
-                $event = "Passage à l'étape \"{$nextStep->getName()}\"";
+
+                $event = $requestActive->getStatus() === Constant::STATUS_DEFAULT ? "Début de l'intervention" : "Passage à l'étape \"{$nextStep->getName()}\"";
                 $requestActive->setStep($nextStep);
+                $requestActive->setStatus(Constant::STATUS_ACTIVE);
                 break;
 
             case Constant::ACTION_PAUSE :

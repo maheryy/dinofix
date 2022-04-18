@@ -1,0 +1,70 @@
+$container-max-width: 1170px;
+
+.step-manager-head-container {
+  max-width: $container-max-width;
+  margin: 25px auto 0;
+
+  .step-manager-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+  }
+}
+
+.step-manager-container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 25px 0;
+  display: flex;
+
+  .step-manager-steps {
+    flex: 0.25;
+
+    .step-list{
+      .content .title {
+        font-size: 0.9rem;
+      }
+
+      .step-item.active {
+        color: #0372b8;
+
+        & > .step {
+          border-color: #0372b8;
+        }
+
+        &:not(:last-of-type) > .step:before {
+          background-color: #0372b8;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    display: flex;
+    flex: 1;
+
+    .step-manager-form {
+      flex: 0.65;
+      padding: .75rem 1.5rem;
+      margin-right: 10px;
+
+      button {
+        font-size: 1em;
+        font-weight: lighter;
+      }
+    }
+
+    .step-manager-logs {
+      flex: 0.35;
+
+      .log-list-container {
+        overflow-y: auto;
+        margin: 1.5em 0;
+        max-height: 375px;
+        min-height: 300px;
+      }
+    }
+  }
+}

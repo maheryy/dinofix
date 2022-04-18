@@ -2,14 +2,11 @@
 
 namespace App\Controller\Fixer;
 
-use App\Entity\RequestActive;
 use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
-use App\Repository\ServiceStepRepository;
 use App\Service\RequestManager;
 use App\Service\ResolverService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,15 +68,15 @@ class FixerRequestController extends AbstractController
 
         $currentStep = $activeRequest->getStep();
         $nextStep = $requestManager->getActiveRequestNextStep($activeRequest);
-        $countSteps = $requestManager->countActiveRequestSteps($activeRequest);
+        $steps = $requestManager->getActiveRequestAllSteps($activeRequest);
         $logs = $requestManager->getRequestLogs($activeRequest->getRequest());
 
         return $this->render('fixer/request/request.html.twig', [
+            'active_request' => $activeRequest,
             'current_step' => $currentStep,
             'next_step' => $nextStep,
-            'active_request' => $activeRequest,
-            'count_steps' => $countSteps,
-            'logs' => $logs
+            'logs' => $logs,
+            'steps' => $steps,
         ]);
     }
 
