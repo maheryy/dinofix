@@ -67,7 +67,7 @@
                                     <p class="flex-col">
                                         <span class="name">
                                             <a class="link-primary"
-                                            href="{{ path('customer_request_show', {'id': service.request.id}) }}">{{ service.request.service.name }} | #{{ service.request.reference }}</a>
+                                               href="{{ path('customer_request_show', {'slug': service.request.slug}) }}">{{ service.request.service.name }} | #{{ service.request.reference }}</a>
                                         </span>
                                         <span class="text-xs font-light pt-0.5">
                                             par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': service.fixer.slug}) }}">{{ service.fixer.alias }}</a>
@@ -115,7 +115,7 @@
         <div class="content-bottom">
             <p class="flex-col">
                 <span class="name">
-                    <a class="link-primary" href="{{ path('customer_request_show', {'id': data.request.id }) }}">{{ data.request.service.name }}</a>
+                    <a class="link-primary" href="{{ path('customer_request_show', {'slug': data.request.slug }) }}">{{ data.request.service.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
                     par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': data.fixer.slug}) }}">{{ data.fixer.alias }}</a>

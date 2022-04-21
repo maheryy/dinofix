@@ -44,9 +44,9 @@
                 {% endif %}
             </div>
             <div class="action-left flex">
-                <a class="btn-secondary" href="{{ path('customer_request_index') }}">Retour</a>
+                <a class="btn-secondary" href="{{ path('customer_open_requests') }}">Retour</a>
                 {% if request.status != 4 %}
-                    <a class="btn-primary mx-0.5" href="{{ path('customer_request_edit', {'id': request.id}) }}">Modifier</a>
+                    <a class="btn-primary mx-0.5" href="{{ path('customer_request_edit', {'slug': request.slug}) }}">Modifier</a>
                     {{ include('customer/request/_delete_form.html.twig') }}
                 {% endif %}
             </div>

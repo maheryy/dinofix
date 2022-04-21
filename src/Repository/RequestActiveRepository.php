@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
+use App\Entity\Fixer;
 use App\Entity\RequestActive;
 use App\Entity\Service;
 use App\Service\Constant;
@@ -30,61 +32,60 @@ class RequestActiveRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id
-     * @param $status
+     * @param Customer $customer
+     * @param $statuses
      * @return array
      */
-    public function findUserRequestsByStatus($id, $status): array
+    public function findUserRequestsByStatus(Customer $customer, $statuses): array
     {
         return $this->createQueryBuilder('ra')
-            ->select('ra', 'r', 'st', 's', 'f')
+            ->select('ra', 'r', 's', 'f')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('ra.fixer', 'f')
-            ->innerJoin('ra.step', 'st')
             ->innerJoin('r.customer', 'c')
             ->innerJoin('r.service', 's')
-            ->andwhere('c.id = :id')
-            ->andWhere('r.status = :status')
-            ->setParameter('id', $id)
-            ->setParameter('status', $status)
+            ->andwhere('r.customer = :customer')
+            ->andWhere('r.status IN (:status)')
+            ->setParameter('customer', $customer)
+            ->setParameter('status', $statuses)
             ->orderBy('ra.created_at', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @param $id
+     * @param Fixer $fixer
      * @return array
      */
-    public function findUserRequestsByFixerId($id): array
+    public function findActiveRequestsByFixer(Fixer $fixer): array
     {
         return $this->createQueryBuilder('ra')
             ->select('ra')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
-            ->andWhere('ra.fixer = :id')
-            ->andWhere('ra.status NOT IN(:statuses)')
-            ->setParameter('id', $id)
-            ->setParameter('statuses', Constant::STATUS_DONE)
+            ->andWhere('ra.fixer = :fixer')
+            ->andWhere('ra.status IN (:statuses)')
+            ->setParameter('fixer', $fixer)
+            ->setParameter('statuses', [Constant::STATUS_DEFAULT, Constant::STATUS_ACTIVE, Constant::STATUS_PAUSED])
             ->orderBy('ra.created_at', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @param $fixer
+     * @param Fixer $fixer
      * @return array
      */
-    public function findFixerDoneRequests($fixer): array
+    public function findFixerDoneRequests(Fixer $fixer): array
     {
         return $this->createQueryBuilder('ra')
             ->select('ra')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
-            ->andWhere('ra.fixer = :id')
-            ->andWhere('ra.status = :status')
-            ->setParameter('id', $fixer)
-            ->setParameter('status', Constant::STATUS_DONE)
+            ->andWhere('ra.fixer = :fixer')
+            ->andWhere('ra.status IN (:status)')
+            ->setParameter('fixer', $fixer)
+            ->setParameter('status', [Constant::STATUS_DONE, Constant::STATUS_CANCELLED])
             ->getQuery()
             ->getResult();
     }
@@ -95,20 +96,14 @@ class RequestActiveRepository extends ServiceEntityRepository
      */
     public function findRequestBySlug($slug): ?RequestActive
     {
-        $qb = $this->createQueryBuilder('ra')
+        return $this->createQueryBuilder('ra')
             ->select('ra', 'r', 'c')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
             ->andWhere('r.slug = :slug')
-            ->setParameter('slug', $slug);
-
-        try {
-            $res = $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            $res = null;
-        }
-
-        return $res;
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**

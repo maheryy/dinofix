@@ -81,7 +81,6 @@ class FixerServiceController extends AbstractController
         $linkedServiceStep = $serviceStepRepository->countStepsByService($service) ? $service : null;
         $steps = $serviceStepRepository->findStepsByService($linkedServiceStep);
         $hasActiveRequests = $requestActiveRepository->countActiveRequestsByService($service);
-        dump($hasActiveRequests);
         if ($request->isMethod('POST') && !$hasActiveRequests) {
             $dataSteps = $helper->buildArrayFromKeyCombination($request->request->all('steps'));
 

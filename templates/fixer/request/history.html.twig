@@ -8,11 +8,13 @@
 				<h2>Mes prestations effectuées</h2>
 				<ul class="fixer-service-list">
 					{% for request in requests %}
-						<li class="service-card border p-1.5 h-fit">
-							<h4 class="service-name">{{ request.request.service.name }}</h4>
-							<h4 class="service-name">{{ request.getCreatedAt() | date("d/m/Y à H:m:s") }}</h4>
-							<h4 class="service-name">{{ request.request.customer.firstname }}
-								{{ request.request.customer.lastname }}</h4>
+						<li class="service-card border p-1.5 h-fit lh-1.75">
+							<span class="text-base font-semibold">{{ request.request.subject }} - #{{ request.request.reference }}</span>
+							<span class="text-sm font-semibold">par {{ request.request.customer.firstname }} {{ request.request.customer.lastname }}</span>
+							<span class="text-sm font-semibold">
+								{{ request.status == const('STATUS_DONE') ? 'Terminé' : 'Annulé'}} le {{ request.getUpdatedAt() | date("d/m/Y à H:i") }}
+							</span>
+							<a class="btn-primary" href="{{ path('fixer_request', {'slug' : request.request.slug}) }}">Voir</a>
 						</li>
 					{% endfor %}
 				</li>

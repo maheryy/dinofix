@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\Request;
 use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -46,16 +47,22 @@ class RequestRepository extends ServiceEntityRepository
 
     public function findRequestBySlug(string $slug): ?Request
     {
-        $qb = $this->createQueryBuilder('r')
+        return $this->createQueryBuilder('r')
             ->where('r.slug = :slug')
-            ->setParameter('slug', $slug);
-            try {
-                $res = $qb->getQuery()->getOneOrNullResult();
-            } catch (NonUniqueResultException $e) {
-                $res = null;
-            }
-
-        return $res;
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
+    public function findCustomerOpenRequests(Customer $customer) {
+        return $this->createQueryBuilder('r')
+            ->where('r.service IS NULL')
+            ->andWhere('r.status = :defaultStatus')
+            ->andWhere('r.customer = :customer')
+            ->setParameter('defaultStatus', Constant::STATUS_DEFAULT)
+            ->setParameter('customer', $customer)
+            ->orderBy('r.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

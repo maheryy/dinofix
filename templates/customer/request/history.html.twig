@@ -10,7 +10,7 @@
                 <div class="col-3">
                     <ul class="request-card">
                         <li>
-                            <a href="{{ path('customer_request_show', {'id': request_active.request.id}) }}" class="card">
+                            <a href="{{ path('customer_request_show', {'slug': request_active.request.slug}) }}" class="card">
                             <img src="https://i.pinimg.com/originals/b3/f5/05/b3f505691f10a84867497d7b58e7525a.png" class="card__image" alt="" />
                             <div class="card__overlay">
                                 <div class="card__header">
@@ -43,6 +43,6 @@
     </div>
 </div>
 <div class="container">
-    <a href="{{ path('customer_request_index') }}">Retour</a>
+    <a href="{{ path('customer_open_requests') }}">Retour</a>
 </div>
 {% endblock %}

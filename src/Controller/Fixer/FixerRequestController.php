@@ -42,7 +42,7 @@ class FixerRequestController extends AbstractController
             return $this->redirectToRoute('fixer_requests');
         }
 
-        $availableServices = $serviceRepository->findFixerRequestRelatedServices($this->getUser()->getId(), $requestEntity->getCategory()?->getId(), $requestEntity->getDino()?->getId());
+        $availableServices = $serviceRepository->findFixerRequestRelatedServices($this->getUser(), $requestEntity->getCategory()?->getId(), $requestEntity->getDino()?->getId());
         return $this->render('fixer/request/free_request.html.twig', [
             'request' => $requestEntity,
             'available_services' => $availableServices
@@ -52,7 +52,7 @@ class FixerRequestController extends AbstractController
     #[Route('/request', name: 'requests', methods: ['GET'])]
     public function requestList(RequestActiveRepository $activeRepository): Response
     {
-        $activeRequests = $activeRepository->findUserRequestsByFixerId($this->getUser()->getId());
+        $activeRequests = $activeRepository->findActiveRequestsByFixer($this->getUser());
         return $this->render('fixer/request/request_list.html.twig', [
             'active_requests' => $activeRequests
         ]);
@@ -95,7 +95,7 @@ class FixerRequestController extends AbstractController
     #[Route('/history', name: 'history', methods: ['GET'])]
     public function history(RequestActiveRepository $activeRepository): Response
     {
-        $requests = $activeRepository->findFixerDoneRequests($this->getUser()->getId());
+        $requests = $activeRepository->findFixerDoneRequests($this->getUser());
         return $this->render('fixer/request/history.html.twig', [
             'requests' => $requests
         ]);

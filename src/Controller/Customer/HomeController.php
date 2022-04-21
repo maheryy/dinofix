@@ -21,8 +21,8 @@ class HomeController extends AbstractController
         }
 
         $popularServices = $serviceRepository->findPopularServices(12, 1.5);
-        $activeServices = $requestActiveRepository->findUserRequestsByStatus($user->getId(), Constant::STATUS_DEFAULT);
-        $pastServices = $requestActiveRepository->findUserRequestsByStatus($user->getId(), Constant::STATUS_DONE);
+        $activeServices = $requestActiveRepository->findUserRequestsByStatus($user, [Constant::STATUS_DEFAULT, Constant::STATUS_ACTIVE, Constant::STATUS_PAUSED]);
+        $pastServices = $requestActiveRepository->findUserRequestsByStatus($user, [Constant::STATUS_DONE, Constant::STATUS_CANCELLED]);
         $categories = $categoryRepository->findPopularCategories(4);
         return $this->render('customer/home/home.html.twig', [
             'popular_services' => $popularServices,

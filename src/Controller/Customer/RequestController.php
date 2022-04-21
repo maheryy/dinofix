@@ -17,20 +17,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/request')]
 class RequestController extends AbstractController
 {
-    #[Route('/', name: 'request_index', methods: ['GET'])]
-    public function index(RequestRepository $requestRepository): Response
-    {
-        $user_id = $this->getUser()->getId();
-        return $this->render('customer/request/index.html.twig', [
-            'requests' => $requestRepository->findBy(['customer' => $user_id, 'status' => Constant::STATUS_DEFAULT, 'service' => null]),
-        ]);
-    }
-
     #[Route('/new', name: 'request_new', methods: ['GET', 'POST'])]
     public function new(Request $request, RequestManager $requestManager): Response
     {
@@ -43,7 +35,7 @@ class RequestController extends AbstractController
             $requestManager->createOpenRequest($requestEntity);
 
             $this->addFlash('success', 'Votre demande a été créée !');
-            return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('customer_open_requests', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('customer/request/new.html.twig', [
@@ -52,11 +44,20 @@ class RequestController extends AbstractController
         ]);
     }
 
+    #[Route('/open', name: 'open_requests', methods: ['GET'])]
+    public function index(RequestRepository $requestRepository): Response
+    {
+        $requests = $requestRepository->findCustomerOpenRequests($this->getUser());
+        return $this->render('customer/request/index.html.twig', [
+            'requests' => $requests,
+        ]);
+    }
+
+
     #[Route('/active', name: 'request_active', methods: ['GET'])]
     public function activeRequestList(RequestActiveRepository $requestActiveRepository, ServiceStepRepository $serviceStepRepository): Response
     {
-        $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DEFAULT);
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($this->getUser(), [Constant::STATUS_DEFAULT, Constant::STATUS_ACTIVE, Constant::STATUS_PAUSED]);
         $steps = $serviceStepRepository->findAll();
         return $this->render('customer/request/active.html.twig', [
             'request_actives' => $requests_actives,
@@ -65,38 +66,46 @@ class RequestController extends AbstractController
     }
 
     #[Route('/history', name: 'request_history', methods: ['GET'])]
-    public function past(RequestActiveRepository $requestActiveRepository): Response
+    public function history(RequestActiveRepository $requestActiveRepository): Response
     {
-        $user_id = $this->getUser()->getId();
-        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($user_id, Constant::STATUS_DONE);
+        $requests_actives = $requestActiveRepository->findUserRequestsByStatus($this->getUser(), [Constant::STATUS_DONE, Constant::STATUS_CANCELLED]);
         return $this->render('customer/request/history.html.twig', [
             'request_actives' => $requests_actives,
         ]);
     }
 
-    #[Route('/{id}', name: 'request_show', methods: ['GET'])]
-    public function show(RequestEntity $requestEntity): Response
+    #[Route('/{slug}', name: 'request_show', methods: ['GET'])]
+    public function show(string $slug, RequestRepository $requestRepository): Response
     {
-        $user_id = $this->getUser()->getId();
-        if ($user_id == $requestEntity->getCustomer()->getId()) {
-            return $this->render('customer/request/show.html.twig', [
-                'request' => $requestEntity,
-            ]);
+        $requestEntity = $requestRepository->findRequestBySlug($slug);
+        if (!$requestEntity) {
+            throw new BadRequestHttpException();
         }
 
-        $this->redirectToRoute('customer_request_index');
+        if ($this->getUser()->getId() != $requestEntity->getCustomer()->getId()) {
+            return $this->redirectToRoute('customer_open_requests');
+        }
+
+        return $this->render('customer/request/show.html.twig', [
+            'request' => $requestEntity,
+        ]);
     }
 
-    #[Route('/{id}/edit', name: 'request_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, RequestEntity $requestEntity, EntityManagerInterface $entityManager): Response
+    #[Route('/{slug}/edit', name: 'request_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, string $slug, RequestRepository $requestRepository, EntityManagerInterface $entityManager): Response
     {
+        $requestEntity = $requestRepository->findRequestBySlug($slug);
+        if (!$requestEntity) {
+            throw new BadRequestHttpException();
+        }
+
         $form = $this->createForm(RequestType::class, $requestEntity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('customer_open_requests', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('customer/request/edit.html.twig', [
@@ -105,7 +114,7 @@ class RequestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'request_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'request_delete', methods: ['POST'])]
     public function delete(Request $request, RequestEntity $requestEntity, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $requestEntity->getId(), $request->request->get('_token'))) {
@@ -113,6 +122,6 @@ class RequestController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('customer_open_requests', [], Response::HTTP_SEE_OTHER);
     }
 }
