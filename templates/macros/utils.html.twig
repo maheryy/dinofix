@@ -9,7 +9,7 @@
 {% macro progress_step(steps, reference_step) %}
     <ul class="step-list progress-step">
         {% for step in steps %}
-            <li class="step-item {{ step.step <= reference_step.step ? 'active' : '' }}">
+            <li class="step-item {{ reference_step and step.step <= reference_step.step ? 'active' : '' }}">
                 <div class="step">
                     <span class="label">{{ step.step }}</span>
                 </div>
@@ -24,7 +24,7 @@
 {% macro vertical_progress_step(steps, reference_step) %}
     <ul class="step-list vertical-progress-step">
         {% for step in steps %}
-            <li class="step-item {{ step.step <= reference_step.step ? 'active' : '' }}">
+            <li class="step-item {{ reference_step and step.step <= reference_step.step ? 'active' : '' }}">
                 <div class="step">
                     <span class="label">{{ step.step }}</span>
                 </div>

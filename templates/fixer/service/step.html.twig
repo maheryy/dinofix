@@ -1,0 +1,73 @@
+{% extends 'fixer/fixer.html.twig' %}
+{% from 'macros/utils.html.twig' import vertical_progress_step %}
+
+{% block body %}
+    <main class="main-container fixer-container">
+        <div class="step-manager-head-container">
+            <div class="step-manager-head section-box shadow">
+                <div class="content-left lh-1.5">
+                    <h2 class="font-medium">Personnaliser les étapes</h2>
+                    <span class="font-light">{{ service.name}} </span>
+                </div>
+                <div class="content-right flex-col items-end lh-1.5">
+                {% if has_active_requests %}
+                    <button class="btn-success" disabled>Sauvegarder les changements</button>
+                    <span class="text-xs color-warning font-medium">Une intervention est en cours pour ce service</span>
+                {% else %}
+                    <button class="btn-success" data-event="submitFromOutside" data-target="#step-form">Sauvegarder les changements</button>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="step-manager-container" data-event="stepManagerHandler">
+            <div class="main-content section-box shadow">
+                <div class="step-manager-form flex justify-center">
+                    <form id="entry-form" class="form-wrapper w-3/4 flex-col">
+                        <p class="font-medium pb-1.25">Ajoutez, retirez ou repositionnez une étape.</p>
+                        <div class="form-control-wrapper py-0.75">
+                            <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg')}}" alt="icon-cross"
+                                 data-event="clearInput" data-target="#step-name">
+                            <input id="step-name" type="text" class="form-control" placeholder="Nom de l'étape (ex: En discussion avec le dino)" required>
+                        </div>
+                        <div class="form-control-wrapper py-0.75">
+                            <textarea id="step-description" class="form-control no-resize" rows="7" placeholder="Description de l'étape (facultatif)"></textarea>
+                        </div>
+                        <div class="form-control-wrapper py-0.25 flex items-center">
+                            <input id="step-notify" type="checkbox" class="form-control cursor-pointer">
+                            <label class="px-0.5 cursor-pointer" for="step-notify">Notifier le client par email lors de cette étape</label>
+                        </div>
+                        <div class="flex justify-end py-1">
+                            <button class="btn-primary">Ajouter cette étape</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="step-manager-steps">
+                    <form id="step-form" method="post">
+                        <ul id="draggable-step-list" class="draggable-step-list vertical-progress-step">
+                            {% for index, step in steps %}
+                                {% set is_disabled = index == 0 or index == (steps | length) - 1%}
+                                <li draggable="{{ is_disabled ? 'false' : 'true'}}" class="step-item {{ is_disabled ? 'disabled' : 'draggable'}}">
+                                    <div class="step">
+                                        <span class="label">{{ step.step }}</span>
+                                    </div>
+                                    <div class="content">
+                                        <span class="title">{{ step.name }}</span>
+                                        {% if not is_disabled %}
+                                            <span class="remove">
+                                                <img class="cursor-pointer" src="{{ asset('images/cross.svg')}}" alt="icon-cross">
+                                            </span>
+                                        {% endif %}
+                                        <input type="hidden" class="item-step-name" name="steps[name][]" value="{{ step.name }}">
+                                        <input type="hidden" class="item-step-description" name="steps[description][]" value="{{ step.description }}">
+                                        <input type="hidden" class="item-step-notify" name="steps[notify][]" value="{{ step.step ? '1' : '0' }}">
+{#                                        <input type="hidden" class="item-step-notify" name="steps[notify][]" value="{{ step.notify ? '1' : '0' }}">#}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

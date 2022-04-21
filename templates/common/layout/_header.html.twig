@@ -6,7 +6,7 @@
                 <div class="form-control-wrapper w-4/5">
                     <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
                     <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg') }}" alt=""
-                         data-event="clearInput" data-json="{{ {'target' : 'searchbar'} | json_encode }}">
+                         data-event="clearInput" data-target="#searchbar">
                     <input class="searchbar form-control" type="text" id="searchbar" name="query"
                            value="{{ previousQuery ?? null }}">
                 </div>

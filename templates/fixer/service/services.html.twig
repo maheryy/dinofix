@@ -15,7 +15,7 @@
 								<span class="stars">{{ stars(service.rating) }}</span>
 								<span class="review-total">({{ service.reviews }})</span>
 							</div>
-							<a href="{{ path('fixer_services_edit', {'id': service.id}) }}" class="btn btn-primary">Modifier</a>
+							<a href="{{ path('fixer_services_edit', {'slug': service.slug}) }}" class="btn btn-primary">Modifier</a>
 						</li>
 					{% endfor %}
 				</ul>

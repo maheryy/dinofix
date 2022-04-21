@@ -114,4 +114,16 @@ class ServiceStepRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function removeStepsByService(Service $service) : bool
+    {
+        $this->createQueryBuilder('s')
+            ->delete()
+            ->where('s.service >= :service')
+            ->setParameter('service', $service)
+            ->getQuery()
+            ->execute();
+
+        return true;
+    }
 }

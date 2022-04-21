@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\RequestActive;
+use App\Entity\Service;
 use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -107,6 +109,23 @@ class RequestActiveRepository extends ServiceEntityRepository
         }
 
         return $res;
+    }
+
+    /**
+     * @param Service $service
+     * @return int|null
+     */
+    public function countActiveRequestsByService(Service $service): ?int
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('COUNT(r.id)')
+            ->innerJoin('ra.request', 'r')
+            ->andWhere('r.service = :service')
+            ->andWhere('ra.status NOT IN(:statuses)')
+            ->setParameter('service', $service)
+            ->setParameter('statuses', [Constant::STATUS_DONE, Constant::STATUS_CANCELLED, Constant::STATUS_DELETED, Constant::STATUS_INACTIVE])
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
 

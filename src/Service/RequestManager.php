@@ -39,17 +39,17 @@ class RequestManager
 
     public function getActiveRequestNextStep(RequestActive $requestActive): ?ServiceStep
     {
-        return $this->serviceStepRepository->findOneStepByService($requestActive->getStep()->getService(), $requestActive->getStep()->getStep() + 1);
+        return $this->serviceStepRepository->findOneStepByService($requestActive->getStep()?->getService(), $requestActive->getStep()?->getStep() + 1);
     }
 
     public function getActiveRequestLastStep(RequestActive $requestActive): ?ServiceStep
     {
-        return $this->serviceStepRepository->findLastStepByService($requestActive->getStep()->getService());
+        return $this->serviceStepRepository->findLastStepByService($requestActive->getStep()?->getService());
     }
 
     public function getActiveRequestAllSteps(RequestActive $requestActive): array
     {
-        return $this->serviceStepRepository->findStepsByService($requestActive->getStep()->getService());
+        return $this->serviceStepRepository->findStepsByService($requestActive->getStep()?->getService());
     }
 
     public function getRequestLogs(Request $request): array
@@ -59,7 +59,7 @@ class RequestManager
 
     public function countActiveRequestSteps(RequestActive $requestActive): ?int
     {
-        return $this->serviceStepRepository->countStepsByService($requestActive->getStep()->getService());
+        return $this->serviceStepRepository->countStepsByService($requestActive->getStep()?->getService());
     }
 
     public function createOpenRequest(Request $request)

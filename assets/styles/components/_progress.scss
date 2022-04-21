@@ -73,7 +73,6 @@ $pg-active-color: #44af44;
 
     & > .content {
       display: flex;
-      justify-content: center;
       align-items: center;
       padding: .3em .75em;
 
@@ -120,6 +119,7 @@ $pg-active-color: #44af44;
 
     & > .content {
       max-width: $pg-size;
+      justify-content: center;
       text-align: center;
     }
 

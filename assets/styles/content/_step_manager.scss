@@ -18,11 +18,12 @@ $container-max-width: 1170px;
   margin: 0 auto;
   padding: 25px 0;
   display: flex;
+  align-items: flex-start;
 
   .step-manager-steps {
     flex: 0.25;
 
-    .step-list{
+    .step-list {
       .content .title {
         font-size: 0.9rem;
       }
@@ -39,6 +40,77 @@ $container-max-width: 1170px;
         }
       }
     }
+
+    .draggable-step-list {
+      .content .title {
+        font-size: 0.9rem;
+      }
+
+      .step-item {
+        color: #3c3c3c;
+        padding-left: 1.5em;
+
+        &.dragging {
+          background: none;
+
+          .remove {
+            display: none !important;
+          }
+
+          height: fit-content;
+        }
+
+        & > .step {
+          border-color: #3c3c3c;
+        }
+
+        &:not(:last-of-type) > .step:before {
+          background-color: #3c3c3c;
+        }
+
+        .content {
+          position: relative;
+          width: 175px;
+          display: flex;
+
+          .title {
+            flex: 1;
+          }
+        }
+
+        .remove {
+          display: none;
+          width: fit-content;
+          align-items: center;
+
+          img {
+            height: 1.25em;
+            width: auto;
+          }
+        }
+
+        &:not(.disabled):hover, &.over {
+          color: #0372b8;
+          cursor: move;
+
+          & > .step {
+            border-color: #0372b8;
+          }
+
+          &:not(.over) .remove {
+            display: flex;
+          }
+        }
+
+        &.disabled {
+          color: #9f9f9f;
+
+          & > .step {
+            border-color: #9f9f9f;
+          }
+        }
+      }
+    }
   }
 
   .main-content {
@@ -49,6 +121,20 @@ $container-max-width: 1170px;
       flex: 0.65;
       padding: .75rem 1.5rem;
       margin-right: 10px;
+
+      .form-wrapper {
+        width: 75%;
+        max-width: 385px;
+        min-width: 270px;
+
+        input, textarea {
+          padding: 5px 7px;
+
+          &#step-name {
+            height: 35px;
+          }
+        }
+      }
 
       button {
         font-size: 1em;
