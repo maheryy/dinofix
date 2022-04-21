@@ -111,52 +111,40 @@ export const submitFromOutside = (element) => {
 
 export const stepManagerHandler = () => {
     const list = $('#draggable-step-list');
-    let dragSrcEl;
 
-    function dragStart(e) {
-        dragSrcEl = this;
-        e.originalEvent.dataTransfer.effectAllowed = 'move';
-        e.originalEvent.dataTransfer.setData('text/html', this.innerHTML);
+    const dragStart = function (e) {
         $(this).addClass('dragging');
     };
 
-    function dragEnter(e) {
-        $(this).addClass('over');
-    }
+    const dragEnd = function (e) {
+        $(this).removeClass('dragging');
+    };
 
-    function dragLeave(e) {
-        e.stopPropagation();
-        $(this).removeClass('over');
-    }
-
-    function dragOver(e) {
+    const dragOver = function (e) {
         e.preventDefault();
-        e.originalEvent.dataTransfer.dropEffect = 'move';
-        $(this).addClass('over');
-        return false;
-    }
+        const container = $('#draggable-step-list');
+        const afterElement = container
+            .find('li.step-item:not(.dragging)')
+            .toArray()
+            .reduce(function (closest, child) {
+                const box = child.getBoundingClientRect();
+                const offsetX = e.clientX - box.left - box.width / 2;
+                const offsetY = e.clientY - box.top - box.height / 2;
 
-    function dragDrop(e) {
-        e.stopPropagation();
-        if (dragSrcEl !== this) {
-            dragSrcEl.innerHTML = this.innerHTML;
-            this.innerHTML = e.originalEvent.dataTransfer.getData('text/html');
-        }
-        return false;
-    }
+                return offsetY < 0 && offsetY > closest.offsetY
+                    ? { offsetY, offsetX, element: child }
+                    : closest;
 
-    function dragEnd(e) {
-        list.find('li.step-item').removeClass('dragging over').find('.remove').click(removeStep);
+            }, {offsetX: Number.NEGATIVE_INFINITY, offsetY: Number.NEGATIVE_INFINITY}).element;
+
+        afterElement ? $(afterElement).before($('.dragging')) : container.append($('.dragging'));
         refreshSteps();
-    }
+    };
 
     const setEvents = (item) => {
         $(item)
             .on('dragstart', dragStart)
-            .on('dragenter', dragEnter)
             .on('dragover', dragOver)
-            .on('dragleave', dragLeave)
-            .on('drop', dragDrop)
             .on('dragend', dragEnd)
             .find('.remove')
             .click(removeStep);

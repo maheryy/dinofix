@@ -7,7 +7,10 @@ export const draggableStep = (name, description, notify) => {
                 <span class="label">0</span>
             </div>
             <div class="content">
-                <span class="title">${name}</span>
+                <span class="title">
+                    ${name}
+                    ${notify ? '<i class="fa-solid fa-paper-plane icon-notification pl-0.25"></i>' : ''}
+                </span>
                 <span class="remove">
                     <img class="cursor-pointer" src="/images/cross.svg" alt="icon-cross">
                 </span>

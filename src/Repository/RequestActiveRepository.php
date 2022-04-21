@@ -86,6 +86,7 @@ class RequestActiveRepository extends ServiceEntityRepository
             ->andWhere('ra.status IN (:status)')
             ->setParameter('fixer', $fixer)
             ->setParameter('status', [Constant::STATUS_DONE, Constant::STATUS_CANCELLED])
+            ->orderBy('ra.updated_at', 'DESC')
             ->getQuery()
             ->getResult();
     }

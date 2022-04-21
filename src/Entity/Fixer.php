@@ -48,6 +48,9 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $picture;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $description;
+
     #[ORM\ManyToOne(targetEntity: Address::class)]
     private $address;
 
@@ -210,6 +213,18 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

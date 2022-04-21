@@ -21,6 +21,9 @@ class ServiceStep
     #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private $notify = false;
+
     #[ORM\ManyToOne(targetEntity: Service::class, inversedBy: 'steps')]
     private $service;
 
@@ -61,6 +64,18 @@ class ServiceStep
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNotify(): bool
+    {
+        return $this->notify;
+    }
+
+    public function setNotify(bool $notify): self
+    {
+        $this->notify = $notify;
 
         return $this;
     }

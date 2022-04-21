@@ -51,13 +51,15 @@ $container-max-width: 1170px;
         padding-left: 1.5em;
 
         &.dragging {
-          background: none;
+          color: #0372b8;
+
+          & > .step {
+            border-color: #0372b8;
+          }
 
           .remove {
             display: none !important;
           }
-
-          height: fit-content;
         }
 
         & > .step {
@@ -70,8 +72,12 @@ $container-max-width: 1170px;
 
         .content {
           position: relative;
-          width: 175px;
+          width: 195px;
           display: flex;
+
+          .icon-notification {
+            color: #0c4defeb;
+          }
 
           .title {
             flex: 1;
@@ -89,13 +95,8 @@ $container-max-width: 1170px;
           }
         }
 
-        &:not(.disabled):hover, &.over {
-          color: #0372b8;
+        &:not(.disabled):hover {
           cursor: move;
-
-          & > .step {
-            border-color: #0372b8;
-          }
 
           &:not(.over) .remove {
             display: flex;
@@ -116,6 +117,7 @@ $container-max-width: 1170px;
   .main-content {
     display: flex;
     flex: 1;
+    justify-content: space-around;
 
     .step-manager-form {
       flex: 0.65;

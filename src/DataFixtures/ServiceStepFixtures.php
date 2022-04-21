@@ -30,32 +30,38 @@ class ServiceStepFixtures extends Fixture
             [
                 'step' => 1,
                 'name' => 'En attente',
-                'description' => 'Demande en file d\'attente'
+                'description' => 'Demande en file d\'attente',
+                'notify' => true,
             ],
             [
                 'step' => 2,
                 'name' => 'Diagnostique',
-                'description' => 'Etude du problème'
+                'description' => 'Etude du problème',
+                'notify' => true,
             ],
             [
                 'step' => 3,
                 'name' => 'Réparation',
-                'description' => 'Réparation en cours'
+                'description' => 'Réparation en cours',
+                'notify' => false,
             ],
             [
                 'step' => 4,
                 'name' => 'Finalisation',
-                'description' => 'Dernière retouches'
+                'description' => 'Dernière retouches',
+                'notify' => false,
             ],
             [
                 'step' => 5,
                 'name' => 'Prêt à récupérer',
-                'description' => 'En attente de récupération'
+                'description' => 'En attente de récupération',
+                'notify' => true,
             ],
             [
                 'step' => 6,
                 'name' => 'Terminé',
-                'description' => 'Problème résolu'
+                'description' => 'Problème résolu',
+                'notify' => true,
             ],
         ];
     }

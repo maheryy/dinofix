@@ -10,7 +10,7 @@
         {% endfor %}
         <div class="home-container">
             <section class="section-box">
-                <h2>Mes prestations en cours</h2>
+                <h2>Mes interventions en cours</h2>
                 {% if active_requests is not empty %}
                     <ul class="fixer-service-list">
                         {% for request in active_requests | slice(0, 3) %}

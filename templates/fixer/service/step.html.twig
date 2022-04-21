@@ -51,7 +51,12 @@
                                         <span class="label">{{ step.step }}</span>
                                     </div>
                                     <div class="content">
-                                        <span class="title">{{ step.name }}</span>
+                                        <span class="title">
+                                            {{ step.name }}
+                                            {% if step.notify %}
+                                                <i class="fa-solid fa-paper-plane icon-notification pl-0.25"></i>
+                                            {% endif %}
+                                        </span>
                                         {% if not is_disabled %}
                                             <span class="remove">
                                                 <img class="cursor-pointer" src="{{ asset('images/cross.svg')}}" alt="icon-cross">
@@ -59,8 +64,7 @@
                                         {% endif %}
                                         <input type="hidden" class="item-step-name" name="steps[name][]" value="{{ step.name }}">
                                         <input type="hidden" class="item-step-description" name="steps[description][]" value="{{ step.description }}">
-                                        <input type="hidden" class="item-step-notify" name="steps[notify][]" value="{{ step.step ? '1' : '0' }}">
-{#                                        <input type="hidden" class="item-step-notify" name="steps[notify][]" value="{{ step.notify ? '1' : '0' }}">#}
+                                        <input type="hidden" class="item-step-notify" name="steps[notify][]" value="{{ step.notify ? '1' : '0' }}">
                                     </div>
                                 </li>
                             {% endfor %}

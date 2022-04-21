@@ -80,7 +80,8 @@ class FixerServiceController extends AbstractController
 
         $linkedServiceStep = $serviceStepRepository->countStepsByService($service) ? $service : null;
         $steps = $serviceStepRepository->findStepsByService($linkedServiceStep);
-        $hasActiveRequests = $requestActiveRepository->countActiveRequestsByService($service);
+        $hasActiveRequests = (bool)$requestActiveRepository->countActiveRequestsByService($service);
+
         if ($request->isMethod('POST') && !$hasActiveRequests) {
             $dataSteps = $helper->buildArrayFromKeyCombination($request->request->all('steps'));
 
@@ -93,6 +94,7 @@ class FixerServiceController extends AbstractController
                     ->setStep($key + 1)
                     ->setName($step['name'])
                     ->setDescription($step['description'])
+                    ->setNotify((bool)$step['notify'])
                     ->setService($service);
 
                 $entityManager->persist($serviceStepEntity);
@@ -105,7 +107,7 @@ class FixerServiceController extends AbstractController
         return $this->render('fixer/service/step.html.twig', [
             'steps' => $steps,
             'service' => $service,
-            'has_active_requests' => (bool)$hasActiveRequests
+            'has_active_requests' => $hasActiveRequests
         ]);
     }
 }
