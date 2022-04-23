@@ -184,3 +184,12 @@ export const stepManagerHandler = () => {
 
     list.find('li.draggable').each((i, el) => setEvents(el));
 };
+
+export const setTextEditor = async (element) => {
+    const {default: ClassicEditor} = await import('@ckeditor/ckeditor5-build-classic');
+
+    $(element).removeAttr('required');
+    ClassicEditor
+        .create(element)
+        .catch(error => console.error(error));
+}

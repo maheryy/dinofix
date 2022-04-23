@@ -17,7 +17,9 @@ class ServiceStepFixtures extends Fixture
             $object = (new ServiceStep())
                 ->setStep($step['step'])
                 ->setName($step['name'])
+                ->setNotify($step['notify'])
                 ->setDescription($step['description']);
+            
             $manager->persist($object);
         }
 

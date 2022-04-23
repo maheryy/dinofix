@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Customer;
-use App\Entity\Dino;
 use App\Entity\Fixer;
 use App\Entity\Review;
 use App\Entity\Service;
@@ -12,6 +11,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Faker\Generator;
 
 class ServiceFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -29,7 +29,7 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
 
                 $object = (new Service())
                     ->setName($faker->catchPhrase())
-                    ->setDescription($faker->realText(500) . "\n\n" . $faker->text(500))
+                    ->setDescription($this->generateDescription($faker))
                     ->setCategory($category)
                     ->setDino($faker->randomElement($category->getDinos()->toArray()))
                     ->setFixer($faker->randomElement($fixers))
@@ -56,6 +56,29 @@ class ServiceFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+    }
+
+    private function generateDescription(Generator $faker): string
+    {
+        $html = [
+            "<h3>Ce que vous trouverez</h3>",
+            "<p>{$faker->realText(500)}</p>",
+            "<h3>Inclus</h3>",
+            "
+            <ul>
+                <li>{$faker->text(50)}</li>
+                <li>{$faker->text(50)}</li>
+                <li>{$faker->text(50)}</li>
+                <li>{$faker->text(50)}</li>
+                <li>{$faker->text(50)}</li>
+                <li>{$faker->text(50)}</li>
+            </ul>
+            ",
+            "<p><strong>Accompagné de nos meilleurs experts !</strong></p>",
+            "<p><em>Offre valable uniquement sous réservation.</em></p>",
+        ];
+
+        return implode("&nbsp;", $html);
     }
 
     public function getDependencies()
