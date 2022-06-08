@@ -1,0 +1,10 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ include('customer/profile/_form.html.twig', {'button_label': 'Modifier'}) }}
+        <a class="btn-secondary" href="{{ path('customer_home') }}">Retour</a>
+    </div>
+{% endblock %}

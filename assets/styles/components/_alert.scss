@@ -1,0 +1,18 @@
+.alert{
+    color: #ffffff;
+    text-align: center;
+    border-radius:.5em;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:12px;
+    width: 100%;
+    &-warning {
+        background-color: #FF8080;
+    }
+    &-info {
+        background-color: #79CFE0;
+    }
+    &-success {
+        background-color: #7DDF7C;
+    }
+}

@@ -3,6 +3,11 @@
 {% block title %}Mes demandes en attente{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
 <div class="container">
     <a class="btn-primary" href="{{ path('customer_request_new') }}">Créer une demande</a>
     <a class="btn-secondary" href="{{ path('customer_search') }}">Retour</a>
