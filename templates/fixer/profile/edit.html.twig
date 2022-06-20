@@ -1,0 +1,10 @@
+{% extends 'fixer/fixer.html.twig' %}
+
+{% block title %}Mes informations{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ include('fixer/profile/_form.html.twig', {'button_label': 'Modifier'}) }}
+        <a class="btn-secondary" href="{{ path('fixer_home') }}">Retour</a>
+    </div>
+{% endblock %}

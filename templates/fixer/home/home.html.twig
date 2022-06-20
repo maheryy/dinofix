@@ -3,6 +3,11 @@
 
 {% block body %}
     <main class="main-container customer-container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="home-container">
             <section class="section-box">
                 <h2>Mes prestations en cours</h2>
