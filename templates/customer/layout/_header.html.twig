@@ -42,7 +42,7 @@
                             <a href="{{ path('customer_request_history') }}">Historique</a>
                         </li>
                         <li>
-                            <a href="#">Profil</a>
+                            <a href="{{ path('customer_profile_edit', {'id': app.user.id}) }}">Profil</a>
                         </li>
                         <li>
                             <a href="{{ path('customer_logout') }}">Deconnexion</a>

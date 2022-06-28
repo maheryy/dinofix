@@ -56,3 +56,4 @@ security:
         - { path: /(login|register), roles: PUBLIC_ACCESS }
         - { path: ^/(admin|fixer)/, roles: ROLE_USER }
         - { path: ^/request, roles: ROLE_USER }
+        - { path: ^/profile, roles: ROLE_USER }

@@ -43,6 +43,7 @@ class RequestController extends AbstractController
             $entityManager->persist($requestEntity);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre demande a été créée !');
             return $this->redirectToRoute('customer_request_index', [], Response::HTTP_SEE_OTHER);
         }
 
