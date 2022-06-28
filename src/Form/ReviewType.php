@@ -14,12 +14,6 @@ class ReviewType extends AbstractType
         $builder
             ->add('rate')
             ->add('message')
-            ->add('status')
-            ->add('created_at')
-            ->add('updated_at')
-            ->add('customer')
-            ->add('fixer')
-            ->add('service')
         ;
     }
 
