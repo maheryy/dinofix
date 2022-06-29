@@ -46,7 +46,9 @@ class ReviewController extends AbstractController
                 $review = $form->getData();
                 $review
                     ->setCustomer($this->getUser())
-                    ->setStatus(0)                                        
+                    ->setStatus(0)  
+                    ->setService($service)
+                                                          
                 ;
 
                 $entityManager->persist($review);
@@ -55,7 +57,7 @@ class ReviewController extends AbstractController
                 //$service = $serviceRepository->find($id);
                 $service->addReview($review);
 
-                return $this->redirectToRoute('customer_review_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('homepage');
             }
             //dd($review);
             return $this->render('customer/review/new.html.twig', [
