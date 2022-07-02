@@ -12,14 +12,15 @@ class CategoryFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $categories = ['Aquatique', 'Terrestre', 'Volant', 'Omnivore', 'Carnivore', 'Herbivore', 'Estropié', 'Alien'];
-
+        $categories = ['Aquatique', 'Terrestre', 'Volant', 'Omnivore', 'Carnivore', 'Herbivore', 'Estropie', 'Alien'];
+        $i = 1;
         foreach ($categories as $category) {
             $object = (new Category())
                 ->setName($category)
                 ->setDescription($faker->sentence(20))
-                ->setPicture('no pic');
+                ->setPicture($i.'-'.strtolower($category).'.png');
             $manager->persist($object);
+            $i++;
         }
 
         $manager->flush();

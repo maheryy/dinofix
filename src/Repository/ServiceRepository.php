@@ -146,7 +146,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServices(int $fixerId, int $serviceId, int $max): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.picture, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('s.id <> :serviceId')
@@ -169,7 +169,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findPopularServices(int $maxResults = 15, float $minRating = 3.0): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug,COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.picture, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug,COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->where('s.rating > :minRating')
@@ -191,7 +191,7 @@ class ServiceRepository extends ServiceEntityRepository
     {
         $sortType = ['ASC', 'DESC'];
         return $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.picture, s.price, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->orderBy("s.{$sortBy}", $sortType[array_rand($sortType)])
@@ -209,7 +209,7 @@ class ServiceRepository extends ServiceEntityRepository
     public function findFixerServicesById(int $fixerId, ?int $maxResults = null): array
     {
         $qb = $this->createQueryBuilder('s')
-            ->select('s.id, s.name, s.slug, s.description, s.rating, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
+            ->select('s.id, s.name, s.slug, s.description, s.rating, s.picture, f.firstname, f.lastname, f.alias, f.slug AS fixer_slug, COUNT(r.id) AS reviews')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.reviews', 'r')
             ->andWhere('f.id = :fixerId')
