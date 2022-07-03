@@ -61,7 +61,11 @@
                     {% for service in popular_services %}
                         <li class="list-item service-card">
                             <div class="content-top">
-                                <img src="https://picsum.photos/id/171/450/450" alt="">
+                                {% if service.picture %}
+                                    <img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+                                {% else %}
+                                    <img src="{{ asset('images/services.jpg') }}" alt="default-service">
+                                {% endif %}
                             </div>
                             <div class="content-bottom">
                                 <span class="flex-col">

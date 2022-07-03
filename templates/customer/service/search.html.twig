@@ -51,7 +51,7 @@
                 <div class="filter-actions">
                     <button class="btn-secondary text-xs text-uppercase">Appliquer</button>
                     <a class="btn-secondary text-xs text-uppercase"
-                       href="{{ path('customer_search', {'query' : form.query.vars.value}) }}">Réinitialiser</a>
+                    href="{{ path('customer_search', {'query' : form.query.vars.value}) }}">Réinitialiser</a>
                 </div>
             </div>
             <div class="search-results-head">
@@ -72,13 +72,17 @@
                             <div class="content-left">
                                 <div class="item-title flex items-center">
                                     <div class="profile-picture">
-                                        <img alt="" src="{{ asset('images/repair.png') }}">
+                                        {% if service.fixer_picture %}
+                                            <img src="{{ asset("uploads/fixer/" ~ service.fixer_picture) }}" alt="{{ service.fixer_picture }}">
+                                        {% else %}
+                                            <img alt="" src="{{ asset('images/fixer.png') }}">
+                                        {% endif %}
                                     </div>
                                     <a href="{{ path('fixer_profile', {'slug': service.fixer_slug}) }}">{{ service.alias }}</a>
                                     <span class="rating">
                                         <span>
                                             <img class="review-star" alt=""
-                                                 src="{{ asset("images/star-filled.svg") }}">
+                                                src="{{ asset("images/star-filled.svg") }}">
                                         </span>
                                         <label>{{ service.fixer_rating | round(1) }}</label>
                                     </span>
@@ -97,7 +101,11 @@
                                 <div class="flex">
                                     <div class="service-image">
                                         <a href="{{ path('customer_service', {'slug': service.slug}) }}">
-                                        <img src="https://picsum.photos/id/171/450/450" alt="">
+                                            {% if service.picture %}
+                                                <img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+                                            {% else %}
+                                                <img alt="" src="{{ asset('images/services.jpg') }}">
+                                            {% endif %}
                                         </a>
                                     </div>
                                     <div class="service-content">
@@ -107,7 +115,7 @@
                                                 <div class="rating">
                                                         <span>
                                                             <img class="review-star" alt=""
-                                                                 src="{{ asset("images/star-filled.svg") }}">
+                                                                src="{{ asset("images/star-filled.svg") }}">
                                                         </span>
                                                     <label>{{ service.service_rating | round(1) }}</label>
                                                 </div>

@@ -51,6 +51,9 @@ class Service
     #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
     private $status = Constant::STATUS_DEFAULT;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $picture;
+
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
     private $created_at;
@@ -237,6 +240,18 @@ class Service
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    public function setPicture($picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }

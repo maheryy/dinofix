@@ -8,6 +8,7 @@ use App\Entity\Request;
 use App\Entity\Service;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -43,6 +44,11 @@ class ServiceType extends AbstractType
                 'label' => 'Nom du dinosaure',
                 'class' => Dino::class,
                 'choice_label' => 'name',
+            ])
+            ->add('picture', FileType::class, [
+                'label' => 'Photo',
+                'required' => true,
+                'data_class' => null,
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn-success'],
