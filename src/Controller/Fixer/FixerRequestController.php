@@ -7,10 +7,13 @@ use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Service\RequestManager;
 use App\Service\ResolverService;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FixerRequestController extends AbstractController
@@ -81,11 +84,25 @@ class FixerRequestController extends AbstractController
     }
 
     #[Route('/request/{slug}', name: 'request_action', methods: ['POST'])]
-    public function requestAction(Request $request, string $slug, RequestManager $requestManager): Response
+    public function requestAction(Request $request, string $slug, RequestManager $requestManager, MailerInterface $mail): Response
     {
         $activeRequest = $requestManager->getActiveRequest($slug);
         if (!$activeRequest) {
             throw new BadRequestHttpException();
+        }
+
+        if ($activeRequest->getStep()->getNotify()) {
+            $notify = (new TemplatedEmail())
+                ->from(new Address('contact.dinofix@gmail.com', 'Dinofix'))
+                ->to($activeRequest->getRequest()->getCustomer()->getEmail())
+                ->subject('Mise à jour de votre demande !')
+                ->htmlTemplate('fixer/service/step_email.html.twig')
+                ->context([
+                    'step' => $activeRequest->getStep()->getName().' - '. $activeRequest->getStep()->getDescription(),
+                    'fixer' => $activeRequest->getFixer()->getLastName().' '.$activeRequest->getFixer()->getFirstName(),
+                ]);
+            $mail->send($notify);
+            $this->addFlash('success', 'Une notification a été envoyée au client.');
         }
         $requestManager->handleRequestAction($activeRequest, $request->request->get('action'));
 
