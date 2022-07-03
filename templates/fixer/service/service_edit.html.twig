@@ -15,9 +15,9 @@
 				{{ form_row(form.save) }}
 				{{ form_end(form) }}
 			</div>
-			<a href="{{ path('fixer_home') }}">Retour à votre page</a>
+			<a href="{{ path('fixer_home') }}" class="btn btn-primary">Retour à votre page</a>
 			{% if service.slug is not empty %}
-				<a href="{{ path('fixer_service_step', {'slug': service.slug}) }}">Personaliser les étapes pour ce service</a>
+				<a href="{{ path('fixer_service_step', {'slug': service.slug}) }}" class="btn btn-secondary">Personaliser les étapes pour ce service</a>
 			{% endif %}
 		</div>
 	</main>
