@@ -61,8 +61,8 @@
                         {% for service in past_services %}
                             <li class="list-item service-card">
                                 <div class="content-top">
-                                    {% if service.picture %}
-                                        <img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+                                    {% if service.request.category.picture %}
+                                        <img src="{{ asset("images/categories/" ~ service.request.category.picture) }}" alt="{{ service.request.category.picture }}">
                                     {% else %}
                                         <img src="{{ asset('images/services.jpg') }}" alt="default-service">
                                     {% endif %}
