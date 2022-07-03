@@ -91,13 +91,17 @@
                             {% for service in services %}
                                 <li class="service-card list-item">
                                     <div class="content-top">
-                                        <img src="https://picsum.photos/id/171/450/450" alt="">
+                                        {% if service.picture %}
+                                            <img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+                                        {% else %}
+                                            <img src="{{ asset('images/services.jpg') }}" alt="default-service">
+                                        {% endif %}
                                     </div>
                                     <div class="content-bottom">
-                                             <span class="name py-0.5">
-                                                 <a class="link-primary"
+                                            <span class="name py-0.5">
+                                                <a class="link-primary"
                                                     href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
-                                             </span>
+                                            </span>
                                         <p class="flex items-center py-0.5 text-xs">
                                             <span class="stars">{{ stars(service.rating) }}</span>
                                             <span class="review-total">({{ service.reviews }})</span>

@@ -61,13 +61,17 @@
                         {% for service in past_services %}
                             <li class="list-item service-card">
                                 <div class="content-top">
-                                    <img src="https://picsum.photos/id/171/450/450" alt="">
+                                    {% if service.picture %}
+                                        <img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+                                    {% else %}
+                                        <img src="{{ asset('images/services.jpg') }}" alt="default-service">
+                                    {% endif %}
                                 </div>
                                 <div class="content-bottom">
                                     <p class="flex-col">
                                         <span class="name">
                                             <a class="link-primary"
-                                               href="{{ path('customer_request_show', {'slug': service.request.slug}) }}">{{ service.request.service.name }} | #{{ service.request.reference }}</a>
+                                                href="{{ path('customer_request_show', {'slug': service.request.slug}) }}">{{ service.request.service.name }} | #{{ service.request.reference }}</a>
                                         </span>
                                         <span class="text-xs font-light pt-0.5">
                                             par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': service.fixer.slug}) }}">{{ service.fixer.alias }}</a>
@@ -87,7 +91,11 @@
 {% macro home_basic_card(data) %}
     <li class="list-item service-card">
         <div class="content-top">
-            <img src="https://picsum.photos/id/171/450/450" alt="">
+            {% if data.picture %}
+                <img src="{{ asset("uploads/services/" ~ data.picture) }}" alt="{{ data.picture }}">
+            {% else %}
+                <img src="{{ asset('images/services.jpg') }}" alt="default-service">
+            {% endif %}
         </div>
         <div class="content-bottom">
             <p class="flex-col">
@@ -110,7 +118,11 @@
 {% macro home_state_card(data) %}
     <li class="list-item service-card">
         <div class="content-top">
-            <img src="https://picsum.photos/id/171/450/450" alt="">
+            {% if data.picture %}
+                <img src="{{ asset("uploads/services/" ~ data.picture) }}" alt="{{ data.picture }}">
+            {% else %}
+                <img src="{{ asset('images/services.jpg') }}" alt="default-service">
+            {% endif %}
         </div>
         <div class="content-bottom">
             <p class="flex-col">

@@ -46,7 +46,11 @@
                     <div class="flex">
                         <div class="service-image">
                             <a href="{{ path('customer_service', {'slug': request.service.slug}) }}">
-                                <img src="https://picsum.photos/id/171/450/450" alt="">
+                                {% if request.service.picture %}
+                                    <img src="{{ asset("uploads/services/" ~ request.service.picture) }}" alt="{{ request.service.picture }}">
+                                {% else %}
+                                    <img alt="" src="{{ asset('images/services.jpg') }}">
+                                {% endif %}
                             </a>
                         </div>
                         <div class="service-content flex-col justify-between">
@@ -63,21 +67,25 @@
                             </div>
                             <div class="item-action py-0.25">
                                 <a href="{{ path('customer_service', {'slug': request.service.slug}) }}"
-                                   class="btn-primary text-sm">Revoir le service</a>
+                                class="btn-primary text-sm">Revoir le service</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="content-right">
                     <div class="profile-picture">
-                        <img alt="" src="{{ asset('images/repair.png') }}">
+                        {% if request.service.fixer.picture %}
+                            <img src="{{ asset("uploads/services/" ~ request.service.fixer.picture) }}" alt="{{ request.service.picture }}">
+                        {% else %}
+                            <img alt="" src="{{ asset('images/fixer.png') }}">
+                        {% endif %}
                     </div>
                     <div>
                         <div class="item-title flex items-center">
                             <a href="{{ path('fixer_profile', {'slug': request.service.fixer.slug}) }}">{{ request.service.fixer.alias }}</a>
                             <span class="rating">
                                 <span>
-                                     <img class="review-star" alt="" src="{{ asset("images/star-filled.svg") }}">
+                                    <img class="review-star" alt="" src="{{ asset("images/star-filled.svg") }}">
                                 </span>
                                 <label>{{ request.service.fixer.rating | round(1) }}</label>
                             </span>
@@ -86,9 +94,9 @@
                             <span>{{ request.service.fixer.address.street }}</span>
                             <span>{{ request.service.fixer.address.city }}, {{ request.service.fixer.address.postcode }}</span>
                             <span class="py-0.25 font-medium color-secondary">
-                                 <i class="fa-solid fa-location-dot"></i>
-                                 <label>25 km</label>
-                             </span>
+                                <i class="fa-solid fa-location-dot"></i>
+                                <label>25 km</label>
+                            </span>
                         </div>
                     </div>
                 </div>
