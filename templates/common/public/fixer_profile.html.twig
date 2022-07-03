@@ -7,7 +7,11 @@
         <div class="fixer-head-container">
             <div class="fixer-head">
                 <div class="profile-picture">
+                {% if(fixer.picture) %}
+                    <img src="{{ asset("uploads/fixer/" ~ fixer.picture) }}" alt="{{ fixer.alias }}">
+                {% else %}
                     <img alt="" src="{{ asset('images/fixer.png') }}">
+                {% endif %}
                 </div>
                 <div class="profile-info w-full">
                     <h1 class="pb-0.5 font-semibold">

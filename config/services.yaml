@@ -7,6 +7,7 @@ parameters:
     stripe_public: '%env(STRIPE_PUBLIC)%'
     stripe_secret: '%env(STRIPE_SECRET)%'
     services_pictures_directory: '%kernel.project_dir%/public/uploads/services'
+    fixer_pictures_directory: '%kernel.project_dir%/public/uploads/fixer'
 services:
     # default configuration for services in *this* file
     _defaults:

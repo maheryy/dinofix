@@ -9,18 +9,20 @@
 				<ul class="list-column py-1">
 					{% for service in fixer_services %}
 						<li class="list-item service-card">
+							<div class="content-top">
 							{% if service.picture %}
-								<div class="content-top">
-									<img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
-								</div>
+								<img src="{{ asset("uploads/services/" ~ service.picture) }}" alt="{{ service.picture }}">
+							{% else %}
+								<img src="{{ asset('images/services.jpg') }}" alt="default-service">
 							{% endif %}
+							</div>
 							<div class="content-bottom">
 								<p class="flex-col">
 									<span class="name">
 										{{ service.description|length > 50 ? service.description|slice(0, 80) ~ '...' : service.description }}
 									</span>
 									<span class="text-xs font-light pt-0.5">
-										Titre <a class="link-primary font-medium" href="{{ path('fixer_services_edit', {'id': service.id}) }}">{{ service.name }}</a>
+										Titre <a class="link-primary font-medium" href="{{ path('fixer_services_edit', {'slug': service.slug}) }}">{{ service.name }}</a>
 									</span>
 								</p>
 								<p class="flex items-center text-xs">

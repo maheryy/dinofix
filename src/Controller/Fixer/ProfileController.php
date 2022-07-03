@@ -21,6 +21,19 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('picture')) {
+                $file = $form->get('picture')->getData();
+                $fileName = $this->getUser()->getFirstName().'-'.$this->getUser()->getLastName().'-'.uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('fixer_pictures_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $fixer->setPicture($fileName);
+            }
             $entityManager->flush();
 
             $this->addFlash('success', 'Vos informations ont été modifiées avec succés !');

@@ -20,7 +20,11 @@
                 <ul class="request-card">
                     <li>
                         <a href="{{ path('customer_request_show', {'slug': request.slug}) }}" class="card">
-                        <img src="https://i.pinimg.com/originals/b3/f5/05/b3f505691f10a84867497d7b58e7525a.png" class="card__image" alt="" />
+                        {% if request.category.picture %}
+                            <img src="{{ asset("images/categories/" ~ request.category.picture) }}" class="card__image" alt="" />
+                        {% else %}
+                            <img src="{{ asset("images/categories/no-pic.png") }}" class="card__image" alt="" />
+                        {% endif %}
                         <div class="card__overlay">
                             <div class="card__header">                  
                                 <img class="card__thumb" src="https://edito.regionsjob.com/xjob/wp-content/uploads/sites/3/2020/11/salaire-technicien-maintenance-722x425.jpg" alt="" />

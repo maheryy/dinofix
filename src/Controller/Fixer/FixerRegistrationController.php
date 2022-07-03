@@ -8,6 +8,7 @@ use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -36,7 +37,6 @@ class FixerRegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
             $fakeAddress = (new \App\Entity\Address())
                 ->setStreet('4 Rue de l\'Entente')
                 ->setCity('Athis-mons')
@@ -45,6 +45,20 @@ class FixerRegistrationController extends AbstractController
                 ->setCountry('France')
                 ->setLatitude(48.70560223684846)
                 ->setLongitude(2.362543754878404);
+
+            if ($form->get('picture')) {
+                $file = $form->get('picture')->getData();
+                $fileName = $form->get('firstname')->getData().'-'.$form->get('lastname')->getData().'-'.uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('fixer_pictures_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $user->setPicture($fileName);
+            }
 
             $user
                 ->setPassword(
@@ -59,13 +73,13 @@ class FixerRegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('fixer_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('no-reply@dinofix.fr', 'Dinofix'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('fixer/registration/confirmation_email.html.twig')
-            );
+            //$this->emailVerifier->sendEmailConfirmation('fixer_verify_email', $user,
+            //    (new TemplatedEmail())
+            //        ->from(new Address('no-reply@dinofix.fr', 'Dinofix'))
+            //        ->to($user->getEmail())
+            //        ->subject('Please Confirm your Email')
+            //        ->htmlTemplate('fixer/registration/confirmation_email.html.twig')
+            //);
 
             return $this->redirectToRoute('fixer_login');
         }

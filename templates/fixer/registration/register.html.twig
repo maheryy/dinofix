@@ -22,6 +22,11 @@
                 {{ form_start(registrationForm) }}
                 {{ form_errors(registrationForm) }}
                 <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.picture) }}
+                    {{ form_widget(registrationForm.picture) }}
+                    {{ form_errors(registrationForm.picture) }}
+                </div>
+                <div class="form-control-wrapper py-0.5">
                     {{ form_label(registrationForm.firstname) }}
                     {{ form_widget(registrationForm.firstname) }}
                     {{ form_errors(registrationForm.firstname) }}
