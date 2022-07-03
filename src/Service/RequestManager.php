@@ -74,7 +74,10 @@ class RequestManager
 
     public function acceptOpenRequest(Request $request, Service $service)
     {
-        $request->setService($service);
+        $request
+            ->setService($service)
+            ->setStatus(Constant::STATUS_ACTIVE);
+
         $serviceStep = $this->serviceStepRepository->countStepsByService($service) ? $service : null;
 
         $requestActive = (new RequestActive())

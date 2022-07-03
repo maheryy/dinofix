@@ -2,7 +2,11 @@
 
 namespace App\Controller\Customer;
 
+use App\Data\SearchData;
 use App\Entity\Request as RequestEntity;
+use App\Entity\RequestActive;
+use App\Entity\Service;
+use App\Entity\ServiceStep;
 use App\Form\RequestType;
 use App\Repository\RequestActiveRepository;
 use App\Repository\RequestRepository;
@@ -13,6 +17,7 @@ use App\Service\Generator;
 use App\Service\RequestManager;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +53,7 @@ class RequestController extends AbstractController
     public function index(RequestRepository $requestRepository): Response
     {
         $requests = $requestRepository->findCustomerOpenRequests($this->getUser());
-        return $this->render('customer/request/index.html.twig', [
+        return $this->render('customer/request/list.html.twig', [
             'requests' => $requests,
         ]);
     }
@@ -58,10 +63,8 @@ class RequestController extends AbstractController
     public function activeRequestList(RequestActiveRepository $requestActiveRepository, ServiceStepRepository $serviceStepRepository): Response
     {
         $requests_actives = $requestActiveRepository->findUserRequestsByStatus($this->getUser(), [Constant::STATUS_DEFAULT, Constant::STATUS_ACTIVE, Constant::STATUS_PAUSED]);
-        $steps = $serviceStepRepository->findAll();
-        return $this->render('customer/request/active.html.twig', [
+        return $this->render('customer/request/active_list.html.twig', [
             'request_actives' => $requests_actives,
-            'steps' => $steps
         ]);
     }
 
@@ -75,21 +78,62 @@ class RequestController extends AbstractController
     }
 
     #[Route('/{slug}', name: 'request_show', methods: ['GET'])]
-    public function show(string $slug, RequestRepository $requestRepository): Response
+    public function show(string $slug, RequestRepository $requestRepository, EntityManagerInterface $em): Response
     {
-        $requestEntity = $requestRepository->findRequestBySlug($slug);
-        if (!$requestEntity) {
+        $request = $requestRepository->findRequestBySlug($slug);
+        if (!$request) {
             throw new BadRequestHttpException();
         }
 
-        if ($this->getUser()->getId() != $requestEntity->getCustomer()->getId()) {
+        if ($this->getUser()->getId() != $request->getCustomer()->getId()) {
             return $this->redirectToRoute('customer_open_requests');
         }
 
-        return $this->render('customer/request/show.html.twig', [
-            'request' => $requestEntity,
-        ]);
+        return match ($request->getStatus()) {
+            Constant::STATUS_DEFAULT => $this->renderPendingRequest($request, $em),
+            Constant::STATUS_ACTIVE => $this->renderActiveRequest($request, $em),
+            default => $this->renderDoneRequest($request, $em)
+        };
     }
+
+    private function renderPendingRequest(RequestEntity $request, EntityManagerInterface $em): Response
+    {
+        $searchData = new SearchData();
+        if ($category = $request->getCategory()) {
+            $searchData->setCategory($category);
+        }
+        if ($dino = $request->getDino()) {
+            $searchData->setDinos(new ArrayCollection([$dino]));
+        }
+
+        $matchingServices = $em->getRepository(Service::class)->findAllBySearch($searchData, 10);
+
+        return $this->render(
+            'customer/request/pending.html.twig',
+            ['request' => $request, 'matching_services' => $matchingServices]
+        );
+    }
+
+    private function renderActiveRequest(RequestEntity $request, EntityManagerInterface $em): Response
+    {
+
+        $requestActive = $em->getRepository(RequestActive::class)->findOneBy(['request' => $request]);
+        $steps = $em->getRepository(ServiceStep::class)->findStepsByService($requestActive->getStep()?->getService());
+        return $this->render(
+            'customer/request/active.html.twig',
+            ['request' => $request, 'request_active' => $requestActive, 'steps' => $steps]
+        );
+    }
+
+    private function renderDoneRequest(RequestEntity $request, EntityManagerInterface $em): Response
+    {
+        $requestActive = $em->getRepository(RequestActive::class)->findOneBy(['request' => $request]);
+
+        return $this->render(
+            'customer/request/active.html.twig',
+            ['request' => $request, 'request_active' => $requestActive]);
+    }
+
 
     #[Route('/{slug}/edit', name: 'request_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, string $slug, RequestRepository $requestRepository, EntityManagerInterface $entityManager): Response

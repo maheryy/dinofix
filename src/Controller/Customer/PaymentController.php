@@ -7,6 +7,7 @@ use App\Entity\RequestActive;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceStepRepository;
+use App\Service\Constant;
 use App\Service\Generator;
 use App\Service\RequestManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,6 +56,7 @@ class PaymentController extends AbstractController
             ->setService($service)
             ->setCategory($service->getCategory())
             ->setDino($service->getDino())
+            ->setStatus(Constant::STATUS_ACTIVE)
             ->setSubject("{$this->getUser()->getFirstname()} - {$service->getName()}")
             ->setDescription('Service payé')
             ->setExpectedAt(new \DateTime('now'));

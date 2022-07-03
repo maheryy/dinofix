@@ -1,0 +1,123 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Informations sur la demande{% endblock %}
+
+{% block body %}
+    {% set dino = request.dino %}
+    {% set category = request.category %}
+    <main class="main-container customer-container request-container">
+        <div class="request-header">
+            <h2 class="font-semibold py-0.75">Détails de la demande</h2>
+            <span class="font-medium mb-0.5">Numéro de demande : {{ request.reference }} | Ouverte le {{ request.getCreatedAt() | date('d/m/Y') }}</span>
+        </div>
+        <section class="request-section section-container request-details">
+            <div class="content-left">
+                <h3 class="font-semibold">En attente d'un dinofixer...</h3>
+                <p class="py-1.5"><span class="font-medium">Sujet : </span>{{ request.subject }}</p>
+                <div>
+                    <p class="font-medium">Description du problème</p>
+                    <p class="style-italic font-light text-sm py-1">{{ request.description ? '"' ~ request.description ~ '"' : 'Non spécifié' }}</p>
+                </div>
+                <div class="flex mb-1">
+                    <a class="btn-primary mr-0.5 text-sm"
+                       href="{{ path('customer_request_edit', {'slug': request.slug}) }}">Modifier ma demande</a>
+                    <form method="post" action="{{ path('customer_request_delete', {'slug': request.slug}) }}"
+                          onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ request.id) }}">
+                        <button class="btn-danger text-sm">Supprimer ma demande</button>
+                    </form>
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="flex-col w-fit">
+                    <span class="py-0.25">Pour le : <span
+                                class="font-semibold">{{ request.getExpectedAt() ? (request.getExpectedAt() | date('d/m/Y')) : 'Non spécifié' }}</span></span>
+                    <span class="py-0.25">Type de dinosaure : <span
+                                class="font-semibold">{{ category ? category.name : 'Non spécifié' }}</span></span>
+                    <span class="py-0.25">Dinosaure : <span
+                                class="font-semibold">{{ dino ? dino.name : 'Non spécifié' }}</span></span>
+                </div>
+            </div>
+        </section>
+        {% if matching_services is not empty %}
+            <section class="request-matching">
+                <div class="title py-1">
+                    <h2 class="font-semibold">Services correspondants à ma demande</h2>
+                    <p class="font-light style-italic text-sm my-0.25">Basé sur les critères de recherche suivantes :
+                        <span>Type de dinosaure ({{ category ? category.name : 'tout' }}), Dinosaure ({{ dino ? dino.name : 'tout' }})</span>
+                    </p>
+                </div>
+                <div class="search-results">
+                    <ul class="list-row">
+                        {% for service in matching_services %}
+                            <li class="list-item search-item">
+                                <div class="content-left">
+                                    <div class="item-title flex items-center">
+                                        <div class="profile-picture">
+                                            <img alt="" src="{{ asset('images/repair.png') }}">
+                                        </div>
+                                        <a href="{{ path('fixer_profile', {'slug': service.fixer_slug}) }}">{{ service.alias }}</a>
+                                        <span class="rating">
+                                        <span>
+                                            <img class="review-star" alt=""
+                                                 src="{{ asset("images/star-filled.svg") }}">
+                                        </span>
+                                        <label>{{ service.fixer_rating | round(1) }}</label>
+                                    </span>
+                                    </div>
+                                    <div class="item-description">
+                                        <span>{{ service.street }}</span>
+                                        <span>{{ service.city }}, {{ service.postcode }}</span>
+                                        <span>{{ service.region }}, {{ service.country }}</span>
+                                        <span class="py-0.25 font-medium color-secondary">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <label>{{ service.distance | round() }} km</label>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="content-right">
+                                    <div class="flex">
+                                        <div class="service-image">
+                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}">
+                                                <img src="https://picsum.photos/id/171/450/450" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="service-content">
+                                            <div class="item-title flex items-start justify-between">
+                                                <a href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
+                                                <div class="flex-col items-end">
+                                                    <div class="rating">
+                                                        <span>
+                                                            <img class="review-star" alt=""
+                                                                 src="{{ asset("images/star-filled.svg") }}">
+                                                        </span>
+                                                        <label>{{ service.service_rating | round(1) }}</label>
+                                                    </div>
+                                                    <span class="count-reviews">({{ service.count_reviews }} avis)</span>
+                                                </div>
+                                            </div>
+                                            <div class="item-price">
+                                                <span class="price">{{ service.price | number_format(0, ',', ' ') }} €</span>
+                                            </div>
+                                            <div class="item-description h-full justify-center">
+                                                <div class="item-action">
+                                                    <a href="{{ path('customer_service', {'slug': service.slug}) }}"
+                                                       class="btn-primary text-sm">En savoir plus</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mx-auto my-1 w-fit">
+                    <a class="btn-secondary text-sm"
+                       href="{{ path('customer_search', {'category': request.category ? request.category.id : '', 'dinos[]': request.dino ? request.dino.id : ''}) }}">Voir
+                        plus</a>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

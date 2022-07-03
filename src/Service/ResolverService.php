@@ -21,10 +21,10 @@ class ResolverService
         $services = $this->serviceRepository->findAllFixerServices($fixerId);
 
         foreach ($services as $service) {
-            if ($category = $service->getCategory()) {
+            if ($category = $service?->getCategory()) {
                 $res['categories'][$category->getId()] = $category;
             }
-            if ($dino = $service->getDino()) {
+            if ($dino = $service?->getDino()) {
                 $res['dinos'][$dino->getId()] = $dino;
             }
         }

@@ -88,127 +88,127 @@
     }
   }
 
-  .search-results {
-    width: 100%;
-    color: $text-primary;
+  .search-navigation {
+    padding: 1em 0;
+  }
+}
 
-    .search-item {
-      display: flex;
-      padding: 1em 0;
-      height: 155px;
+.search-results {
+  width: 100%;
+  color: $text-primary;
 
-      .content-left {
-        flex: .27;
-        padding: 0 1.5em;
-        border-right: 1px solid $border-primary;
+  .search-item {
+    display: flex;
+    padding: 1em 0;
+    height: 155px;
 
-        .profile-picture {
-          background-color: #ebebeb;
-          height: 45px;
-          width: 45px;
-          padding: 5px;
-          border-radius: 50%;
-          margin-right: 10px;
+    .content-left {
+      flex: .27;
+      padding: 0 1.5em;
+      border-right: 1px solid $border-primary;
 
-          img {
-            height: 100%;
-            width: auto;
-          }
-        }
+      .profile-picture {
+        background-color: #ebebeb;
+        height: 45px;
+        width: 45px;
+        padding: 5px;
+        border-radius: 50%;
+        margin-right: 10px;
 
-        .item-description {
-          padding: .3em 0 1em 55px;
-        }
-      }
-
-      .content-right {
-        flex: .73;
-
-        .service-image {
-          padding-left: .5em;
+        img {
           height: 100%;
-
-          img {
-            border-radius: .3em;
-            height: calc(155px - 2em);
-            width: 235px;
-          }
-        }
-
-        .service-content {
-          padding: 0 1.5em;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          //justify-content: space-between;
-
-          .item-title .rating {
-            font-size: 1.1em;
-          }
-
-          .count-reviews {
-            white-space: nowrap;
-            font-size: 0.75em;
-          }
-        }
-      }
-
-      .item-title {
-        font-size: 1.1em;
-
-        a {
-          color: #107aca;
-          font-weight: 500;
-        }
-
-        .rating {
-          display: flex;
-          align-items: center;
-          padding-left: 0.5em;
-
-          .review-star {
-            height: 1.1em;
-          }
-
-          label {
-            color: #ffdb0a;
-            padding: 0 0.2em;
-            font-weight: 600;
-          }
-        }
-      }
-
-      .item-price {
-        padding-bottom: 0.5em;
-
-        .price {
-          font-size: 1.1em;
-          font-weight: 500;
-          //color: #3fced2;
+          width: auto;
         }
       }
 
       .item-description {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-
-        p {
-          padding: .5em 0;
-          max-height: 3em;
-        }
-      }
-
-      .item-action {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
+        padding: .3em 0 1em 55px;
       }
     }
 
+    .content-right {
+      flex: .73;
+
+      .service-image {
+        padding-left: .5em;
+        height: 100%;
+
+        img {
+          border-radius: .3em;
+          height: calc(155px - 2em);
+          width: 235px;
+        }
+      }
+
+      .service-content {
+        padding: 0 1.5em;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        //justify-content: space-between;
+
+        .item-title .rating {
+          font-size: 1.1em;
+        }
+
+        .count-reviews {
+          white-space: nowrap;
+          font-size: 0.75em;
+        }
+      }
+    }
+
+    .item-title {
+      font-size: 1.1em;
+
+      a {
+        color: #107aca;
+        font-weight: 500;
+      }
+
+      .rating {
+        display: flex;
+        align-items: center;
+        padding-left: 0.5em;
+
+        .review-star {
+          height: 1.1em;
+        }
+
+        label {
+          color: #ffdb0a;
+          padding: 0 0.2em;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .item-price {
+      padding-bottom: 0.5em;
+
+      .price {
+        font-size: 1.1em;
+        font-weight: 500;
+        //color: #3fced2;
+      }
+    }
+
+    .item-description {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      p {
+        padding: .5em 0;
+        max-height: 3em;
+      }
+    }
+
+    .item-action {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
-  .search-navigation {
-    padding: 1em 0;
-  }
 }
