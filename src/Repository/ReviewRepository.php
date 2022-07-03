@@ -21,16 +21,43 @@ class ReviewRepository extends ServiceEntityRepository
 
     /**
      * @param int $serviceId
+     * @param int|null $maxResults
      * @return Review[]
      */
-    public function findServiceReviews(int $serviceId): array
+    public function findServiceReviews(int $serviceId, ?int $maxResults = null): array
     {
-        return $this->createQueryBuilder('r')
+        $qb = $this->createQueryBuilder('r')
             ->innerJoin('r.customer', 'c')
             ->select('r', 'c')
             ->where('r.service = :service')
             ->setParameter('service', $serviceId)
-            ->getQuery()
-            ->getResult();
+            ->orderBy('r.rate', 'DESC');
+
+        if ($maxResults) {
+            $qb->setMaxResults($maxResults);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $fixerId
+     * @param int|null $maxResults
+     * @return Review[]
+     */
+    public function findFixerReviews(int $fixerId, ?int $maxResults = null): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->innerJoin('r.customer', 'c')
+            ->select('r', 'c')
+            ->where('r.fixer = :fixer')
+            ->setParameter('fixer', $fixerId)
+            ->orderBy('r.rate', 'DESC');
+
+        if ($maxResults) {
+            $qb->setMaxResults($maxResults);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

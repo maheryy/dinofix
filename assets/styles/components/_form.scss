@@ -1,13 +1,3 @@
-
-input.form-control {
-  border: 1px solid #a3a3a3;
-  outline: none;
-  border-radius: .3em;
-  height: 30px;
-  padding: 0 5px;
-  color: $text-primary;
-}
-
 .form-control-wrapper {
   position: relative;
 
@@ -48,4 +38,30 @@ select.form-control {
   padding: 0 .5em;
   height: 25px;
   color: $text-primary;
+}
+
+textarea.form-control {
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  padding: 5px 5px;
+  border: 1px solid #a3a3a3;
+  border-radius: .3em;
+
+  &.no-resize {
+    resize: none;
+  }
+}
+
+input.form-control {
+  border: 1px solid #a3a3a3;
+  outline: none;
+  border-radius: .3em;
+  height: 30px;
+  padding: 0 5px;
+  color: $text-primary;
+}
+
+input[type="checkbox"] {
+  width: 1em;
 }

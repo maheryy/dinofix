@@ -74,7 +74,7 @@
                                     <div class="profile-picture">
                                         <img alt="" src="{{ asset('images/repair.png') }}">
                                     </div>
-                                    <a href="#">{{ service.alias }}</a>
+                                    <a href="{{ path('fixer_profile', {'slug': service.fixer_slug}) }}">{{ service.alias }}</a>
                                     <span class="rating">
                                         <span>
                                             <img class="review-star" alt=""
@@ -117,13 +117,12 @@
                                         <div class="item-price">
                                             <span class="price">{{ service.price | number_format(0, ',', ' ') }} €</span>
                                         </div>
-                                        <div class="item-description">
-                                            <p>{{ service.description }}</p>
+                                        <div class="item-description h-full justify-center">
+                                            <div class="item-action">
+                                                <a href="{{ path('customer_service', {'slug': service.slug}) }}"
+                                                   class="btn-primary text-sm">En savoir plus</a>
+                                            </div>
                                         </div>
-{#                                        <div class="item-action">#}
-{#                                            <a href="{{ path('customer_service', {'slug': service.slug}) }}"#}
-{#                                               class="btn-primary text-uppercase text-xs">Prendre RDV</a>#}
-{#                                        </div>#}
                                     </div>
                                 </div>
                             </div>

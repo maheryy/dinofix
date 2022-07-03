@@ -1,0 +1,115 @@
+{% from 'macros/utils.html.twig' import stars %}
+{% extends 'common/common.html.twig' %}
+
+{% block body %}
+    {% set reviews_count = reviews | length %}
+    <main class="main-container fixer-container no-padding">
+        <div class="fixer-head-container">
+            <div class="fixer-head">
+                <div class="profile-picture">
+                    <img alt="" src="{{ asset('images/fixer.png') }}">
+                </div>
+                <div class="profile-info w-full">
+                    <h1 class="pb-0.5 font-semibold">
+                        {{ fixer.firstname }} {{ fixer.lastname }}
+                        <span class="font-normal text-xl">({{ fixer.alias }})</span>
+                    </h1>
+                    <p class="profile-review">
+                        <span>{{ stars(fixer.rating) }}</span>
+                        <a href="#reviews">{{ reviews_count }} avis</a>
+                    </p>
+                    <div class="flex items-end">
+                        <div class="pl-0 col-8 flex-col">
+                            <div class="py-0.25">
+                                <i class="fa-solid fa-location-dot pr-0.25"></i>
+                                <span>{{ fixer.address.street }}, {{ fixer.address.postcode }} {{ fixer.address.city }}</span>
+                            </div>
+                            <div class="flex py-0.25">
+                                <div class="mr-1">
+                                    <i class="fas fa-phone pr-0.25"></i>
+                                    <span>{{ fixer.phone }}</span>
+                                </div>
+                                <div>
+                                    <i class="fas fa-envelope pr-0.25"></i>
+                                    <span>{{ fixer.email }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 flex justify-end pr-0">
+                            <button class="contact btn-secondary">Contacter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixer-profile-container">
+            <section id="description" class="fixer-description">
+                <h2 class="title">Présentation</h2>
+                <div class="content">
+                    <p class="pb-0.5">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. Volutpat ac tincidunt vitae semper quis lectus. Enim tortor at auctor urna nunc id. Non nisi est sit amet facilisis magna etiam tempor orci. Quisque id diam vel quam elementum pulvinar etiam non. Viverra tellus in hac habitasse platea dictumst. A diam maecenas sed enim ut sem viverra. Sit amet est placerat in. Ultrices eros in cursus turpis massa tincidunt dui ut. Egestas diam in arcu cursus. Id cursus metus aliquam eleifend mi in nulla posuere sollicitudin. At tempor commodo ullamcorper a lacus vestibulum sed arcu. Tincidunt ornare massa eget egestas purus viverra accumsan. Mauris augue neque gravida in fermentum et sollicitudin ac. Eleifend mi in nulla posuere.
+                    </p>
+                </div>
+            </section>
+            {% if reviews_count > 0 %}
+                <section id="reviews" class="fixer-reviews">
+                    {# <h2 class="title">Meilleurs avis</h2> #}
+                    <div class="content">
+                        <ul class="review-list">
+                            {% for review in reviews %}
+                                <li class="review-item-container">
+                                    <div class="review-item">
+                                        <div class="review-head">
+                                            <div class="review-rating">
+                                                <span class="stars">{{ stars(review.rate) }}</span>
+                                                <span class="average">{{ review.rate | round(1) }}</span>
+                                            </div>
+                                            <span class="publish-date">{{ review.createdat | date('d M. Y') }}</span>
+                                        </div>
+                                        <div class="review-content">
+                                            <p>"{{ review.message }}"</p>
+                                        </div>
+                                        <div class="review-footer">
+                                            <span class="font-medium">{{ review.customer.firstname }} {{ review.customer.lastname }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            {% endif %}
+            {% if services is not empty %}
+                <section id="services" class="fixer-services">
+                    <h2>Services proposés par {{ fixer.alias }}</h2>
+                    <div id="service-list" class="service-list minimized">
+                        <ul class="list-column py-0.25 mb-0.25">
+                            {% for service in services %}
+                                <li class="service-card list-item">
+                                    <div class="content-top">
+                                        <img src="https://picsum.photos/id/171/450/450" alt="">
+                                    </div>
+                                    <div class="content-bottom">
+                                             <span class="name py-0.5">
+                                                 <a class="link-primary"
+                                                    href="{{ path('customer_service', {'slug': service.slug}) }}">{{ service.name }}</a>
+                                             </span>
+                                        <p class="flex items-center py-0.5 text-xs">
+                                            <span class="stars">{{ stars(service.rating) }}</span>
+                                            <span class="review-total">({{ service.reviews }})</span>
+                                        </p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if (services | length) > 8 %}
+                    <div class="flex justify-center py-0.75">
+                        <button class="btn-secondary" data-event="showRemainingItems" data-target="#service-list">Afficher plus</button>
+                    </div>
+                    {% endif %}
+                </section>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Request;
 use App\Entity\RequestLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,17 @@ class RequestLogRepository extends ServiceEntityRepository
         parent::__construct($registry, RequestLog::class);
     }
 
-    // /**
-    //  * @return RequestLog[] Returns an array of RequestLog objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return RequestLog[] Returns an array of RequestLog objects
+     */
+    public function findAllRequestLog(Request $request, string $orderBy = 'ASC'): array
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('r.request = :request')
+            ->setParameter('request', $request)
+            ->orderBy('r.created_at', $orderBy)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?RequestLog
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

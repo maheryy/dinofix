@@ -21,6 +21,7 @@ class RequestActive
     private $fixer;
 
     #[ORM\ManyToOne(targetEntity: ServiceStep::class)]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private $step;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -105,7 +106,7 @@ class RequestActive
         return $this->step;
     }
 
-    public function setStep(ServiceStep $step): self
+    public function setStep(?ServiceStep $step): self
     {
         $this->step = $step;
 

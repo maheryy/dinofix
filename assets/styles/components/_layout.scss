@@ -23,8 +23,9 @@ a {
   flex: 1;
   padding: 0 35px;
   font-size: 0.875rem;
+  color: $text-primary;
 
-  &.customer-container {
+  &.customer-container, &.fixer-container {
     position: relative;
     background-color: #eef2f65c;
   }
@@ -39,6 +40,10 @@ a {
   padding: 1.5rem;
   border-radius: .3em;
   margin-bottom: 0.75rem;
+
+  &.shadow {
+    box-shadow: 1px 1px 4px 1px rgba(116, 116, 116, 0.25);
+  }
 
   h2.section-title {
     font-weight: 600;

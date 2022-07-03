@@ -6,7 +6,7 @@
                 <div class="form-control-wrapper w-4/5">
                     <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
                     <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg') }}" alt=""
-                         data-event="clearInput" data-json="{{ {'target' : 'searchbar'} | json_encode }}">
+                         data-event="clearInput" data-target="#searchbar">
                     <input class="searchbar form-control" type="text" id="searchbar" name="query"
                            value="{{ previousQuery ?? null }}">
                 </div>
@@ -14,6 +14,9 @@
         </div>
         <nav class="main-header-nav">
             <ul class="header-nav-list">
+                <li class="header-nav-item">
+                    <a href="{{ path('fixer_home') }}">Dinofix pro</a>
+                </li>
                 <li class="header-nav-item dropdown-item" data-event="dropdownItemOnClick">
                     <a class="dropdown-title" href="#">Français</a>
                     <ul class="dropdown-content">
@@ -33,10 +36,10 @@
                             <a href="{{ path('customer_request_new') }}">Faire une demande</a>
                         </li>
                         <li>
-                            <a href="{{ path('customer_request_index') }}">Mes demandes en attente</a>
+                            <a href="{{ path('customer_open_requests') }}">Mes demandes en attente</a>
                         </li>
                         <li>
-                            <a href="{{ path('customer_request_active_index') }}">Mes demandes en cours</a>
+                            <a href="{{ path('customer_request_active') }}">Mes demandes en cours</a>
                         </li>
                         <li>
                             <a href="{{ path('customer_request_history') }}">Historique</a>

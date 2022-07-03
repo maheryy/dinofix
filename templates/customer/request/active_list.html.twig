@@ -1,0 +1,50 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Mes demandes en cours{% endblock %}
+
+{% block body %}
+<div class="container w-3/4">
+    <section class="w-full">
+        <ul class="list-row">
+            {% if request_actives is not empty %}
+                {% for request_active in request_actives %}
+                    <li class="list-item">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="item-title">
+                                        <h4>
+                                            <a href="{{ path('customer_request_show', {'slug': request_active.request.slug}) }}">#{{ request_active.request.reference }} {{ request_active.request.subject }}</a>
+                                        </h4>
+                                    </div>
+                                    <div class="item-description">
+                                        <span>Créée le {{ request_active.createdAt ? request_active.request.createdAt|date('d/m/Y') : '' }}</span><br><br>
+                                        <span>{{ request_active.request.description }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="item-title">
+                                        <a href="">Pris en charge par {{ request_active.fixer.lastname }} {{ request_active.fixer.firstname }} le {{ request_active.createdAt ? request_active.createdAt|date('d/m/Y') : '' }}</a>
+                                    </div>
+                                    <div class="item-description flex-col">
+                                        <span class="">Service : {{ request_active.request.service.name }}</span>
+                                        <span class="">Mail : {{ request_active.fixer.email }}</span>
+                                        <span class="">Etat actuel : <span class="font-medium">{{ request_active.step.name }}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <section class="request-container no-results">
+                    <div class="no-results-text">
+                        <h1>Aucune demande trouvée</h1>
+                        <p>Veuillez faire une demande</p>
+                    </div>
+                </section>
+            {% endif %}
+        </ul>
+    </section>
+</div>
+{% endblock %}

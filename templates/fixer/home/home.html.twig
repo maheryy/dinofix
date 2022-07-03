@@ -10,7 +10,7 @@
         {% endfor %}
         <div class="home-container">
             <section class="section-box">
-                <h2>Mes prestations en cours</h2>
+                <h2>Mes interventions en cours</h2>
                 {% if active_requests is not empty %}
                     <ul class="fixer-service-list">
                         {% for request in active_requests | slice(0, 3) %}
@@ -19,12 +19,12 @@
                                 <h4 class="service-name">{{ request.getCreatedAt() | date("H:m:s d/m/Y") }}</h4>
                                 <h4 class="service-name">{{ request.request.customer.getFirstName() }}
                                     {{ request.request.customer.getLastName() }}</h4>
-                                <a href="{{ path('fixer_update_step', {'id': request.id}) }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('fixer_request', {'slug': request.request.slug}) }}" class="btn btn-primary">Modifier</a>
                             </li>
                         {% endfor %}
                     </ul>
                     <div class="py-0.5 flex justify-center">
-                        <a class="btn-secondary" href="{{ path('fixer_active') }}">Voir plus</a>
+                        <a class="btn-secondary" href="{{ path('fixer_requests') }}">Voir plus</a>
                     </div>
                 {% else %}
                     <div class="no-results py-1 flex justify-center">
@@ -41,7 +41,7 @@
                                 <div class="container">
                                     <div class="item-title">
                                         <h4>
-                                            <a class="link-primary" href="{{ path('fixer_request', {'slug': request.slug}) }}">{{ request.subject }}
+                                            <a class="link-primary" href="{{ path('fixer_open_request', {'slug': request.slug}) }}">{{ request.subject }}
                                                 | #{{ request.reference }} </a>
                                         </h4>
                                     </div>
@@ -54,7 +54,7 @@
                         {% endfor %}
                     </ul>
                     <div class="py-0.5 flex justify-center">
-                        <a class="btn-secondary" href="{{ path('fixer_requests') }}">Voir plus</a>
+                        <a class="btn-secondary" href="{{ path('fixer_open_requests') }}">Voir plus</a>
                     </div>
                 {% else %}
                     <div class="no-results py-1 flex justify-center">

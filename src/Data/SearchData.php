@@ -9,7 +9,7 @@ class SearchData
 {
     public ?string $query = null;
 
-    public ?int $page = null;
+    public ?int $page = 1;
 
     public ?Category $category = null;
 
@@ -19,7 +19,7 @@ class SearchData
 
     public ?array $reviews = null;
 
-    public ?string $sort = null;
+    public ?string $sort = self::SORT_TYPE_LOCATION;
 
     public const SORT_TYPE_LOCATION = 'location';
 
@@ -102,4 +102,30 @@ class SearchData
     {
         $this->page = $page;
     }
+
+    /**
+     * @param Category|null $category
+     */
+    public function setCategory(?Category $category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @param ArrayCollection|null $dinos
+     */
+    public function setDinos(?ArrayCollection $dinos): void
+    {
+        $this->dinos = $dinos;
+    }
+
+    /**
+     * @param null|string $sort
+     */
+    public function setSort(?string $sort): void
+    {
+        $this->sort = $sort;
+    }
+
+
 }

@@ -2,9 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
+use App\Entity\Fixer;
 use App\Entity\RequestActive;
+use App\Entity\Service;
 use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -27,91 +32,97 @@ class RequestActiveRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id
-     * @param $status
+     * @param Customer $customer
+     * @param $statuses
      * @return array
      */
-    public function findUserRequestsByStatus($id, $status): array
+    public function findUserRequestsByStatus(Customer $customer, $statuses): array
     {
         return $this->createQueryBuilder('ra')
-            ->select('ra', 'r', 'st', 's', 'f')
+            ->select('ra', 'r', 's', 'f')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('ra.fixer', 'f')
-            ->innerJoin('ra.step', 'st')
             ->innerJoin('r.customer', 'c')
             ->innerJoin('r.service', 's')
-            ->andwhere('c.id = :id')
-            ->andWhere('r.status = :status')
-            ->setParameter('id', $id)
-            ->setParameter('status', $status)
+            ->andwhere('r.customer = :customer')
+            ->andWhere('r.status IN (:status)')
+            ->setParameter('customer', $customer)
+            ->setParameter('status', $statuses)
             ->orderBy('ra.created_at', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * @param $id
+     * @param Fixer $fixer
      * @return array
      */
-    public function findUserRequestsByFixerId($id): array
+    public function findActiveRequestsByFixer(Fixer $fixer): array
     {
         return $this->createQueryBuilder('ra')
             ->select('ra')
             ->innerJoin('ra.request', 'r')
             ->innerJoin('r.customer', 'c')
-            ->andWhere('ra.fixer = :id')
+            ->andWhere('ra.fixer = :fixer')
+            ->andWhere('ra.status IN (:statuses)')
+            ->setParameter('fixer', $fixer)
+            ->setParameter('statuses', [Constant::STATUS_DEFAULT, Constant::STATUS_ACTIVE, Constant::STATUS_PAUSED])
+            ->orderBy('ra.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Fixer $fixer
+     * @return array
+     */
+    public function findFixerDoneRequests(Fixer $fixer): array
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('ra')
+            ->innerJoin('ra.request', 'r')
+            ->innerJoin('r.customer', 'c')
+            ->andWhere('ra.fixer = :fixer')
+            ->andWhere('ra.status IN (:status)')
+            ->setParameter('fixer', $fixer)
+            ->setParameter('status', [Constant::STATUS_DONE, Constant::STATUS_CANCELLED])
+            ->orderBy('ra.updated_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param $slug
+     * @return RequestActive|null
+     */
+    public function findRequestBySlug($slug): ?RequestActive
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('ra', 'r', 'c')
+            ->innerJoin('ra.request', 'r')
+            ->innerJoin('r.customer', 'c')
+            ->andWhere('r.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param Service $service
+     * @return int|null
+     */
+    public function countActiveRequestsByService(Service $service): ?int
+    {
+        return $this->createQueryBuilder('ra')
+            ->select('COUNT(r.id)')
+            ->innerJoin('ra.request', 'r')
+            ->andWhere('r.service = :service')
             ->andWhere('ra.status NOT IN(:statuses)')
-            ->setParameter('id', $id)
-            ->setParameter('statuses', Constant::STATUS_DONE)
-            ->orderBy('ra.created_at', 'DESC')
+            ->setParameter('service', $service)
+            ->setParameter('statuses', [Constant::STATUS_DONE, Constant::STATUS_CANCELLED, Constant::STATUS_DELETED, Constant::STATUS_INACTIVE])
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
-    /**
-     * @param $fixer
-     * @return array
-     */
-    public function findFixerDoneRequests($fixer): array
-    {
-        return $this->createQueryBuilder('ra')
-            ->select('ra')
-            ->innerJoin('ra.request', 'r')
-            ->innerJoin('r.customer', 'c')
-            ->andWhere('ra.fixer = :id')
-            ->andWhere('ra.status = :status')
-            ->setParameter('id', $fixer)
-            ->setParameter('status', Constant::STATUS_DONE)
-            ->getQuery()
-            ->getResult();
-    }
 
-    // /**
-    //  * @return RequestActive[] Returns an array of RequestActive objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?RequestActive
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

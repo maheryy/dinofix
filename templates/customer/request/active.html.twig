@@ -1,0 +1,98 @@
+{% extends 'customer/customer.html.twig' %}
+{% from 'macros/utils.html.twig' import progress_step, stars %}
+
+{% block title %}Informations sur la demande{% endblock %}
+
+{% block body %}
+    <main class="main-container customer-container request-container">
+        <div class="request-header section-container my-1">
+            <h2 class="font-semibold py-0.75">Détails de la demande</h2>
+            <span class="font-medium mb-0.5">Numéro de demande : {{ request.reference }} | Ouverte le {{ request.getCreatedAt() | date('d/m/Y') }}</span>
+        </div>
+        <section class="request-section head section-container flex justify-between">
+            <div class="content-left">
+                <h3 class="font-semibold mb-0.5">Demande n°{{ request.reference }}</h3>
+                <span class="font-normal text-xs style-italic">{{ request.service.name }}</span>
+            </div>
+            <div class="content-right">
+                <div class="flex-col w-fit">
+                    <span class="py-0.25 font-medium">Pris en charge par {{ request.service.fixer.alias }}</span>
+                    <span class="py-0.25">le {{ request_active.getCreatedAt() | date('d/m/Y') }}</span>
+                </div>
+            </div>
+        </section>
+        <section class="request-section section-container flex-col justify-center my-2.25">
+            {% if request.status == const('STATUS_DONE') %}
+                <div class="w-3/4 mx-auto text-center py-3.5">
+                    <p class="text-xl font-medium text-center">Cette intervention est terminée
+                        le {{ request_active.getUpdatedAt() | date('d/m/Y à H:i') }}</p>
+                </div>
+            {% elseif request.status == const('STATUS_CANCELLED') %}
+                <div class="w-3/4 mx-auto text-center py-3.5">
+                    <p class="text-xl font-medium text-center">Cette intervention a été annulée
+                        le {{ request_active.getUpdatedAt() | date('d/m/Y à H:i') }}</p>
+                </div>
+            {% else %}
+                <div class="w-3/4 mx-auto text-center py-2">
+                    <p class="text-xl font-medium text-center">Intervention en cours depuis
+                        le {{ request_active.getCreatedAt() | date('d/m/Y à H:i') }}</p>
+                </div>
+                <div class="request-steps flex justify-center py-2.5">
+                    {{ progress_step(steps, request_active.step) }}
+                </div>
+            {% endif %}
+            <div class="service-info my-3">
+                <div class="content-left">
+                    <div class="flex">
+                        <div class="service-image">
+                            <a href="{{ path('customer_service', {'slug': request.service.slug}) }}">
+                                <img src="https://picsum.photos/id/171/450/450" alt="">
+                            </a>
+                        </div>
+                        <div class="service-content flex-col justify-between">
+                            <div>
+                                <div class="item-title">
+                                    <a href="{{ path('customer_service', {'slug': request.service.slug}) }}">{{ request.service.name }}</a>
+                                </div>
+                                <div class="rating py-0.5 flex items-center -ml-0.25">
+                                    <span class="stars">{{ stars(request.service.rating) }}</span>
+                                </div>
+                                <div class="item-price">
+                                    <span class="price">{{ request.service.price | number_format(0, ',', ' ') }} €</span>
+                                </div>
+                            </div>
+                            <div class="item-action py-0.25">
+                                <a href="{{ path('customer_service', {'slug': request.service.slug}) }}"
+                                   class="btn-primary text-sm">Revoir le service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-right">
+                    <div class="profile-picture">
+                        <img alt="" src="{{ asset('images/repair.png') }}">
+                    </div>
+                    <div>
+                        <div class="item-title flex items-center">
+                            <a href="{{ path('fixer_profile', {'slug': request.service.fixer.slug}) }}">{{ request.service.fixer.alias }}</a>
+                            <span class="rating">
+                                <span>
+                                     <img class="review-star" alt="" src="{{ asset("images/star-filled.svg") }}">
+                                </span>
+                                <label>{{ request.service.fixer.rating | round(1) }}</label>
+                            </span>
+                        </div>
+                        <div class="item-description flex-col">
+                            <span>{{ request.service.fixer.address.street }}</span>
+                            <span>{{ request.service.fixer.address.city }}, {{ request.service.fixer.address.postcode }}</span>
+                            <span class="py-0.25 font-medium color-secondary">
+                                 <i class="fa-solid fa-location-dot"></i>
+                                 <label>25 km</label>
+                             </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -7,7 +7,9 @@ use App\Entity\RequestActive;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceStepRepository;
+use App\Service\Constant;
 use App\Service\Generator;
+use App\Service\RequestManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +35,7 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
-    public function checkout(Request $request, string $slug, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, Generator $generator, ServiceStepRepository $serviceStepRepository): Response
+    public function checkout(Request $request, string $slug, ServiceRepository $serviceRepository, RequestManager $requestManager): Response
     {
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
@@ -47,33 +49,21 @@ class PaymentController extends AbstractController
             "source" => $token,
             "description" => "Paiement service"
         ]);
+
         if ($charge) {
-            $requestEntity = new RequestEntity();
-            $reference = $generator->generateRequestReference();
-            $datetime = new \DateTime('now');
-            $user = $this->getUser();
-            $requestEntity->setCustomer($user)
-            ->setReference($reference)
+            $requestEntity = (new RequestEntity())
+            ->setCustomer($this->getUser())
             ->setService($service)
             ->setCategory($service->getCategory())
             ->setDino($service->getDino())
-            ->setSubject($service->getName())
-            ->setDescription($service->getDescription())
-            ->setExpectedAt($datetime);
-    
-            $entityManager->persist($requestEntity);
-            $entityManager->flush();
+            ->setStatus(Constant::STATUS_ACTIVE)
+            ->setSubject("{$this->getUser()->getFirstname()} - {$service->getName()}")
+            ->setDescription('Service payé')
+            ->setExpectedAt(new \DateTime('now'));
 
-            $requestActiveEntity = new RequestActive();
-            $requestActiveEntity->setRequest($requestEntity)
-            ->setFixer($service->getFixer())
-            ->setStep($serviceStepRepository->findOneBy(['step' => 1]))
-            ->setContent("description");
+            $requestManager->createPaidRequest($requestEntity);
 
-            $entityManager->persist($requestActiveEntity);
-            $entityManager->flush();
-    
-            return $this->redirectToRoute('customer_request_active_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('customer_request_active', [], Response::HTTP_SEE_OTHER);
         } else {
             return $this->redirectToRoute('service');
         }

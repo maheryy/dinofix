@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Fixer;
+use App\Entity\Review;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
@@ -27,17 +28,11 @@ class FixerRepository extends ServiceEntityRepository
      */
     public function findFixerBySlug($slug): Fixer|null
     {
-        $qb = $this->createQueryBuilder('f')
+        return $this->createQueryBuilder('f')
             ->where('f.slug = :slug')
-            ->setParameter('slug', $slug);
-
-        try {
-            $res = $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            $res = null;
-        }
-
-        return $res;
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     public function findAllFixer()
@@ -49,10 +44,6 @@ class FixerRepository extends ServiceEntityRepository
             )
             ->getQuery()
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
-        ;
-
-        // returns an array of Product objects
-
     }
 
 }

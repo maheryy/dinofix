@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import * as Helper from './helpers';
+import * as ElementBuilder from './elements';
 
 /*
     HTML :
@@ -73,9 +74,122 @@ export const checkableItems = (element) => {
     });
 };
 
-export const clearInput = (element, data) => {
-    const input = $(`#${data.target}`);
-    if (input.length) {
-        $(element).click(() => input.val('').focus());
+export const clearInput = (element) => {
+    const input = $($(element).data('target'));
+    if (!input.length) {
+        return console.error(`function clearInput: target not found (${$(element).data('target')})`)
     }
+
+    $(element).click(() => input.val('').focus());
 };
+
+export const showRemainingItems = (element) => {
+    const list = $($(element).data('target'));
+    if (!list.length) {
+        return console.error(`function showRemainingItems: target not found (${$(element).data('target')})`)
+    }
+
+    $(element).click(() => {
+        if (list.hasClass('minimized')) {
+            list.removeClass('minimized');
+            $(element).text('Afficher moins');
+        } else {
+            list.addClass('minimized');
+            $(element).text('Afficher plus');
+        }
+    });
+};
+
+export const submitFromOutside = (element) => {
+    const form = $($(element).data('target'));
+    if (!form.length) {
+        return console.error(`function showRemainingItems: target not found (${$(element).data('target')})`)
+    }
+
+    $(element).click(() => form.submit());
+};
+
+export const stepManagerHandler = () => {
+    const list = $('#draggable-step-list');
+
+    const dragStart = function (e) {
+        $(this).addClass('dragging');
+    };
+
+    const dragEnd = function (e) {
+        $(this).removeClass('dragging');
+    };
+
+    const dragOver = function (e) {
+        e.preventDefault();
+        const container = $('#draggable-step-list');
+        const afterElement = container
+            .find('li.step-item:not(.dragging)')
+            .toArray()
+            .reduce(function (closest, child) {
+                const box = child.getBoundingClientRect();
+                const offsetX = e.clientX - box.left - box.width / 2;
+                const offsetY = e.clientY - box.top - box.height / 2;
+
+                return offsetY < 0 && offsetY > closest.offsetY
+                    ? { offsetY, offsetX, element: child }
+                    : closest;
+
+            }, {offsetX: Number.NEGATIVE_INFINITY, offsetY: Number.NEGATIVE_INFINITY}).element;
+
+        afterElement ? $(afterElement).before($('.dragging')) : container.append($('.dragging'));
+        refreshSteps();
+    };
+
+    const setEvents = (item) => {
+        $(item)
+            .on('dragstart', dragStart)
+            .on('dragover', dragOver)
+            .on('dragend', dragEnd)
+            .find('.remove')
+            .click(removeStep);
+    };
+
+    const removeStep = function () {
+        $(this).unbind().closest('li.step-item').remove();
+        refreshSteps();
+    };
+
+    const addStep = (name, description, notify) => {
+        if (name === '' || nameExists(name)) {
+            return false;
+        }
+
+        const element = ElementBuilder.draggableStep(name, description, notify);
+        setEvents(element);
+        element.insertBefore('#draggable-step-list li:last-child');
+        refreshSteps()
+    };
+
+    const refreshSteps = () => {
+        list.find('li.step-item').each((index, item) => {
+            $(item).find('.step .label').text(index + 1);
+        });
+    };
+
+    const nameExists = name => $('li.step-item .item-step-name').map((i, el) => $(el).val().toLowerCase()).toArray().includes(name.toLowerCase());
+
+    $('#entry-form').submit(e => {
+        e.preventDefault();
+        addStep($('#step-name').val().trim(), $('#step-description').val().trim(), $('#step-notify').is(':checked'));
+        $('#step-name').val('').focus();
+        $('#step-description').val('');
+        $('#step-notify').prop('checked', false);
+    });
+
+    list.find('li.draggable').each((i, el) => setEvents(el));
+};
+
+export const setTextEditor = async (element) => {
+    const {default: ClassicEditor} = await import('@ckeditor/ckeditor5-build-classic');
+
+    $(element).removeAttr('required');
+    ClassicEditor
+        .create(element)
+        .catch(error => console.error(error));
+}

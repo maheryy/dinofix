@@ -11,62 +11,60 @@ class ServiceStepFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
+        $steps = $this->getSteps();
 
-        //$object = (new ServiceStep())
-        //    ->setStep('1')
-        //    ->setName('Non attribué')
-        //    ->setDescription('Demande en attente de Dinofixer');
-        //$manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(1)
-        ->setName('En attente')
-        ->setDescription('Demande en file d\'attente');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(2)
-        ->setName('Diagnostique')
-        ->setDescription('Etude du problème');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(3)
-        ->setName('Réparation')
-        ->setDescription('Réparation en cours');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(4)
-        ->setName('Finalisation')
-        ->setDescription('Dernière retouches');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(5)
-        ->setName('Prêt à récupérer')
-        ->setDescription('En attente de récupération');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(6)
-        ->setName('Terminé')
-        ->setDescription('Problème résolu');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(-1)
-        ->setName('En pause')
-        ->setDescription('Demande en pause');
-        $manager->persist($object);
-
-        $object = (new ServiceStep())
-        ->setStep(-2)
-        ->setName('Annulé')
-        ->setDescription('Demande annulé par le client');
-        $manager->persist($object);
+        foreach ($steps as $step) {
+            $object = (new ServiceStep())
+                ->setStep($step['step'])
+                ->setName($step['name'])
+                ->setNotify($step['notify'])
+                ->setDescription($step['description']);
+            
+            $manager->persist($object);
+        }
 
         $manager->flush();
+    }
+
+    private function getSteps()
+    {
+        return [
+            [
+                'step' => 1,
+                'name' => 'En attente',
+                'description' => 'Demande en file d\'attente',
+                'notify' => true,
+            ],
+            [
+                'step' => 2,
+                'name' => 'Diagnostique',
+                'description' => 'Etude du problème',
+                'notify' => true,
+            ],
+            [
+                'step' => 3,
+                'name' => 'Réparation',
+                'description' => 'Réparation en cours',
+                'notify' => false,
+            ],
+            [
+                'step' => 4,
+                'name' => 'Finalisation',
+                'description' => 'Dernière retouches',
+                'notify' => false,
+            ],
+            [
+                'step' => 5,
+                'name' => 'Prêt à récupérer',
+                'description' => 'En attente de récupération',
+                'notify' => true,
+            ],
+            [
+                'step' => 6,
+                'name' => 'Terminé',
+                'description' => 'Problème résolu',
+                'notify' => true,
+            ],
+        ];
     }
 }

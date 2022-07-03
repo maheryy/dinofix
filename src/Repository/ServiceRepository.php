@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Data\SearchData;
+use App\Entity\Fixer;
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -110,20 +111,14 @@ class ServiceRepository extends ServiceEntityRepository
      */
     public function findServiceById($id): Service|null
     {
-        $qb = $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->select('s', 'f', 'a')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->andwhere('s.id = :id')
-            ->setParameter('id', $id);
-
-        try {
-            $res = $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            $res = null;
-        }
-
-        return $res;
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -132,20 +127,14 @@ class ServiceRepository extends ServiceEntityRepository
      */
     public function findServiceBySlug($slug): Service|null
     {
-        $qb = $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->select('s', 'f', 'a')
             ->innerJoin('s.fixer', 'f')
             ->innerJoin('f.address', 'a')
             ->andwhere('s.slug = :slug')
-            ->setParameter('slug', $slug);
-
-        try {
-            $res = $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            $res = null;
-        }
-
-        return $res;
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -261,14 +250,15 @@ class ServiceRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
-    public function findFixerRequestRelatedServices($fixer, $category, $dino) {
+    public function findFixerRequestRelatedServices(Fixer $fixer, ?int $category, ?int $dino)
+    {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
             ->leftJoin('s.dino', 'd')
             ->leftJoin('s.category', 'c')
-            ->where('f.id = :fixerId')
+            ->where('f.id = :fixer')
             ->andWhere('(d.id = :dinoId AND d.id IS NOT NULL) OR (c.id = :categoryId AND c.id IS NOT NULL)')
-            ->setParameter('fixerId', $fixer)
+            ->setParameter('fixer', $fixer)
             ->setParameter('dinoId', $dino)
             ->setParameter('categoryId', $category)
             ->getQuery()

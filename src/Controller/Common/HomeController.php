@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     {
         $popularServices = $serviceRepository->findPopularServices(8, 1.5);
 
-        return $this->render('customer/home/landing.html.twig', [
+        return $this->render('common/home/landing.html.twig', [
             'popular_services' => $popularServices
         ]);
     }

@@ -8,14 +8,13 @@
 				<h2>Mes services</h2>
 				<ul class="fixer-service-list">
 					{% for service in fixer_services %}
-						<li class="service-card">
+						<li class="service-card border h-fit p-1.5 mb-0.5">
 							<h4 class="service-name">{{ service.name }}</h4>
-							<span class="service-price">{{ service.description|length > 50 ? service.description|slice(0, 80) ~ '...' : service.description }}</span>
 							<div class="rating-row">
 								<span class="stars">{{ stars(service.rating) }}</span>
 								<span class="review-total">({{ service.reviews }})</span>
 							</div>
-							<a href="{{ path('fixer_services_edit', {'id': service.id}) }}" class="btn btn-primary">Modifier</a>
+							<a href="{{ path('fixer_services_edit', {'slug': service.slug}) }}" class="btn btn-primary text-sm">Modifier</a>
 						</li>
 					{% endfor %}
 				</ul>

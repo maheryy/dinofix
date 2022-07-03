@@ -5,3 +5,33 @@
         <img class="review-star" alt="" src="{{ asset("images/#{img}.svg") }}">
     {% endfor %}
 {% endmacro %}
+
+{% macro progress_step(steps, reference_step) %}
+    <ul class="step-list progress-step">
+        {% for step in steps %}
+            <li class="step-item {{ reference_step and step.step <= reference_step.step ? 'active' : '' }}">
+                <div class="step">
+                    <span class="label">{{ step.step }}</span>
+                </div>
+                <div class="content">
+                    <span class="title">{{ step.name }}</span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro vertical_progress_step(steps, reference_step) %}
+    <ul class="step-list vertical-progress-step">
+        {% for step in steps %}
+            <li class="step-item {{ reference_step and step.step <= reference_step.step ? 'active' : '' }}">
+                <div class="step">
+                    <span class="label">{{ step.step }}</span>
+                </div>
+                <div class="content">
+                    <span class="title">{{ step.name }}</span>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

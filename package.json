@@ -17,5 +17,8 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress",
         "postinstall": "yarn dev"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^34.0.0"
     }
 }
