@@ -35,11 +35,16 @@
 
 <h2> Créer une nouvelle catégorie :</h2>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<p>
 {{ form_label(form.name) }}
 {{ form_widget(form.name) }}
+</p>
+<p>
 {{ form_label(form.description) }}
 {{ form_widget(form.description) }}
-<input type="submit" value="Insérer nouvelle catégorie">
+</p>
+
+<input class="btn-success" type="submit" value="Insérer nouvelle catégorie">
 {{ form_end(form, {'render_rest': false}) }}
 
             </div>
