@@ -73,13 +73,13 @@ class FixerRegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            //$this->emailVerifier->sendEmailConfirmation('fixer_verify_email', $user,
-            //    (new TemplatedEmail())
-            //        ->from(new Address('no-reply@dinofix.fr', 'Dinofix'))
-            //        ->to($user->getEmail())
-            //        ->subject('Please Confirm your Email')
-            //        ->htmlTemplate('fixer/registration/confirmation_email.html.twig')
-            //);
+            $this->emailVerifier->sendEmailConfirmation('fixer_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('contact.dinofix@gmail.com', 'Dinofix'))
+                    ->to($user->getEmail())
+                    ->subject('Confirmation de votre adresse email')
+                    ->htmlTemplate('fixer/registration/confirmation_email.html.twig')
+            );
 
             return $this->redirectToRoute('fixer_login');
         }

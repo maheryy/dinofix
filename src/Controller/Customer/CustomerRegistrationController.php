@@ -51,9 +51,9 @@ class CustomerRegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('customer_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('no-reply@dinofix.fr', 'Dinofix'))
+                    ->from(new Address('contact.dinofix@gmail.com', 'Dinofix'))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Veuillez confirmer votre adresse email')
                     ->htmlTemplate('customer/registration/confirmation_email.html.twig')
             );
 

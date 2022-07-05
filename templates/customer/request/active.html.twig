@@ -75,7 +75,7 @@
                 <div class="content-right">
                     <div class="profile-picture">
                         {% if request.service.fixer.picture %}
-                            <img src="{{ asset("uploads/services/" ~ request.service.fixer.picture) }}" alt="{{ request.service.picture }}">
+                            <img src="{{ asset("uploads/fixer/" ~ request.service.fixer.picture) }}" alt="{{ request.service.picture }}">
                         {% else %}
                             <img alt="" src="{{ asset('images/fixer.png') }}">
                         {% endif %}

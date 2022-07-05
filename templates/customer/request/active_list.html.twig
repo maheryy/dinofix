@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="item-title">
-                                        <a href="">Pris en charge par {{ request_active.fixer.lastname }} {{ request_active.fixer.firstname }} le {{ request_active.createdAt ? request_active.createdAt|date('d/m/Y') : '' }}</a>
+                                        Pris en charge par <a href="{{ path('fixer_profile', {'slug': request_active.request.service.fixer.slug}) }}">{{ request_active.fixer.lastname }} {{ request_active.fixer.firstname }}</a> le {{ request_active.createdAt ? request_active.createdAt|date('d/m/Y') : '' }}
                                     </div>
                                     <div class="item-description flex-col">
                                         <span class="">Service : {{ request_active.request.service.name }}</span>

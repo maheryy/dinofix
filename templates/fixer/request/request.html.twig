@@ -3,6 +3,11 @@
 
 {% block body %}
     <main class="main-container fixer-container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="step-manager-head-container">
             <div class="step-manager-head section-box shadow">
                 <div class="content-left lh-1.5">

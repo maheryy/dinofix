@@ -46,6 +46,7 @@ class FixerServiceController extends AbstractController
             $entityManager->persist($service);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre service a été crée !');
             return $this->redirectToRoute('fixer_home', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('fixer/service/service_edit.html.twig', [
