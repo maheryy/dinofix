@@ -100,6 +100,7 @@ class FixerRequestController extends AbstractController
                 ->context([
                     'step' => $activeRequest->getStep()->getName().' - '. $activeRequest->getStep()->getDescription(),
                     'fixer' => $activeRequest->getFixer()->getLastName().' '.$activeRequest->getFixer()->getFirstName(),
+                    'reference' => $activeRequest->getRequest()->getReference(),
                 ]);
             $mail->send($notify);
             $this->addFlash('success', 'Une notification a été envoyée au client.');

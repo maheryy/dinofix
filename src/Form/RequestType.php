@@ -42,7 +42,7 @@ class RequestType extends AbstractType
             ])
             ->add('expected_at', DateTimeType::class, [
                 'label' => "Date d'intervention",
-                'required' => false,
+                'required' => TRUE,
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn-success'],
