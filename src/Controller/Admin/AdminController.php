@@ -63,13 +63,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/service/list', name: 'service_list', methods: ['GET'])]
-    public function listService(ServiceRepository $serviceRepository): Response
-    {
-        return $this->render('admin/service_list/index.html.twig', [
-            'services' => $serviceRepository->findServicesDashboard(),
-        ]);
-    }
 
     #[Route('/active/list', name: 'active_list', methods: ['GET'])]
     public function listActive(RequestActiveRepository $requestActiveRepository): Response
