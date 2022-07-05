@@ -8,7 +8,11 @@
         <div class="service-head-container">
             <div class="service-head">
                 <div class="profile-picture">
-                    <img alt="" src="{{ asset('images/repair.png') }}">
+                    {% if service.fixer.picture %}
+                        <img src="{{ asset("images/categories/" ~ service.fixer.picture) }}" alt="{{ service.fixer.picture }}">
+                    {% else %}
+                        <img src="{{ asset('images/fixer.png') }}" alt="default-service">
+                    {% endif %}
                 </div>
                 <div class="profile-info">
                     <h1 class="pb-0.5 font-semibold">{{ service.name }}</h1>

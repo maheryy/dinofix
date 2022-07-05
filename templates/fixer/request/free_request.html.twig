@@ -4,19 +4,23 @@
 
 {% block body %}
     <main class="main-container request-container">
-        <section id="description" class="request-section">
-            <h2 class="title">{{ request.subject }} | #{{ request.reference }}</h2>
-            <div class="content">
-                <div class="pb-0.5">
-                    <p>
-                        <span>{{ request.subject }} | #{{ request.reference }}</span>
-                    </p>
-                    <p>
-                        par <span>{{ request.customer.firstname }} {{ request.customer.lastname }}</span>
-                    </p>
-                </div>
-                <p class="pb-0.5">{{ request.description }}</p>
-            </div>
+        <section id="description" class="request-container section-box">
+            <ul class="list-row flex-col items-center py-2">
+                <li class="list-item w-10/12 border p-0.75 my-0.25" >
+                    <div class="container">
+                        <div class="item-title">
+                            <h4>
+                                <a class="link-primary" href="{{ path('fixer_open_request', {'slug': request.slug}) }}">{{ request.subject }}
+                                    | #{{ request.reference }} </a>
+                            </h4>
+                        </div>
+                        <div class="item-description">
+                            <span>Par {{ request.customer.firstname }} {{ request.customer.lastname }} - {{ request.createdAt ? request.createdAt|date('d-m-Y') : '' }}</span><br><br>
+                            <span>{{ request.description }}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </section>
         <div class="container">
             <form method="post" class="w-full">
@@ -27,6 +31,7 @@
                             <option value="{{ service.id }}">{{ service.name }}</option>
                         {% endfor %}
                     </select>
+                    <br><br>
                     <button class="btn-primary">Prendre en charge ce service</button>
                 </div>
             </form>
