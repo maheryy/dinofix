@@ -4,6 +4,11 @@
 
 {% block body %}
     <div class="container">
+        {% if app.user.picture %}
+            <img src="{{ asset("uploads/fixer/" ~ app.user.picture) }}" style="max-width: 200px;" alt="{{ app.user.picture }}">
+        {% else %}
+            <img src="{{ asset('images/fixer.jpg') }}" style="max-width: 200px;" alt="default-service">
+        {% endif %}
         {{ include('fixer/profile/_form.html.twig', {'button_label': 'Modifier'}) }}
         <a class="btn-secondary" href="{{ path('fixer_home') }}">Retour</a>
     </div>

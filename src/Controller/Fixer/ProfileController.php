@@ -7,6 +7,7 @@ use App\Form\FixerType;
 use App\Repository\FixerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,9 @@ class ProfileController extends AbstractController
     #[Route('/{id}/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Fixer $fixer, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser()->getId() !== $fixer->getId()) {
+            return $this->redirectToRoute('fixer_home');
+        }
         $form = $this->createForm(FixerType::class, $fixer);
         $form->handleRequest($request);
 

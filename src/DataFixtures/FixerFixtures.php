@@ -33,6 +33,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             ->setLastName($faker->lastName())
             ->setAlias($faker->company())
             ->setEmail('test@test.fr')
+            ->setRoles(['ROLE_FIXER'])
             ->setPhone($faker->phoneNumber())
             ->setAddress($faker->randomElement($addresses))
             ->setSettings('no settings');
@@ -46,6 +47,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
                 ->setLastName($faker->lastName())
                 ->setAlias($faker->company())
                 ->setEmail($faker->freeEmail())
+                ->setRoles(['ROLE_FIXER'])
                 ->setPhone($faker->phoneNumber())
                 ->setAddress($faker->randomElement($addresses))
                 ->setSettings('no settings');

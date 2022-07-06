@@ -101,7 +101,7 @@
             <p class="flex-col">
                 <span class="name">
                     <a class="link-primary"
-                       href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
+                    href="{{ path('customer_service', {'slug': data.slug}) }}">{{ data.name }}</a>
                 </span>
                 <span class="text-xs font-light pt-0.5">
                     par <a class="link-primary font-medium" href="{{ path('fixer_profile', {'slug': data.fixer_slug}) }}">{{ data.alias }}</a>
@@ -118,8 +118,8 @@
 {% macro home_state_card(data) %}
     <li class="list-item service-card">
         <div class="content-top">
-            {% if data.picture %}
-                <img src="{{ asset("uploads/services/" ~ data.picture) }}" alt="{{ data.picture }}">
+            {% if data.request.service.picture %}
+                <img src="{{ asset("uploads/services/" ~ data.request.service.picture) }}" alt="{{ data.request.service.picture }}">
             {% else %}
                 <img src="{{ asset('images/services.jpg') }}" alt="default-service">
             {% endif %}

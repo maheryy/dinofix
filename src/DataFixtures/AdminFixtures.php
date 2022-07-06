@@ -21,6 +21,7 @@ class AdminFixtures extends Fixture
     {
         $object = (new Admin())
             ->setEmail('test@test.fr')
+            ->setRoles(['ROLE_ADMIN'])
             ->setPicture('no pic')
             ->setSettings('no settings');
 

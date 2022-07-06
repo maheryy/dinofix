@@ -26,6 +26,7 @@ class CustomerFixtures extends Fixture
             ->setFirstName($faker->firstName())
             ->setLastName($faker->lastName())
             ->setEmail('test@test.fr')
+            ->setRoles(['ROLE_CUSTOMER'])
             ->setPhone($faker->phoneNumber())
             ->setPicture('no pic')
             ->setSettings('no settings');
@@ -38,6 +39,7 @@ class CustomerFixtures extends Fixture
                 ->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
                 ->setEmail($faker->freeEmail())
+                ->setRoles(['ROLE_CUSTOMER'])
                 ->setPhone($faker->phoneNumber())
                 ->setPicture('no pic')
                 ->setSettings('no settings');

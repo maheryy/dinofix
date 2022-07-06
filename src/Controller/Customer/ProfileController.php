@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/profile')]
@@ -17,6 +18,10 @@ class ProfileController extends AbstractController
     #[Route('/{id}/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Customer $customer, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser()->getId() !== $customer->getId()) {
+            return $this->redirectToRoute('customer_home');
+        }
+
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 

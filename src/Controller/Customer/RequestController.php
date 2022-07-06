@@ -81,12 +81,12 @@ class RequestController extends AbstractController
     public function show(string $slug, RequestRepository $requestRepository, EntityManagerInterface $em): Response
     {
         $request = $requestRepository->findRequestBySlug($slug);
-        if (!$request) {
-            throw new BadRequestHttpException();
+        if ($this->denyAccessUnlessGranted('VIEW', $request)) {
+            return $this->redirectToRoute('customer_open_requests');
         }
 
-        if ($this->getUser()->getId() != $request->getCustomer()->getId()) {
-            return $this->redirectToRoute('customer_open_requests');
+        if (!$request) {
+            throw new BadRequestHttpException();
         }
 
         return match ($request->getStatus()) {
@@ -139,6 +139,7 @@ class RequestController extends AbstractController
     public function edit(Request $request, string $slug, RequestRepository $requestRepository, EntityManagerInterface $entityManager): Response
     {
         $requestEntity = $requestRepository->findRequestBySlug($slug);
+        $this->denyAccessUnlessGranted('EDIT', $requestEntity);
         if (!$requestEntity) {
             throw new BadRequestHttpException();
         }
