@@ -1,7 +1,7 @@
 {% extends 'customer/customer.html.twig' %}
 {% from 'macros/utils.html.twig' import progress_step, stars %}
 
-{% block title %}Informations sur la demande{% endblock %}
+{% block title %}Informations {{request.reference}} {% endblock %}
 
 {% block body %}
     <main class="main-container customer-container request-container">

@@ -79,13 +79,14 @@ class ReviewController extends AbstractController
 
                 $service->addReview($review);
 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('customer_request_history');
             }
 
             
             
             return $this->render('customer/review/new.html.twig', [
                 
+                'service'=>$service,
                 'form' => $form->createView(),
 
             ]);

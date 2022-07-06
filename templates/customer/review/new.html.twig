@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel Avis{% endblock %}
+{% block title %} Avis {{service.slug}} {% endblock %}
 
 {% block body %}
     <h1>Avis</h1>
 
     {{ include('customer/review/_form.html.twig') }}
 
-    <a href="{{ path('customer_review_index') }}">retour</a>
+    <a class="btn-danger" href="{{ path('customer_review_index') }}">Retour</a>
 {% endblock %}
