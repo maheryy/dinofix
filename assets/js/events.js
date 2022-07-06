@@ -216,24 +216,30 @@ export const locationAutocomplete = (element) => {
     $(element).keyup((e) => {
         clearTimeout(timeout);
         const term = e.target.value.trim();
-        if (term === '') {
-            if ($(element).next().hasClass('autocomplete-dropdown')) {
-                $(element).next().remove();
-            }
+
+        if (term !== '') {
+            timeout = setTimeout(() => search(term), AUTOCOMPLETE_DELAY);
             return;
         }
 
-        timeout = setTimeout(() => search(term), AUTOCOMPLETE_DELAY);
+        const ul = '<ul class="autocomplete-dropdown active"><li class="autocomplete-item current-location">Ma position actuelle</li></ul>';
+
+        if ($(element).next().hasClass('autocomplete-dropdown')) {
+            $(element).next().replaceWith(ul);
+        } else {
+            $(ul).insertAfter(element);
+        }
+
+        $(element).next().find('.autocomplete-item.current-location').click(geolocation);
     });
 
     $(element).focus((e) => {
         const next = $(element).next();
-        if (!next.hasClass('autocomplete-dropdown') || e.target.value === '') {
-            return;
-        }
-
-        if (!next.hasClass('active')) {
-            next.addClass('active');
+        if (!next.hasClass('autocomplete-dropdown')) {
+            if (e.target.value.trim() === '') {
+                $('<ul class="autocomplete-dropdown active"><li class="autocomplete-item current-location">Ma position actuelle</li></ul>').insertAfter(element);
+            }
+            $(element).next().find('.autocomplete-item.current-location').click(geolocation);
         }
     });
 
@@ -265,12 +271,36 @@ export const locationAutocomplete = (element) => {
                     $(ul).insertAfter(element);
                 }
 
-                $(ul).find('.autocomplete-item').click(function(e) {
-                    const place = $(this).data('place')
-                    $(element).val(place.display_name);
-                    $('#location_lat').val(place.lat);
-                    $('#location_lon').val(place.lon);
+                $(element).next().find('.autocomplete-item').click(function (e) {
+                    const place = $(this).data('place');
+                    $(element)
+                        .val(place.display_name)
+                        .next()
+                        .removeClass('active');
+
+                    $('#coordinates').val(`${place.lat},${place.lon}`);
                 })
+            });
+    };
+
+    const geolocation = function (e) {
+        navigator.geolocation.getCurrentPosition(
+            ({coords: {latitude, longitude}}) => {
+                $('#coordinates').val(`${latitude},${longitude}`);
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+                    .then(res => res.json())
+                    .then(res => {
+                        $('#location').val(res.display_name);
+                        $(element).next('.autocomplete-dropdown').remove();
+                    });
+            },
+            (error) => {
+                $('.autocomplete-item.current-location').addClass('disabled');
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
             });
     }
 };

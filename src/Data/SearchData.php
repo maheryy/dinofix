@@ -9,6 +9,8 @@ class SearchData
 {
     public ?string $query = null;
 
+    public ?string $location = null;
+
     public ?int $page = 1;
 
     public ?Category $category = null;
@@ -37,6 +39,15 @@ class SearchData
     public function getQuery(): ?string
     {
         return $this->query;
+    }
+
+
+    /**
+     * @return null|string
+     */
+    public function getLocation(): ?string
+    {
+        return $this->location;
     }
 
     /**
@@ -93,6 +104,14 @@ class SearchData
     public function setQuery(?string $query): void
     {
         $this->query = $query;
+    }
+
+    /**
+     * @param null|string $location
+     */
+    public function setLocation(?string $location): void
+    {
+        $this->location = $location;
     }
 
     /**

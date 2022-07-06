@@ -9,6 +9,7 @@
                          data-event="clearInput" data-target="#searchbar">
                     <input class="searchbar form-control" type="text" id="searchbar" name="query"
                            value="{{ previousQuery ?? null }}">
+                    <input type="hidden" name="location" value="{{ previousLocation ?? null }}">
                 </div>
             </form>
         </div>

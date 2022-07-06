@@ -68,7 +68,8 @@ class SearchFilterType extends AbstractType
                     //'Nom' => SearchData::SORT_TYPE_NAME,
                 ],
             ])
-            ->add('query', HiddenType::class);
+            ->add('query', HiddenType::class)
+            ->add('location', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

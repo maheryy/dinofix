@@ -79,6 +79,16 @@ textarea.form-control {
         background-color: lightgray;
         cursor: pointer;
       }
+
+      &.current-location {
+        &.disabled {
+          background-color: lightgray;
+
+          &:hover {
+            cursor: not-allowed;
+          }
+        }
+      }
     }
   }
 }
