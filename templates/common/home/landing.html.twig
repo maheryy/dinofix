@@ -26,12 +26,14 @@
                             <img class="icon-left" src="{{ asset('images/search.svg') }}" alt="">
                             <input class="form-control searchbar" type="text" id="searchbar" name="query" value="{{ previousQuery ?? null }}" placeholder="Trouver des services">
                         </div>
-                        <div class="form-control-wrapper w-1/3">
+                        <div class="autocomplete-wrapper form-control-wrapper w-1/3">
                             <i class="icon-left fa-solid fa-location-dot"></i>
                             <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg') }}" alt=""
-                                 data-event="clearInput" data-target="#location">
-                            <input class="form-control location" type="text" id="location" name="location" placeholder="Où ?">
+                                 data-event="clearAutocomplete" data-target='["#location", "#location_lat", "#location_lon"]'>
+                            <input class="form-control location" type="text" id="location" name="location" placeholder="Où ?" data-event="locationAutocomplete">
                         </div>
+                        <input type="hidden" id="location_lat" name="lat">
+                        <input type="hidden" id="location_lon" name="lon">
                         <button class="search-button btn-primary">Rechercher</button>
                     </div>
                 </form>
