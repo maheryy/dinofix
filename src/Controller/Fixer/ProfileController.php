@@ -15,18 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
-    #[Route('/{id}/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Fixer $fixer, EntityManagerInterface $entityManager): Response
+    #[Route('/edit', name: 'profile_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if($this->getUser()->getId() !== $fixer->getId()) {
-            return $this->redirectToRoute('fixer_home');
-        }
+        $fixer = $this->getUser();
         $form = $this->createForm(FixerType::class, $fixer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('picture')) {
-                $file = $form->get('picture')->getData();
+            $file = $form->get('picture')->getData();
+            if ($file) {
                 $fileName = $this->getUser()->getFirstName().'-'.$this->getUser()->getLastName().'-'.uniqid() . '.' . $file->guessExtension();
                 try {
                     $file->move(
