@@ -32,11 +32,8 @@ class ServiceRepository extends ServiceEntityRepository
 
     public function findAllBySearch(SearchData $filters, int $maxPageResults = 5): PaginationInterface
     {
-        $location = [
-            'address' => '242 Rue du Faubourg Saint-Antoine, 75012 Paris',
-            'latitude' => 48.849372876032064,
-            'longitude' => 2.390356710312387
-        ];
+        // Paris geolocation by default if no location provided
+        [$latitude, $longitude] = $filters->getLocation() ? explode(',', $filters->getLocation()) : [48.86131823241474, 2.2948481311054056];
 
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.fixer', 'f')
@@ -47,8 +44,8 @@ class ServiceRepository extends ServiceEntityRepository
                 f.firstname, f.lastname, f.alias, f.picture AS fixer_picture, f.slug AS fixer_slug, f.rating AS fixer_rating,
                 a.country, a.region, a.postcode, a.city, a.street, GEO_DISTANCE(a.latitude, a.longitude, :latitude, :longitude) AS distance'
             )
-            ->setParameter('latitude', $location['latitude'])
-            ->setParameter('longitude', $location['longitude'])
+            ->setParameter('latitude', $latitude)
+            ->setParameter('longitude', $longitude)
             ->groupBy('s.id', 'f.id', 'a.id');
 
         if ($filters->getQuery()) {

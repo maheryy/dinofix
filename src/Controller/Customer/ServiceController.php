@@ -28,6 +28,7 @@ class ServiceController extends AbstractController
         return $this->render('customer/service/search.html.twig', [
             'services' => $services,
             'previousQuery' => $searchData->getQuery(),
+            'previousLocation' => $searchData->getLocation(),
             'form' => $filterForm->createView(),
         ]);
     }

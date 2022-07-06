@@ -13,6 +13,8 @@ import * as ElementBuilder from './elements';
         };
  */
 
+const AUTOCOMPLETE_DELAY = 200;
+
 export const test = (element) => {
     Helper.log(element);
 };
@@ -26,10 +28,14 @@ export const btn = (element, data) => {
 
 export const globalAnywhereClickEvent = () => {
     $(document).click((event) => {
-        const dropdowns = $('.dropdown-content');
         /* Close dropdowns when user clicks outside a dropdown item */
-        if (dropdowns.hasClass('active') && !$(event.target).closest('.dropdown-item').length) {
-            dropdowns.removeClass('active');
+        if ($('.dropdown-content').hasClass('active') && !$(event.target).closest('.dropdown-item').length) {
+            $('.dropdown-content').removeClass('active');
+        }
+
+        /* Close autocomplete dropdown when user clicks outside an autocomplete item */
+        if ($('.autocomplete-dropdown').hasClass('active') && !$(event.target).closest('.autocomplete-wrapper').length) {
+            $('.autocomplete-dropdown').removeClass('active');
         }
     });
 };
@@ -83,6 +89,16 @@ export const clearInput = (element) => {
     $(element).click(() => input.val('').focus());
 };
 
+export const clearAutocomplete = (element) => {
+    const inputs = $(element).data('target');
+
+    $(element).click(() => inputs.forEach(el => {
+        $(el).val('');
+        $(element).closest('.autocomplete-wrapper').find('.autocomplete-dropdown').remove();
+    }));
+
+};
+
 export const showRemainingItems = (element) => {
     const list = $($(element).data('target'));
     if (!list.length) {
@@ -132,7 +148,7 @@ export const stepManagerHandler = () => {
                 const offsetY = e.clientY - box.top - box.height / 2;
 
                 return offsetY < 0 && offsetY > closest.offsetY
-                    ? { offsetY, offsetX, element: child }
+                    ? {offsetY, offsetX, element: child}
                     : closest;
 
             }, {offsetX: Number.NEGATIVE_INFINITY, offsetY: Number.NEGATIVE_INFINITY}).element;
@@ -193,3 +209,98 @@ export const setTextEditor = async (element) => {
         .create(element)
         .catch(error => console.error(error));
 }
+
+export const locationAutocomplete = (element) => {
+    let timeout = null;
+
+    $(element).keyup((e) => {
+        clearTimeout(timeout);
+        const term = e.target.value.trim();
+
+        if (term !== '') {
+            timeout = setTimeout(() => search(term), AUTOCOMPLETE_DELAY);
+            return;
+        }
+
+        const ul = '<ul class="autocomplete-dropdown active"><li class="autocomplete-item current-location">Ma position actuelle</li></ul>';
+
+        if ($(element).next().hasClass('autocomplete-dropdown')) {
+            $(element).next().replaceWith(ul);
+        } else {
+            $(ul).insertAfter(element);
+        }
+
+        $(element).next().find('.autocomplete-item.current-location').click(geolocation);
+    });
+
+    $(element).focus((e) => {
+        const next = $(element).next();
+        if (!next.hasClass('autocomplete-dropdown')) {
+            if (e.target.value.trim() === '') {
+                $('<ul class="autocomplete-dropdown active"><li class="autocomplete-item current-location">Ma position actuelle</li></ul>').insertAfter(element);
+            }
+            $(element).next().find('.autocomplete-item.current-location').click(geolocation);
+        }
+    });
+
+    const search = (term) => {
+        fetch(`https://nominatim.openstreetmap.org/search?q=${term}&format=json&countrycodes=fr&addressdetails=1&limit=10`)
+            .then(res => res.json())
+            .then(res => {
+                const data = res
+                    .map(place => {
+                        const name = `${place.house_number ?? ''} ${place.road ?? ''}, ${place.postcode ?? ''} ${place.town ?? place.municipality ?? place.state}`;
+                        return {...place, alternative_name: name};
+                    })
+                    .filter(place => place.address.hasOwnProperty('postcode'))
+                ;
+
+                if (!data.length) {
+                    return $(element).closest('.autocomplete-wrapper').find('.autocomplete-dropdown').remove();
+                }
+
+                const ul = $('<ul class="autocomplete-dropdown active"></ul>').append(
+                    data.map((place) =>
+                        $(`<li class="autocomplete-item"> ${place['display_name'] ?? 'Key not found'}</li>`).data('place', place)
+                    )
+                );
+
+                if ($(element).next().hasClass('autocomplete-dropdown')) {
+                    $(element).next().replaceWith(ul);
+                } else {
+                    $(ul).insertAfter(element);
+                }
+
+                $(element).next().find('.autocomplete-item').click(function (e) {
+                    const place = $(this).data('place');
+                    $(element)
+                        .val(place.display_name)
+                        .next()
+                        .removeClass('active');
+
+                    $('#coordinates').val(`${place.lat},${place.lon}`);
+                })
+            });
+    };
+
+    const geolocation = function (e) {
+        navigator.geolocation.getCurrentPosition(
+            ({coords: {latitude, longitude}}) => {
+                $('#coordinates').val(`${latitude},${longitude}`);
+                fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
+                    .then(res => res.json())
+                    .then(res => {
+                        $('#location').val(res.display_name);
+                        $(element).next('.autocomplete-dropdown').remove();
+                    });
+            },
+            (error) => {
+                $('.autocomplete-item.current-location').addClass('disabled');
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
+    }
+};

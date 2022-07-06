@@ -53,6 +53,46 @@ textarea.form-control {
   }
 }
 
+.autocomplete-wrapper {
+  .autocomplete-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 100%;
+    top: 50 + 1px;
+    border-radius: .2em;
+
+    &.active {
+      display: block;
+      border: 1px solid #a3a3a3;
+    }
+
+    .autocomplete-item {
+      padding: .9em;
+      color: black;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: .75em;
+
+      &:hover {
+        background-color: lightgray;
+        cursor: pointer;
+      }
+
+      &.current-location {
+        &.disabled {
+          background-color: lightgray;
+
+          &:hover {
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}
+
 input.form-control {
   border: 1px solid #a3a3a3;
   outline: none;
