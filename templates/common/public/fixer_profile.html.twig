@@ -47,14 +47,16 @@
             </div>
         </div>
         <div class="fixer-profile-container">
+            {% if fixer.description %}
             <section id="description" class="fixer-description">
                 <h2 class="title">Présentation</h2>
                 <div class="content">
                     <p class="pb-0.5">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum at varius vel pharetra vel turpis. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. Volutpat ac tincidunt vitae semper quis lectus. Enim tortor at auctor urna nunc id. Non nisi est sit amet facilisis magna etiam tempor orci. Quisque id diam vel quam elementum pulvinar etiam non. Viverra tellus in hac habitasse platea dictumst. A diam maecenas sed enim ut sem viverra. Sit amet est placerat in. Ultrices eros in cursus turpis massa tincidunt dui ut. Egestas diam in arcu cursus. Id cursus metus aliquam eleifend mi in nulla posuere sollicitudin. At tempor commodo ullamcorper a lacus vestibulum sed arcu. Tincidunt ornare massa eget egestas purus viverra accumsan. Mauris augue neque gravida in fermentum et sollicitudin ac. Eleifend mi in nulla posuere.
+                        {{ fixer.description }}
                     </p>
                 </div>
             </section>
+            {% endif %}
             {% if reviews_count > 0 %}
                 <section id="reviews" class="fixer-reviews">
                     {# <h2 class="title">Meilleurs avis</h2> #}

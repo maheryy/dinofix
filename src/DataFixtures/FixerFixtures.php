@@ -41,6 +41,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
         $manager->persist($object);
 
+        $reviews = $this->getReviews();
         for ($i = 0; $i < 10; $i++) {
             $object = (new Fixer())
                 ->setFirstName($faker->firstName())
@@ -62,7 +63,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
 
                 $review = (new Review())
                     ->setCustomer($faker->randomElement($customers))
-                    ->setMessage($faker->sentence(20))
+                    ->setMessage($faker->randomElement($reviews))
                     ->setRate($random_rate);
 
                 $object->addReview($review);
@@ -74,6 +75,19 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+    }
+
+    public function getReviews()
+    {
+        return [
+            'Très bon service, mon dino est comme neuf!',
+            'Le service est impeccable, je recommande !',
+            'Le fixer m\'a rendu le mauvais dino après service... Un enfant de 7 ans serais capable de faire la différence entre un T-rex et un ptérodactyle !',
+            'Efficace et pas chère, je recommande !',
+            'Pas incroyable, le service a durée 3 fois plus longtemps que prévu...',
+            'Prestation horrible, fixer désagréable et incapable de répondre à mes questions...',
+            'Parfait !',
+        ];
     }
 
     public function getDependencies()
