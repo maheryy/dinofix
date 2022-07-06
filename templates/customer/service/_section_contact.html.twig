@@ -4,7 +4,7 @@
         <div class="mx-auto py-0.5 text-center">
             <p><a class="link-primary underlined" href="mailto:{{ service.fixer.email }}">{{ service.fixer.email }}</a></p>
             {% if service.fixer.phone is not empty %}
-                <p>{{ service.fixer.phone }}</p>
+                <p>{{ format_phone(service.fixer.phone) }}</p>
             {% endif %}
         </div>
         <a class="btn-secondary w-full p-0" href="mailto:{{ service.fixer.email }}">Contacter</a>
