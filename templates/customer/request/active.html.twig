@@ -1,7 +1,7 @@
 {% extends 'customer/customer.html.twig' %}
 {% from 'macros/utils.html.twig' import progress_step, stars %}
 
-{% block title %}Informations sur la demande{% endblock %}
+{% block title %}Informations {{request.reference}} {% endblock %}
 
 {% block body %}
     <main class="main-container customer-container request-container">
@@ -72,6 +72,10 @@
                             <div class="item-action py-0.25">
                                 <a href="{{ path('customer_service', {'slug': request.service.slug}) }}"
                                 class="btn-primary text-sm">Revoir le service</a>
+                                {% if request.status == const('STATUS_DONE') %}
+                                <a href="{{ path('customer_review_new', {'slug': request.service.slug}) }}" class="btn-success"> Noter le Fixer </a>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
@@ -97,10 +101,10 @@
                         <div class="item-description flex-col">
                             <span>{{ request.service.fixer.address.street }}</span>
                             <span>{{ request.service.fixer.address.city }}, {{ request.service.fixer.address.postcode }}</span>
-                            <span class="py-0.25 font-medium color-secondary">
+                            {# <span class="py-0.25 font-medium color-secondary">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <label>25 km</label>
-                            </span>
+                            </span> #}
                         </div>
                     </div>
                 </div>
