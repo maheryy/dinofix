@@ -18,12 +18,18 @@ class Utils extends AbstractExtension
         return [
             new TwigFunction('is_logged_in', [$this, 'isLoggedIn']),
             new TwigFunction('const', [$this, 'getConstant']),
+            new TwigFunction('format_phone', [$this, 'formatPhone']),
         ];
     }
 
     public function isLoggedIn(): bool
     {
         return (bool)$this->security->getUser();
+    }
+
+    public function formatPhone(string $phone): string
+    {
+        return chunk_split($phone, 2, ' ');
     }
 
     public function getConstant(string $constant): mixed
