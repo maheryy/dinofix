@@ -23,7 +23,7 @@
 
         <div class="profile-details">
             <img src="images/profile.jpg" alt="">
-            <span class="admin_name">Admin Name</span>
+            <span class="admin_name">{{ app.user.email }}</span>
         </div>
     </nav>
 
@@ -35,14 +35,23 @@
 
 <h2> Ajouter un nouveau dino à la collection :</h2>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<p>
 {{ form_label(form.name) }}
 {{ form_widget(form.name) }}
+</p>
+<p>
 {{ form_label(form.description) }}
 {{ form_widget(form.description) }}
+</p>
+<p>
 {{ form_label(form.category) }}
 {{ form_widget(form.category) }}
+</p>
 
-<input type="submit" value="Insérer nouvelle catégorie">
+
+
+<input class="btn-success" type="submit" value="Insérer nouvelle catégorie">
 {{ form_end(form, {'render_rest': false}) }}
 
             </div>

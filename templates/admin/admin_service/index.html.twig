@@ -52,10 +52,9 @@
             <tr>
                 <td>{{ service.name }}</td>
                 <td>{{ service.description | raw }}</td>
-                <td>{{ service.alias }}</td>
+                <td>{{ service.fixer.alias }}</td>
                 <td>{{ service.rating }}</td>
-                <td>{{ service.rating }}</td>
-                <td> <a href="{{ path('admin_service_delete', {'id': service.id}) }}" class="btn-danger"> <label class="fa-solid fa-trash-can"></label></a> </td>
+                <td>{{ include('admin/admin_service/_delete_form.html.twig') }}</td>
             </tr>
         {% endfor %}
         </tbody>
