@@ -117,7 +117,7 @@ class Request
         return $this->expected_at;
     }
 
-    public function setExpectedAt(\DateTimeInterface $expected_at): self
+    public function setExpectedAt(?\DateTimeInterface $expected_at): self
     {
         $this->expected_at = $expected_at;
 

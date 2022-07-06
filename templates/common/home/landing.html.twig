@@ -30,7 +30,7 @@
                             <i class="icon-left fa-solid fa-location-dot"></i>
                             <img class="icon-right cursor-pointer" src="{{ asset('images/cross.svg') }}" alt=""
                                  data-event="clearAutocomplete" data-target='["#location", "#coordinates"]'>
-                            <input class="form-control location" type="text" id="location" placeholder="Où ?" data-event="locationAutocomplete">
+                            <input class="form-control location" type="text" id="location" placeholder="Où ?" data-event="locationAutocomplete" autocomplete="off">
                         </div>
                         <input type="hidden" id="coordinates" name="location">
                         <button class="search-button btn-primary">Rechercher</button>

@@ -47,7 +47,7 @@ class ServiceType extends AbstractType
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Photo',
-                'required' => true,
+                'required' => false,
                 'data_class' => null,
             ])
             ->add('save', SubmitType::class, [

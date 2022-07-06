@@ -105,7 +105,7 @@ class RequestController extends AbstractController
         if ($dino = $request->getDino()) {
             $searchData->setDinos(new ArrayCollection([$dino]));
         }
-
+        $searchData->setSort(SearchData::SORT_TYPE_POPULAR);
         $matchingServices = $em->getRepository(Service::class)->findAllBySearch($searchData, 10);
 
         return $this->render(

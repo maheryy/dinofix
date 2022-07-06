@@ -22,15 +22,19 @@
             </div>
         </section>
         <section class="request-section section-container flex-col justify-center my-2.25">
-            {% if request.status == const('STATUS_DONE') %}
+            {% if request_active.status == const('STATUS_DONE') %}
                 <div class="w-3/4 mx-auto text-center py-3.5">
                     <p class="text-xl font-medium text-center">Cette intervention est terminée
                         le {{ request_active.getUpdatedAt() | date('d/m/Y à H:i') }}</p>
                 </div>
-            {% elseif request.status == const('STATUS_CANCELLED') %}
+            {% elseif request_active.status == const('STATUS_CANCELLED') %}
                 <div class="w-3/4 mx-auto text-center py-3.5">
                     <p class="text-xl font-medium text-center">Cette intervention a été annulée
                         le {{ request_active.getUpdatedAt() | date('d/m/Y à H:i') }}</p>
+                </div>
+            {% elseif request_active.status == const('STATUS_PAUSED') %}
+                <div class="w-3/4 mx-auto text-center py-3.5">
+                    <p class="text-xl font-medium text-center">Cette intervention en suspens pour le moment, contacter le fixer pour plus d'information</p>
                 </div>
             {% else %}
                 <div class="w-3/4 mx-auto text-center py-2">
