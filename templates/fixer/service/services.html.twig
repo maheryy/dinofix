@@ -18,12 +18,12 @@
 							</div>
 							<div class="content-bottom">
 								<p class="flex-col">
-									<span class="name">
-										{{ (service.description|length > 50 ? service.description|slice(0, 60) ~ '...' : service.description)|raw }}<br>
+									<span class="text-sm font-light pt-0.5">
+										<a class="color-link font-medium" href="{{ path('fixer_services_edit', {'slug': service.slug}) }}">{{ service.name }}</a>
 									</span>
-									<span class="text-xs font-light pt-0.5">
-										Titre <a class="link-primary font-medium" href="{{ path('fixer_services_edit', {'slug': service.slug}) }}">{{ service.name }}</a>
-									</span>
+									<div class="text-xs font-light">
+										{{ (service.description|length > 50 ? service.description|slice(0, 60) ~ '...' : service.description) | raw }}
+									</div>
 								</p>
 								<p class="flex items-center text-xs">
 									<span class="stars">{{ stars(service.rating) }}</span>

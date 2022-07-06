@@ -20,7 +20,7 @@
                 <ul class="request-card">
                     <li>
                         <a href="{{ path('customer_request_show', {'slug': request.slug}) }}" class="card">
-                        {% if request.category.picture %}
+                        {% if request.category and request.category.picture %}
                             <img src="{{ asset("images/categories/" ~ request.category.picture) }}" class="card__image" alt="" />
                         {% else %}
                             <img src="{{ asset("images/categories/no-pic.png") }}" class="card__image" alt="" />

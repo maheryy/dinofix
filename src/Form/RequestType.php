@@ -8,6 +8,7 @@ use App\Entity\Request;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,9 +41,10 @@ class RequestType extends AbstractType
                 'label' => 'Description de la panne',
                 'required' => TRUE,
             ])
-            ->add('expected_at', DateTimeType::class, [
-                'label' => "Date d'intervention",
-                'required' => TRUE,
+            ->add('expected_at', DateType::class, [
+                'label' => "Date d'intervention souhaitée",
+                'required' => false,
+                'widget' => 'single_text',
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn-success'],

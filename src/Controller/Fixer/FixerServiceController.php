@@ -69,16 +69,18 @@ class FixerServiceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('picture')) {
                 $file = $form->get('picture')->getData();
-                $fileName = $this->getUser()->getFirstName().'-'.$this->getUser()->getLastName().'-'.uniqid() . '.' . $file->guessExtension();
-                try {
-                    $file->move(
-                        $this->getParameter('services_pictures_directory'),
-                        $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                if ($file) {
+                    $fileName = $this->getUser()->getFirstName() . '-' . $this->getUser()->getLastName() . '-' . uniqid() . '.' . $file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('services_pictures_directory'),
+                            $fileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $service->setPicture($fileName);
                 }
-                $service->setPicture($fileName);
             }
             $entityManager->persist($service);
             $entityManager->flush();

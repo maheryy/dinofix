@@ -6,12 +6,12 @@
 			<h1>Créer un nouveau service</h1>
 			<div class="form-wrapper w-3/5">
 				{{ form_start(form) }}
-				{{ form_row(form.picture) }}
 				{{ form_row(form.name) }}
 				{{ form_row(form.description, {'attr': {'data-event': 'setTextEditor'}}) }}
 				{{ form_row(form.price) }}
 				{{ form_row(form.category) }}
 				{{ form_row(form.dino) }}
+				{{ form_row(form.picture) }}
 				{{ form_row(form.save) }}
 				{{ form_end(form) }}
 			</div>
