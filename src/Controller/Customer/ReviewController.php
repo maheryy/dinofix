@@ -3,6 +3,7 @@
 namespace App\Controller\Customer;
 
 use App\Entity\Review;
+use App\Entity\Service;
 use App\Form\ReviewType;
 use App\Repository\ReviewRepository;
 use App\Repository\ServiceRepository;
@@ -27,20 +28,36 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/new/{slug}/', name: 'review_new', methods: ['GET', 'POST'])]
-    public function new($slug ,Request $request, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, ReviewRepository $reviewRepository): Response
+    public function new($slug ,Request $request, Service $service, EntityManagerInterface $entityManager, ServiceRepository $serviceRepository, ReviewRepository $reviewRepository): Response
     {
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
             throw new NotFoundHttpException();
         }
 
+
             $review = new Review();
-
-            //$service = $serviceRepository->find($id);
-            //$service->addReview($review);
-
+            
             $form = $this->createForm(ReviewType::class, $review);
             $form->handleRequest($request);
+
+            $allReviews = $service->getReviews();
+            $compteur = count($allReviews);
+            
+            $sumRate = 0;
+            
+            foreach($allReviews as $rate){
+                $sumRate = $sumRate + $rate->getRate();                
+            }  
+            
+            if($compteur >= 1){
+                $mediumRate = ($form->getData()->getRate()+$sumRate)/($compteur+1);
+            }else{
+                $mediumRate = $form->getData()->getRate();
+            }
+            
+            
+
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $review = $form->getData();
@@ -50,18 +67,25 @@ class ReviewController extends AbstractController
                     ->setService($service)
                                                           
                 ;
+                
+                $service
+                ->setRating($mediumRate)
+                ;
+                
 
+                $entityManager->persist($service);
                 $entityManager->persist($review);
                 $entityManager->flush();
 
-                //$service = $serviceRepository->find($id);
                 $service->addReview($review);
 
                 return $this->redirectToRoute('homepage');
             }
-            //dd($review);
+
+            
+            
             return $this->render('customer/review/new.html.twig', [
-                //'review' => $review,
+                
                 'form' => $form->createView(),
 
             ]);

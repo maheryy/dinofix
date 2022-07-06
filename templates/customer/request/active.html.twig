@@ -72,6 +72,10 @@
                             <div class="item-action py-0.25">
                                 <a href="{{ path('customer_service', {'slug': request.service.slug}) }}"
                                 class="btn-primary text-sm">Revoir le service</a>
+                                {% if request.status == const('STATUS_DONE') %}
+                                <a href="{{ path('customer_review_new', {'slug': request.service.slug}) }}" class="btn-success"> Noter le Fixer </a>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
