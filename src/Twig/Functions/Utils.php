@@ -29,6 +29,8 @@ class Utils extends AbstractExtension
 
     public function formatPhone(string $phone): string
     {
+        $phone = str_replace('+33', '0', $phone);
+        $phone = preg_replace('/[^0-9]/', '', $phone);
         return chunk_split($phone, 2, ' ');
     }
 
