@@ -16,13 +16,44 @@ class DinoFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $categories = $manager->getRepository(Category::class)->findAll();
-
-        for($i = 0; $i < 25; $i++) {
+        $dinos = [
+            'T-Rex',
+            'Stégosaure',
+            'Ankylosaure',
+            'Brachiosaure',
+            'Archéopteryx',
+            'Diplodocus',
+            'Triceratops',
+            'Protoceratops',
+            'Parasaurolophus',
+            'Ptéranodon',
+            'Vélociraptor',
+            'Mammouth',
+            'Skrypzikus',
+            'Elizabethosaure'
+        ];
+        $categories = [
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Carnivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Herbivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Terrestre"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Herbivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Volant"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Estropie"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Omnivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Omnivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Herbivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Volant"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Carnivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Herbivore"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Alien"]),
+            $manager->getRepository(Category::class)->findOneBy(["name" => "Aquatique"]),
+        ];
+        for($i = 0; $i < count($dinos); $i++) {
             $object = (new Dino())
-                ->setName($faker->word)
+                ->setName($dinos[$i])
                 ->setDescription($faker->sentence(20))
                 ->setPicture('no pic')
-                ->setCategory($faker->randomElement($categories));
+                ->setCategory($categories[$i]);
             $manager->persist($object);
         }
         $manager->flush();
