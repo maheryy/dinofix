@@ -65,6 +65,7 @@ class FixerRequestController extends AbstractController
     public function request(string $slug, RequestManager $requestManager): Response
     {
         $activeRequest = $requestManager->getActiveRequest($slug);
+        $this->denyAccessUnlessGranted('VIEW', $activeRequest);
         if (!$activeRequest) {
             throw new BadRequestHttpException();
         }
@@ -87,6 +88,7 @@ class FixerRequestController extends AbstractController
     public function requestAction(Request $request, string $slug, RequestManager $requestManager, MailerInterface $mail): Response
     {
         $activeRequest = $requestManager->getActiveRequest($slug);
+        $this->denyAccessUnlessGranted('EDIT', $activeRequest);
         if (!$activeRequest) {
             throw new BadRequestHttpException();
         }
