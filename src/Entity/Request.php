@@ -43,7 +43,7 @@ class Request
     #[ORM\ManyToOne(targetEntity: Dino::class)]
     private $dino;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $expected_at;
 
     #[Gedmo\Timestampable(on: 'create')]
