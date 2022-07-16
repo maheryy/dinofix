@@ -10,9 +10,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\FixerRepository")]
-#[UniqueEntity(fields: ['email'], message: "There is already an account with this email")]
+#[UniqueEntity(fields: ['email'], message: "Il y a déjà un compte avec cette adresse e-mail")]
 class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,15 +22,19 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre prénom")]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre nom")]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 50, unique: true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre pseudonyme")]
     private $alias;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre adresse e-mail")]
     private $email;
 
     #[Gedmo\Slug(fields: ['alias'])]
@@ -40,15 +45,19 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre numéro de téléphone")]
     private $phone;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Veuillez mettre une photo de profil")]
     private $picture;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre description")]
     private $description;
 
     #[ORM\ManyToOne(targetEntity: Address::class)]
