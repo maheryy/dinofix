@@ -15,6 +15,9 @@
     <main class="main-container login-container fixer-login sided">
         <div class="content-left">
             <div class="form-container">
+                <div class="container">
+                    <img src="{{ asset('images/login.gif') }}" alt="upload" style ="margin: auto;" class="logo-login-fix">
+                </div>
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -34,7 +37,7 @@
                         <span>Vous n'avez pas de compte ? <a href="{{ path('fixer_register') }}">S'inscrire</a></span>
                     </div>
                     <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
+                        value="{{ csrf_token('authenticate') }}"
                     >
                 </form>
             </div>
