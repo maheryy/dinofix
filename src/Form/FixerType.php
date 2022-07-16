@@ -18,6 +18,16 @@ class FixerType extends AbstractType
                 'label' => 'Photo',
                 'required' => false,
                 'data_class' => null,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez uploader un fichier de type jpeg ou png',
+                    ]),
+                ],
             ])
             ->add('firstname')
             ->add('lastname')
