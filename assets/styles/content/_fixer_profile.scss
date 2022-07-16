@@ -3,7 +3,8 @@ $container-max-width: 1170px;
 .fixer-head-container {
   width: 100vw;
   height: 165px;
-  background-color: #2e4552;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('../../images/background-fixer.png');
+  background-size: 80%;
   box-shadow: 0 3px 5px rgba(0, 0, 0, .30);
 
   .fixer-head {
