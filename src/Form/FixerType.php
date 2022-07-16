@@ -44,6 +44,9 @@ class FixerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Fixer::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'fixer_item',
         ]);
     }
 }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ServiceRepository")]
 class Service
@@ -17,9 +18,27 @@ class Service
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Veuillez renseigner le nom du service")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 255,
+     *    minMessage = "Le nom du service doit contenir au moins {{ limit }} caractères",
+     *   maxMessage = "Le nom du service doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $name;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "Veuillez renseigner la description du service")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 255,
+     *   minMessage = "La description du service doit contenir au moins {{ limit }} caractères",
+     *  maxMessage = "La description du service doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $description;
 
     #[Gedmo\Slug(fields: ['name'])]
@@ -31,9 +50,13 @@ class Service
     private $fixer;
 
     #[ORM\ManyToOne(targetEntity: Dino::class, inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: "Veuillez choisir un dino")]
     private $dino;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'services')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message: "Veuillez choisir une catégorie")]
     private $category;
 
     #[ORM\OneToMany(mappedBy: 'service', targetEntity: ServiceStep::class)]
@@ -43,6 +66,14 @@ class Service
     private $reviews;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\NotNull(message: "Veuillez renseigner le prix du service")]
+    /**
+     * @Assert\Range(
+     *      min = 5,
+     *      max = 1000000,
+     *      notInRangeMessage = "Le prix doit être compris entre 5 et 1 000 000 €"
+     * )
+     */
     private $price;
 
     #[ORM\Column(type: 'float')]
@@ -52,6 +83,7 @@ class Service
     private $status = Constant::STATUS_DEFAULT;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Veuillez télécharger l'image du service")]
     private $picture;
 
     #[Gedmo\Timestampable(on: 'create')]

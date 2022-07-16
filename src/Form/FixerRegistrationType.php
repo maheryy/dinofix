@@ -26,6 +26,17 @@ class FixerRegistrationType extends AbstractType
                 'label' => 'Photo',
                 'required' => true,
                 'data_class' => null,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg, png ou svg',
+                    ]),
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' =>  'Prénom',
@@ -41,6 +52,15 @@ class FixerRegistrationType extends AbstractType
             ])
             ->add('phone', TelType::class, [
                 'label' =>  'Téléphone',
+                'required' => false,
+                'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'max' => 10,
+                        'minMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
+                        'maxMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
+                    ]),
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -68,6 +88,9 @@ class FixerRegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Fixer::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'fixer_registration',
         ]);
     }
 }

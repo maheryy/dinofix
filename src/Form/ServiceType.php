@@ -49,6 +49,17 @@ class ServiceType extends AbstractType
                 'label' => 'Photo',
                 'required' => false,
                 'data_class' => null,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/svg+xml',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image de type jpeg, png ou svg',
+                    ]),
+                ],
             ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn-success'],
@@ -61,6 +72,9 @@ class ServiceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Service::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'service_item',
         ]);
     }
 }

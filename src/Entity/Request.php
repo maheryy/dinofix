@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Service\Constant;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\RequestRepository")]
 class Request
@@ -18,9 +19,27 @@ class Request
     private $reference;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Veuillez renseigner le sujet du service")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 255,
+     *    minMessage = "Le sujet du service doit contenir au moins {{ limit }} caractères",
+     *   maxMessage = "Le sujet du service doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $subject;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message: "Veuillez renseigner la description du service")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 255,
+     *   minMessage = "La description du service doit contenir au moins {{ limit }} caractères",
+     *  maxMessage = "La description du service doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $description;
 
     #[Gedmo\Slug(fields: ['reference'])]

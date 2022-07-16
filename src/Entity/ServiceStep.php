@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ServiceStepRepository")]
 class ServiceStep
@@ -13,12 +14,31 @@ class ServiceStep
     private $id;
 
     #[ORM\Column(type: 'integer')]
+    
     private $step;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: "Veuillez renseigner le nom de l'étape")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 100,
+     *    minMessage = "Le nom de l'étape doit contenir au moins {{ limit }} caractères",
+     *   maxMessage = "Le nom de l'étape catégorie doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Veuillez renseigner la description de l'étape")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *    max = 255,
+     *   minMessage = "La description de l'étape doit contenir au moins {{ limit }} caractères",
+     *  maxMessage = "La description de l'étape doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $description;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]

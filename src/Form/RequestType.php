@@ -23,23 +23,23 @@ class RequestType extends AbstractType
             ->add('subject', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Sujet',
-                'required' => TRUE,
+                'required' => true,
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie du dinosaure',
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'required' => false,
+                'required' => true,
             ])
             ->add('dino', EntityType::class, [
                 'label' => 'Nom du dinosaure',
                 'class' => Dino::class,
                 'choice_label' => 'name',
-                'required' => false,
+                'required' => true,
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de la panne',
-                'required' => TRUE,
+                'required' => true,
             ])
             ->add('expected_at', DateType::class, [
                 'label' => "Date d'intervention souhaitée",
@@ -57,6 +57,9 @@ class RequestType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Request::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'request',
         ]);
     }
 }

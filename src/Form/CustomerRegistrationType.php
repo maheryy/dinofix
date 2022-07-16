@@ -12,9 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CustomerRegistrationType extends AbstractType
 {
@@ -28,24 +26,31 @@ class CustomerRegistrationType extends AbstractType
                 'label' => 'Nom',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
+                'label' => 'Adresse e-mail'
             ])
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone (optionnel)',
                 'required' => false,
+                'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'max' => 10,
+                        'maxMessage' => 'Votre numéro de téléphone ne peut dépasser {{ limit }} caractères',
+                    ]),
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'required' => true,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'first_options' => [
                     'label' => 'Mot de passe',
                     'constraints' => [
                         new Length([
                             'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères.',
                             'max' => 4096,
                         ]),
                     ],
@@ -60,6 +65,9 @@ class CustomerRegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Customer::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id' => 'customer_item',
         ]);
     }
 }

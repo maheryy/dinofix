@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Service\Constant;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ReviewRepository")]
 class Review
@@ -19,9 +20,27 @@ class Review
     private $customer;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: "Veuillez entrer une note")]
+    /**
+     * @Assert\Range(
+     *     min = 1,
+     *     max = 5,
+     *     minMessage = "La note doit être au moins {{ limit }}",
+     *     maxMessage = "La note doit être au maximum {{ limit }}"
+     * )
+     */
     private $rate;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: "Veuillez entrer un commentaire")]
+    /**
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 255,
+     *     minMessage = "Le commentaire doit contenir au moins {{ limit }} caractères",
+     *     maxMessage = "Le commentaire doit contenir au maximum {{ limit }} caractères"
+     * )
+     */
     private $message;
 
     #[ORM\ManyToOne(targetEntity: Fixer::class, inversedBy: 'reviews')]

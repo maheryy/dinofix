@@ -77,7 +77,9 @@ class SearchFilterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => SearchData::class,
             'method' => 'GET',
-            'csrf_protection' => false,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'search_filter',
             'allow_extra_fields' => true
         ]);
     }
