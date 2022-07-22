@@ -103,11 +103,13 @@ class RequestManager
             ->setFixer($service->getFixer())
             ->setStep($this->serviceStepRepository->findFirstStepByService($serviceStep));
 
-        $this->saveLog($request, 'Création de la demande');
+        $this->saveLog($request, 'Règlement de la demande');
 
         $this->em->persist($request);
         $this->em->persist($requestActive);
         $this->em->flush();
+
+        return $request;
     }
 
     public function handleRequestAction(RequestActive $requestActive, string $action): void

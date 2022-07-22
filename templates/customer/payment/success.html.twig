@@ -1,0 +1,13 @@
+{% extends 'customer/customer.html.twig' %}
+
+{% block title %}Confirmation de votre demande{% endblock %}
+
+{% block body %}
+<main class="main-container">
+    <section class="m-auto w-10/12 text-center my-2 py-2">
+        <h1 class="text-center text-3xl font-light py-1">Merci pour votre demande !</h1>
+        <p class="text-center text-lg font-extralight py-0.5">Vous recevrez une confirmation lorsque votre demande sera pris en charge</p>
+        <a class="link-primary font-light" href="{{ path('customer_request_show', {'slug' : request.slug}) }}">Voir ma demande</a>
+    </section>
+</main>
+{% endblock %}

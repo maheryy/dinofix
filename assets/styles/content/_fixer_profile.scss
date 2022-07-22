@@ -3,8 +3,8 @@ $container-max-width: 1170px;
 .fixer-head-container {
   width: 100vw;
   height: 165px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),url('../../images/background-fixer.png');
-  background-size: 80%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('../../images/dino-footprints.webp');
+  background-size: cover;
   box-shadow: 0 3px 5px rgba(0, 0, 0, .30);
 
   .fixer-head {

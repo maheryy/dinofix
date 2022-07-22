@@ -1,5 +1,5 @@
 <section id="request" class="service-section request">
     <div class="content">
-        <a href="{{ path('customer_payment', {'slug': service.slug}) }}" class="btn-success w-full p-0">Payer {{ service.price | number_format(0, ',', ' ') }} €</a>
+        <a href="{{ path('customer_checkout', {'slug': service.slug}) }}" class="btn-success w-full p-0">Payer {{ service.price | number_format(0, ',', ' ') }} €</a>
     </div>
 </section>

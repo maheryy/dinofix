@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Customer;
 use App\Entity\Request;
+use App\Entity\Service;
 use App\Service\Constant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -64,5 +65,17 @@ class RequestRepository extends ServiceEntityRepository
             ->orderBy('r.id', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findPaidRequest(Customer $customer, Service $service, string $reference) {
+        return $this->createQueryBuilder('r')
+            ->where('r.customer = :customer')
+            ->andWhere('r.service = :service')
+            ->andWhere('r.payment_reference = :reference')
+            ->setParameter('customer', $customer)
+            ->setParameter('service', $service)
+            ->setParameter('reference', $reference)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
