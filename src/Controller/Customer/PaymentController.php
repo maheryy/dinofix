@@ -3,69 +3,90 @@
 namespace App\Controller\Customer;
 
 use App\Entity\Request as RequestEntity;
-use App\Entity\RequestActive;
 use App\Repository\RequestRepository;
 use App\Repository\ServiceRepository;
-use App\Repository\ServiceStepRepository;
 use App\Service\Constant;
-use App\Service\Generator;
 use App\Service\RequestManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Checkout\Session;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PaymentController extends AbstractController
 {
-    #[Route('/service/{slug}/payment', name: 'payment', methods: ['GET'])]
-    public function index(string $slug, ServiceRepository $serviceRepository): Response
+    #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['GET'])]
+    public function checkout(string $slug, ServiceRepository $serviceRepository,): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $service = $serviceRepository->findServiceBySlug($slug);
         if (!$service) {
             throw new BadRequestHttpException();
         }
 
-        return $this->render('customer/payment/index.html.twig', [
-            'service' => $service,
-            'stripe' => $this->getParameter('stripe_public')
-        ]);
+        try {
+            Stripe::setApiKey($this->getParameter('stripe_secret'));
+            $session = Session::create([
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $service->getName(),
+                        ],
+                        'unit_amount' => $service->getPrice() * 100,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => urldecode($this->generateUrl('customer_payment_success', ['slug' => $slug, 'session_id' => "{CHECKOUT_SESSION_ID}"], UrlGeneratorInterface::ABSOLUTE_URL)),
+                'cancel_url' => $this->generateUrl('customer_service', ['slug' => $slug], UrlGeneratorInterface::ABSOLUTE_URL),
+            ]);
+
+            return $this->redirect($session->url);
+        } catch (ApiErrorException $errorException) {
+            throw new \Exception($errorException->getMessage());
+        }
     }
 
-    #[Route('/service/{slug}/checkout', name: 'checkout', methods: ['POST'])]
-    public function checkout(Request $request, string $slug, ServiceRepository $serviceRepository, RequestManager $requestManager): Response
+    #[Route('/service/{slug}/checkout/success', name: 'payment_success', methods: ['GET'])]
+    public function success(Request $request, string $slug, ServiceRepository $serviceRepository, RequestRepository $requestRepository, RequestManager $requestManager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $service = $serviceRepository->findServiceBySlug($slug);
-        if (!$service) {
+        $paymentSession = $request->get('session_id');
+        if (!$service || !$paymentSession) {
             throw new BadRequestHttpException();
         }
-        $token = $request->request->get('stripeToken');
-        \Stripe\Stripe::setApiKey($this->getParameter('stripe_secret'));
-        $charge = \Stripe\Charge::create([
-            "amount" => $service->getPrice() * 100,
-            "currency" => "eur",
-            "source" => $token,
-            "description" => "Paiement service"
-        ]);
 
-        if ($charge) {
-            $requestEntity = (new RequestEntity())
-            ->setCustomer($this->getUser())
-            ->setService($service)
-            ->setCategory($service->getCategory())
-            ->setDino($service->getDino())
-            ->setStatus(Constant::STATUS_ACTIVE)
-            ->setSubject("{$this->getUser()->getFirstname()} - {$service->getName()}")
-            ->setDescription('Service payé')
-            ->setExpectedAt(new \DateTime('now'));
-
-            $requestManager->createPaidRequest($requestEntity);
-
-            return $this->redirectToRoute('customer_request_active', [], Response::HTTP_SEE_OTHER);
-        } else {
-            return $this->redirectToRoute('service');
+        try {
+            Stripe::setApiKey($this->getParameter('stripe_secret'));
+            Session::retrieve($paymentSession);
+        } catch (ApiErrorException $errorException) {
+            throw new BadRequestHttpException();
         }
+
+        if (!($newRequest = $requestRepository->findPaidRequest($this->getUser(), $service, $paymentSession))) {
+            $requestEntity = (new RequestEntity())
+                ->setCustomer($this->getUser())
+                ->setService($service)
+                ->setCategory($service->getCategory())
+                ->setDino($service->getDino())
+                ->setPaymentReference($paymentSession)
+                ->setStatus(Constant::STATUS_ACTIVE)
+                ->setSubject("{$this->getUser()->getFirstname()} - {$service->getName()}")
+                ->setDescription('Service payé');
+
+            $newRequest = $requestManager->createPaidRequest($requestEntity);
+        }
+        return $this->render('customer/payment/success.html.twig', [
+            'service' => $service,
+            'request' => $newRequest
+        ]);
     }
 }

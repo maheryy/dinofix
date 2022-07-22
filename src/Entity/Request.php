@@ -52,6 +52,9 @@ class Request
     #[ORM\Column(type: 'smallint', options: ['default' => Constant::STATUS_DEFAULT])]
     private $status = Constant::STATUS_DEFAULT;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $payment_reference;
+
     #[ORM\ManyToOne(targetEntity: Customer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $customer;
@@ -72,7 +75,7 @@ class Request
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
     private $updated_at;
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -127,6 +130,18 @@ class Request
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPaymentReference(): ?string
+    {
+        return $this->payment_reference;
+    }
+
+    public function setPaymentReference(?string $payment_reference): self
+    {
+        $this->payment_reference = $payment_reference;
 
         return $this;
     }
