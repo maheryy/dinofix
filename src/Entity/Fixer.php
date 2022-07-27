@@ -45,7 +45,6 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50)]

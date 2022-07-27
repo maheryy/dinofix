@@ -28,7 +28,6 @@ class CustomerFixtures extends Fixture
             ->setEmail('test@test.fr')
             ->setRoles(['ROLE_CUSTOMER'])
             ->setPhone($faker->phoneNumber())
-            ->setPicture('no pic')
             ->setSettings('no settings');
 
         $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
@@ -41,7 +40,6 @@ class CustomerFixtures extends Fixture
                 ->setEmail($faker->freeEmail())
                 ->setRoles(['ROLE_CUSTOMER'])
                 ->setPhone($faker->phoneNumber())
-                ->setPicture('no pic')
                 ->setSettings('no settings');
 
             $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
