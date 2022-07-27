@@ -71,6 +71,13 @@ class Request
     private $dino;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    /**
+    * @Assert\Range(
+    *      min = "now",
+    *      max = "+7 days",
+    *      notInRangeMessage = "La date doit être entre aujourd'hui et le {{ max }}"
+    * )
+    */
     private $expected_at;
 
     #[Gedmo\Timestampable(on: 'create')]
