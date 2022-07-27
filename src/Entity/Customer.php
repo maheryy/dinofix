@@ -57,7 +57,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[Assert\NotBlank(message: "Veuillez renseigner votre mot de passe")]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
@@ -71,10 +70,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      * )
      */
     private $phone;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Assert\NotBlank(message: "Veuillez télécharger une photo de profil")]
-    private $picture;
 
     #[ORM\ManyToOne(targetEntity: Address::class)]
     private $address;
@@ -199,18 +194,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): self
-    {
-        $this->picture = $picture;
 
         return $this;
     }
