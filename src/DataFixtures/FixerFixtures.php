@@ -32,13 +32,13 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             ->setFirstName($faker->firstName())
             ->setLastName($faker->lastName())
             ->setAlias($faker->company())
-            ->setEmail('test@test.fr')
+            ->setEmail('fixer@test.fr')
             ->setRoles(['ROLE_FIXER'])
             ->setPhone($faker->phoneNumber())
             ->setAddress($faker->randomElement($addresses))
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Fixer@Dinofix2022'));
         $manager->persist($object);
 
         $reviews = $this->getReviews();
@@ -53,7 +53,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
                 ->setAddress($faker->randomElement($addresses))
                 ->setSettings('no settings');
 
-            $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+            $object->setPassword($this->userPasswordHash->hashPassword($object, 'Fixer@Dinofix2022'));
 
             $rand_review = rand(1, 3);
             $rate = 0;
