@@ -29,15 +29,8 @@ class CustomerRegistrationType extends AbstractType
                 'label' => 'Adresse e-mail'
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Téléphone (optionnel)',
-                'required' => false,
-                'constraints' => [
-                    new Length([
-                        'min' => 10,
-                        'max' => 10,
-                        'maxMessage' => 'Votre numéro de téléphone ne peut dépasser {{ limit }} caractères',
-                    ]),
-                ],
+                'label' => 'Téléphone',
+                'required' => true,
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
