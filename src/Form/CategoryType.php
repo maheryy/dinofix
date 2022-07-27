@@ -22,7 +22,7 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'Nom',
                 'required' => true,
 
             ])
@@ -32,7 +32,7 @@ class CategoryType extends AbstractType
 
             ])
             ->add('picture', TextType::class, [
-                'label' => 'Picture',
+                'label' => 'Photo',
                 'required' => false,
                 ]);
     }

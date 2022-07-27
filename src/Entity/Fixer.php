@@ -23,18 +23,62 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre prénom")]
+    /**
+     * @Assert\Length(
+     *    min = 2,
+     *    max = 50,
+     *    minMessage = "Votre prénom doit faire au moins {{ limit }} caractères",
+     *    maxMessage = "Votre prénom doit faire au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Votre prénom ne peut pas contenir de caractères spéciaux"
+     * )
+     */
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre nom")]
+    /**
+     * @Assert\Length(
+     *    min = 2,
+     *    max = 50,
+     *    minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
+     *   maxMessage = "Votre prénom doit faire au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Votre nom ne peut pas contenir de caractères spéciaux"
+     * )
+     */
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 50, unique: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre pseudonyme")]
+    /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre pseudo doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre pseudo doit faire au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Votre pseudo ne peut pas contenir de caractères spéciaux"
+     * )
+     */
     private $alias;
 
     #[ORM\Column(type: 'string', length: 255, unique:true)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre adresse e-mail")]
+    /**
+     * @Assert\Email(
+     *    message = "L'adresse e-mail '{{ value }}' n'est pas valide.",
+     * )
+     */
     private $email;
 
     #[Gedmo\Slug(fields: ['alias'])]
@@ -49,6 +93,14 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre numéro de téléphone")]
+    /**
+     * @Assert\Length(
+     *    min = 2,
+     *    max = 15,
+     *    minMessage = "Votre numéro de téléphone doit faire au moins {{ limit }} numéros",
+     *   maxMessage = "Votre numéro de téléphone doit faire au maximum {{ limit }} numéros"
+     * )
+     */
     private $phone;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

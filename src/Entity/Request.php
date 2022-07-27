@@ -22,10 +22,10 @@ class Request
     #[Assert\NotBlank(message: "Veuillez renseigner le sujet du service")]
     /**
      * @Assert\Length(
-     *     min = 2,
-     *    max = 255,
-     *    minMessage = "Le sujet du service doit contenir au moins {{ limit }} caractères",
-     *   maxMessage = "Le sujet du service doit contenir au maximum {{ limit }} caractères"
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Le sujet du service doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "Le sujet du service doit contenir au maximum {{ limit }} caractères"
      * )
      */
     private $subject;
@@ -34,10 +34,10 @@ class Request
     #[Assert\NotBlank(message: "Veuillez renseigner la description du service")]
     /**
      * @Assert\Length(
-     *     min = 2,
+     *    min = 2,
      *    max = 255,
-     *   minMessage = "La description du service doit contenir au moins {{ limit }} caractères",
-     *  maxMessage = "La description du service doit contenir au maximum {{ limit }} caractères"
+     *    minMessage = "La description du service doit contenir au moins {{ limit }} caractères",
+     *    maxMessage = "La description du service doit contenir au maximum {{ limit }} caractères"
      * )
      */
     private $description;

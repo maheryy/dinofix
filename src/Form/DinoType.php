@@ -22,7 +22,7 @@ class DinoType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'Nom du dino',
                 'required' => true,
 
             ])
@@ -32,7 +32,7 @@ class DinoType extends AbstractType
 
             ])
             ->add('picture', TextType::class, [
-                'label' => 'Picture',
+                'label' => 'Photo',
                 'required' => false,
             ])
             ->add('category', EntityType::class, [
