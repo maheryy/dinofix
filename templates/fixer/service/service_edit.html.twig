@@ -1,23 +1,49 @@
 {% extends 'fixer/fixer.html.twig' %}
-{% block title %} Offrez de nouveaux services {% endblock %}
+{% block title %}
+	Offrez de nouveaux services
+{% endblock %}
 {% block body %}
-	<main class="main-container customer-container">
-		<div class="home-container">
-			<h1>Créer un nouveau service</h1>
-			<div class="form-wrapper w-3/5">
-				{{ form_start(form) }}
-				{{ form_row(form.name) }}
-				{{ form_row(form.description, {'attr': {'data-event': 'setTextEditor'}}) }}
-				{{ form_row(form.price) }}
-				{{ form_row(form.category) }}
-				{{ form_row(form.dino) }}
-				{{ form_row(form.picture) }}
-				{{ form_row(form.save) }}
+	<main class="main-container customer-container f-container">
+		<div class="form-wrap">
+			{% if service.slug is not empty %}
+				<h1>Modifier le service</h1>
+			{% else %}
+				<h1>Ajouter un service</h1>
+			{% endif %}
+			<div class="">
+				{{ form_start(form)}}
+				<div class="form-row">
+					{{ form_label(form.name) }}
+					{{ form_widget(form.name, {'attr':{'class': 'form-input'}})  }}
+				</div>
+				<div class="form-row">
+					{{ form_label(form.description) }}
+					{{ form_widget(form.description, {'attr': {'data-event': 'setTextEditor', 'class': 'form-text'}}) }}
+				</div>
+				<div class="form-row">
+					{{ form_label(form.price) }}
+					{{ form_widget(form.price, {'attr': {'class': 'form-input'}}) }}
+				</div>
+				<div class="form-row">
+					{{ form_label(form.category) }}
+					{{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+				</div>
+				<div class="form-row">
+					{{ form_label(form.dino) }}
+					{{ form_widget(form.dino, {'attr': {'class': 'form-select'}}) }}
+				</div>
+				<div class="form-row">
+					{{ form_label(form.picture) }}
+					{{ form_widget(form.picture, {'attr': {'class': 'form-input'}}) }}
+				</div>
+				<div class="form-row self-center">
+					{{ form_widget(form.save) }}
+				</div>
 				{{ form_end(form) }}
 			</div>
 			<a href="{{ path('fixer_home') }}" class="btn btn-primary">Retour à votre page</a>
 			{% if service.slug is not empty %}
-				<a href="{{ path('fixer_service_step', {'slug': service.slug}) }}" class="btn btn-secondary">Personaliser les étapes pour ce service</a>
+				<a href="{{ path('fixer_service_step', {'slug': service.slug}) }}" class="btn btn-secondary mt-1">Personaliser les étapes pour ce service</a>
 			{% endif %}
 		</div>
 	</main>
