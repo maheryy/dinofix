@@ -25,7 +25,7 @@ class CustomerFixtures extends Fixture
         $object = (new Customer())
             ->setFirstName($faker->firstName())
             ->setLastName($faker->lastName())
-            ->setEmail('client@test.fr')
+            ->setEmail('customer@dinofix.fr')
             ->setRoles(['ROLE_CUSTOMER'])
             ->setPhone($faker->phoneNumber())
             ->setSettings('no settings');
