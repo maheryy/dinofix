@@ -32,9 +32,8 @@ class FixerRegistrationType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg, png ou svg',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg ou png',
                     ]),
                 ],
             ])

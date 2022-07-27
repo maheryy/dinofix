@@ -55,9 +55,8 @@ class ServiceType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger une image de type jpeg, png ou svg',
+                        'mimeTypesMessage' => 'Veuillez télécharger une image de type jpeg ou png',
                     ]),
                 ],
             ])
