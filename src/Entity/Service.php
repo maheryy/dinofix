@@ -26,6 +26,11 @@ class Service
      *    minMessage = "Le nom du service doit contenir au moins {{ limit }} caractères",
      *   maxMessage = "Le nom du service doit contenir au maximum {{ limit }} caractères"
      * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Le nom du service ne peut pas contenir de caractères spéciaux"
+     * )
      */
     private $name;
 

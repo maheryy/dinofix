@@ -24,10 +24,15 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Veuillez renseigner votre prénom")]
     /**
      * @Assert\Length(
-     *     min = 2,
+     *    min = 2,
      *    max = 50,
      *    minMessage = "Votre prénom doit faire au moins {{ limit }} caractères",
      *   maxMessage = "Votre prénom doit faire au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Votre prénom ne peut pas contenir de caractères spéciaux"
      * )
      */
     private $firstname;
@@ -36,10 +41,15 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Veuillez renseigner votre nom")]
     /**
      * @Assert\Length(
-     *    min = 2,
-     *  max = 50,
-     * minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
-     * maxMessage = "Votre nom doit faire au maximum {{ limit }} caractères"
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre nom doit faire au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Votre nom ne peut pas contenir de caractères spéciaux"
      * )
      */
     private $lastname;
@@ -63,10 +73,10 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Veuillez renseigner votre numéro de téléphone")]
     /**
      * @Assert\Length(
-     *     min = 2,
-     *    max = 50,
-     *    minMessage = "Votre numéro de téléphone doit faire au moins {{ limit }} caractères",
-     *   maxMessage = "Votre numéro de téléphone doit faire au maximum {{ limit }} caractères"
+     *    min = 2,
+     *    max = 15,
+     *    minMessage = "Votre numéro de téléphone doit faire au moins {{ limit }} numéros",
+     *   maxMessage = "Votre numéro de téléphone doit faire au maximum {{ limit }} numéros"
      * )
      */
     private $phone;

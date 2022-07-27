@@ -26,6 +26,11 @@ class ServiceStep
      *    minMessage = "Le nom de l'étape doit contenir au moins {{ limit }} caractères",
      *   maxMessage = "Le nom de l'étape catégorie doit contenir au maximum {{ limit }} caractères"
      * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Le nomde l'étape ne peut pas contenir de caractères spéciaux"
+     * )
      */
     private $name;
 

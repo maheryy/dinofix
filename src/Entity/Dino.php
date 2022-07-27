@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\DinoRepository")]
 class Dino
@@ -16,6 +17,19 @@ class Dino
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    /**
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 100,
+     *      minMessage = "Le nom du dinosaure doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom du dinosaure doit contenir au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Le nom du dinosaure ne peut pas contenir de caractères spéciaux"
+     * )
+     */
     private $name;
 
     #[ORM\Column(type: 'string', length: 255)]

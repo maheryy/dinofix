@@ -25,6 +25,11 @@ class Category
      *    minMessage = "Le nom de la catégorie doit contenir au moins {{ limit }} caractères",
      *   maxMessage = "Le nom de la catégorie doit contenir au maximum {{ limit }} caractères"
      * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Le nom de la catégorie ne peut pas contenir de caractères spéciaux"
+     * )
      */
     private $name;
 
