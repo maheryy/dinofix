@@ -1,3 +1,35 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-{{ form_end(form) }}
+<main class="main-container customer-container f-container">
+    <div class="form-wrap">
+        {{ form_start(form) }}
+
+        <div class="form-row">
+            {{ form_label(form.subject) }}
+            {{ form_widget(form.subject, {'attr':{'class': 'form-input'}}) }}
+            {{ form_errors(form.subject) }}
+        </div>
+        <div class="form-row">
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category, {'attr':{'class': 'form-select'}}) }}
+            {{ form_errors(form.category) }}
+        </div>
+        <div class="form-row">
+            {{ form_label(form.dino) }}
+            {{ form_widget(form.dino, {'attr':{'class': 'form-select'}}) }}
+            {{ form_errors(form.dino) }}
+        </div>
+        <div class="form-row">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr':{'class': 'form-input'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="form-row">
+            {{ form_label(form.expected_at) }}
+            {{ form_widget(form.expected_at, {'attr':{'class': 'form-input'}}) }}
+            {{ form_errors(form.expected_at) }}
+        </div>
+        <div class="self-center">
+            {{ form_widget(form.save) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</main>

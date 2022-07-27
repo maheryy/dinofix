@@ -1,10 +1,40 @@
 {% extends 'customer/customer.html.twig' %}
 
-{% block title %} Profil - {{app.user.firstname}} {{app.user.lastname}} {% endblock %}
+{% block title %} Profil - {{ app.user.firstname }} {{ app.user.lastname }} {% endblock %}
 
 {% block body %}
-    <div class="container">
-        {{ include('customer/profile/_form.html.twig', {'button_label': 'Modifier'}) }}
-        <a class="btn-secondary" href="{{ path('customer_home') }}">Retour</a>
-    </div>
+    <main class="main-container customer-container f-container">
+        <div class="form-wrap">
+            <h1>Informations</h1>
+            {{ form_start(form) }}
+
+            <div class="form-row">
+                {{ form_label(form.firstname) }}
+                {{ form_widget(form.firstname, {'attr':{'class': 'form-input'}}) }}
+                {{ form_errors(form.firstname) }}
+            </div>
+
+            <div class="form-row">
+                {{ form_label(form.lastname) }}
+                {{ form_widget(form.lastname, {'attr':{'class': 'form-input'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr':{'class': 'form-input'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.phone) }}
+                {{ form_widget(form.phone, {'attr':{'class': 'form-input'}}) }}
+                {{ form_errors(form.phone) }}
+            </div>
+            <div class="self-center">
+                <button class="btn-primary">{{ button_label|default('Modifier') }}</button>
+            </div>
+            {{ form_end(form) }}
+            <a class="btn-secondary" href="{{ path('customer_home') }}">Retour</a>
+
+        </div>
+    </main>
 {% endblock %}

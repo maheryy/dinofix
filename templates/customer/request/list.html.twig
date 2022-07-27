@@ -16,7 +16,7 @@
     <div class="row">
         {% if requests is not empty %}
             {% for request in requests %}
-            <div class="col-4">
+            <div class="col">
                 <ul class="request-card">
                     <li>
                         <a href="{{ path('customer_request_show', {'slug': request.slug}) }}" class="card">

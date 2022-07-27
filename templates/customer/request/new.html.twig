@@ -5,6 +5,8 @@
 {% block body %}
     <div class="container">
         {{ include('customer/request/_form.html.twig') }}
-        <a href="{{ path('customer_open_requests') }}" class="btn btn-primary">Retour à la liste des demandes en cours</a>
+        <div class="self-center">
+            <a href="{{ path('customer_open_requests') }}" class="btn btn-primary">Retour à la liste des demandes en cours</a>
+        </div>
     </div>
 {% endblock %}
