@@ -30,9 +30,8 @@ class FixerType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg, png ou svg',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg ou png',
                     ]),
                 ],
             ])
@@ -51,34 +50,6 @@ class FixerType extends AbstractType
             ->add('phone', TelType::class, [
                 'label' =>  'Téléphone',
                 'required' => false,
-                'constraints' => [
-                    new Length([
-                        'min' => 10,
-                        'max' => 10,
-                        'minMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
-                        'maxMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
-                    ]),
-                ],
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'required' => true,
-                'invalid_message' => 'Les mots de passe doivent correspondre',
-                'options' => ['attr' => ['class' => 'form-control']],
-                'first_options' => [
-                    'label' => 'Mot de passe',
-                    'constraints' => [
-                        new Length([
-                            'min' => 6,
-                            'minMessage' => 'Votre mot de passe doit avoir {{ limit }} caractères minimum',
-                            'max' => 4096,
-                        ]),
-                    ],
-                ],
-                'second_options' => [
-                    'label' => 'Confirmation du mot de passe',
-                ],
             ]);
         ;
     }

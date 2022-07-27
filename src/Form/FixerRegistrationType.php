@@ -32,9 +32,8 @@ class FixerRegistrationType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg, png ou svg',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier de type jpeg ou png',
                     ]),
                 ],
             ])
@@ -52,15 +51,7 @@ class FixerRegistrationType extends AbstractType
             ])
             ->add('phone', TelType::class, [
                 'label' =>  'Téléphone',
-                'required' => false,
-                'constraints' => [
-                    new Length([
-                        'min' => 10,
-                        'max' => 10,
-                        'minMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
-                        'maxMessage' => 'Votre numéro de téléphone doit contenir 10 chiffres',
-                    ]),
-                ],
+                'required' => true,
             ])
             ->add('description', TextType::class, [
                 'label' =>  'Description',

@@ -94,11 +94,10 @@ class Fixer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 50)]
     #[Assert\NotBlank(message: "Veuillez renseigner votre numéro de téléphone")]
     /**
-     * @Assert\Length(
-     *    min = 2,
-     *    max = 15,
-     *    minMessage = "Votre numéro de téléphone doit faire au moins {{ limit }} numéros",
-     *   maxMessage = "Votre numéro de téléphone doit faire au maximum {{ limit }} numéros"
+     * @Assert\Regex(
+     *     pattern="/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *     match=true,
+     *     message="Votre numéro de téléphone ne convient pas"
      * )
      */
     private $phone;
