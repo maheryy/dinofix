@@ -62,6 +62,10 @@ class FixerRegistrationType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('description', TextType::class, [
+                'label' =>  'Description',
+                'required' => true,
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
@@ -72,8 +76,8 @@ class FixerRegistrationType extends AbstractType
                     'label' => 'Mot de passe',
                     'constraints' => [
                         new Length([
-                            'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'min' => 8,
+                            'minMessage' => 'Votre mot de passe doit faire minimum {{ limit }} caractères',
                             'max' => 4096,
                         ]),
                     ],

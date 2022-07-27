@@ -58,6 +58,7 @@ class FixerRegistrationController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $user->setPicture($fileName);
+                $user->setRoles(['ROLE_FIXER']);
             }
 
             $user

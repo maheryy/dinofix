@@ -38,6 +38,7 @@ class CustomerRegistrationController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $user->setRoles(['ROLE_CUSTOMER']);
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,

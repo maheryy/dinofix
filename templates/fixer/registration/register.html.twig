@@ -52,6 +52,10 @@
                     {{ form_errors(registrationForm.phone) }}
                 </div>
                 <div class="form-control-wrapper py-0.5">
+                    {{ form_label(registrationForm.description) }}
+                    {{ form_widget(registrationForm.description) }}
+                    {{ form_errors(registrationForm.description) }}
+                <div class="form-control-wrapper py-0.5">
                     {{ form_label(registrationForm.password.first) }}
                     {{ form_widget(registrationForm.password.first) }}
                     {{ form_errors(registrationForm.password.first) }}
