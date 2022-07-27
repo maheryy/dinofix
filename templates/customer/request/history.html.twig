@@ -7,14 +7,14 @@
     <div class="row">
         {% if request_actives is not empty %}
             {% for request_active in request_actives %}
-                <div class="col-3">
+                <div class="col-4">
                     <ul class="request-card">
                         <li>
                             <a href="{{ path('customer_request_show', {'slug': request_active.request.slug}) }}" class="card">
                             {% if request_active.request.category.picture %}
-                                <img src="{{ asset("images/categories/" ~ request_active.request.category.picture) }}" class="card__image" alt="" />
+                                <img src="{{ asset("images/categories/" ~ request_active.request.category.picture) }}" style="width:auto" class="card__image" alt="" />
                             {% else %}
-                                <img src="{{ asset("images/categories/no-pic.png") }}" class="card__image" alt="" />
+                                <img src="{{ asset("images/categories/no-pic.png") }}" style="width:auto" class="card__image" alt="" />
                             {% endif %}
                             <div class="card__overlay">
                                 <div class="card__header">

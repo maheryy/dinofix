@@ -16,14 +16,14 @@
     <div class="row">
         {% if requests is not empty %}
             {% for request in requests %}
-            <div class="col-3">
+            <div class="col-4">
                 <ul class="request-card">
                     <li>
                         <a href="{{ path('customer_request_show', {'slug': request.slug}) }}" class="card">
                         {% if request.category and request.category.picture %}
-                            <img src="{{ asset("images/categories/" ~ request.category.picture) }}" class="card__image" alt="" />
+                            <img src="{{ asset("images/categories/" ~ request.category.picture) }}" style="width:auto" class="card__image" alt="" />
                         {% else %}
-                            <img src="{{ asset("images/categories/no-pic.png") }}" class="card__image" alt="" />
+                            <img src="{{ asset("images/categories/no-pic.png") }}" style="width:auto" class="card__image" alt="" />
                         {% endif %}
                         <div class="card__overlay">
                             <div class="card__header">                  

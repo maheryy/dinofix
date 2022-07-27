@@ -42,9 +42,7 @@ class CategoryType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Category::class,
             'method' => 'POST',
-            'csrf_protection' => true,
-            'csrf_field_name' => '_token',
-            'csrf_token_id'   => 'category_item',
+            'csrf_protection' => false,
             'allow_extra_fields' => true
         ]);
     }
