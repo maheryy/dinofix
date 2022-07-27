@@ -32,7 +32,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             ->setFirstName($faker->firstName())
             ->setLastName($faker->lastName())
             ->setAlias($faker->company())
-            ->setEmail('fixer@test.fr')
+            ->setEmail('fixer@dinofix.fr')
             ->setRoles(['ROLE_FIXER'])
             ->setPhone($faker->phoneNumber())
             ->setAddress($faker->randomElement($addresses))
