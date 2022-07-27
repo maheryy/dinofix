@@ -1,20 +1,56 @@
 {% extends 'fixer/fixer.html.twig' %}
 
 {% block title %}Profil -
-	{{app.user.firstname}}
+    {{ app.user.firstname }}
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		{% if app.user.picture %}
-			<img src="{{ asset("uploads/fixer/" ~ app.user.picture) }}" style="max-width: 200px;" alt="{{ app.user.picture }}">
-		{% else %}
-			<img src="{{ asset('images/fixer.png') }}" style="max-width: 200px;" alt="default-service">
-		{% endif %}
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-		<button class="btn-primary">{{ button_label|default('Save') }}</button>
-		{{ form_end(form) }}
-		<a class="btn-secondary" href="{{ path('fixer_home') }}">Retour</a>
-	</div>
+    <main class="main-container customer-container f-container">
+        <div class="form-wrap">
+            {% if app.user.picture %}
+                <img src="{{ asset("uploads/fixer/" ~ app.user.picture) }}"
+                     style="max-width: 100px;margin-bottom: 30px;"
+                     alt="{{ app.user.picture }}">
+            {% else %}
+                <img src="{{ asset('images/fixer.png') }}"
+                     style="max-width: 100px;max-height: 100px;margin-bottom: 30px;" alt="default-service">
+            {% endif %}
+            {{ form_start(form) }}
+
+            <div class="form-row">
+                {{ form_label(form.firstname) }}
+                {{ form_widget(form.firstname, {'attr':{'class': 'form-input'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.lastname) }}
+                {{ form_widget(form.lastname, {'attr':{'class': 'form-input'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.alias) }}
+                {{ form_widget(form.alias, {'attr':{'class': 'form-input'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr':{'class': 'form-input'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.picture) }}
+                {{ form_widget(form.picture, {'attr':{'class': 'form-file'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.phone) }}
+                {{ form_widget(form.phone, {'attr':{'class': 'form-input'}}) }}
+            </div>
+            <div class="form-row">
+                {{ form_label(form.password) }}
+                {{ form_widget(form.password, {'attr':{'class': 'form-password'}}) }}
+            </div>
+            {{ form_widget(form) }}
+            <div class="self-center">
+                <button class="btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+            </div>
+            {{ form_end(form) }}
+            <a class="btn-secondary" href="{{ path('fixer_home') }}">Retour</a>
+        </div>
+    </main>
 {% endblock %}
