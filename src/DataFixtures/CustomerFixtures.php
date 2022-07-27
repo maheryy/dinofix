@@ -25,12 +25,12 @@ class CustomerFixtures extends Fixture
         $object = (new Customer())
             ->setFirstName($faker->firstName())
             ->setLastName($faker->lastName())
-            ->setEmail('test@test.fr')
+            ->setEmail('client@test.fr')
             ->setRoles(['ROLE_CUSTOMER'])
             ->setPhone($faker->phoneNumber())
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Client@Dinofix2022'));
         $manager->persist($object);
 
         for($i = 0; $i < 10; $i++) {
@@ -42,7 +42,7 @@ class CustomerFixtures extends Fixture
                 ->setPhone($faker->phoneNumber())
                 ->setSettings('no settings');
 
-            $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+            $object->setPassword($this->userPasswordHash->hashPassword($object, 'Client@Dinofix2022'));
 
             $manager->persist($object);
         }

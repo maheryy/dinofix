@@ -20,12 +20,12 @@ class AdminFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $object = (new Admin())
-            ->setEmail('test@test.fr')
+            ->setEmail('admin@dinofix.fr')
             ->setRoles(['ROLE_ADMIN'])
             ->setPicture('no pic')
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'test'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Pass@Dinofix2022'));
 
         $manager->persist($object);
 
