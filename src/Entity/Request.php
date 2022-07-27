@@ -19,13 +19,18 @@ class Request
     private $reference;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "Veuillez renseigner le sujet du service")]
+    #[Assert\NotBlank(message: "Veuillez renseigner le sujet de la demande")]
     /**
      * @Assert\Length(
      *      min = 2,
      *      max = 255,
-     *      minMessage = "Le sujet du service doit contenir au moins {{ limit }} caractères",
-     *      maxMessage = "Le sujet du service doit contenir au maximum {{ limit }} caractères"
+     *      minMessage = "Le sujet de la demande doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "Le sujet de la demande doit contenir au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex(
+     *     pattern="/[^\w\s]/",
+     *     match=false,
+     *     message="Le sujet de la demande ne peut pas contenir de caractères spéciaux"
      * )
      */
     private $subject;
@@ -36,8 +41,8 @@ class Request
      * @Assert\Length(
      *    min = 2,
      *    max = 255,
-     *    minMessage = "La description du service doit contenir au moins {{ limit }} caractères",
-     *    maxMessage = "La description du service doit contenir au maximum {{ limit }} caractères"
+     *    minMessage = "La description de la demande doit contenir au moins {{ limit }} caractères",
+     *    maxMessage = "La description de la demande doit contenir au maximum {{ limit }} caractères"
      * )
      */
     private $description;
