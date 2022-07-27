@@ -15,26 +15,32 @@
 				<div class="form-row">
 					{{ form_label(form.name) }}
 					{{ form_widget(form.name, {'attr':{'class': 'form-input'}})  }}
+					{{ form_errors(form.name) }}
 				</div>
 				<div class="form-row">
 					{{ form_label(form.description) }}
 					{{ form_widget(form.description, {'attr': {'data-event': 'setTextEditor', 'class': 'form-text'}}) }}
+					{{ form_errors(form.description) }}
 				</div>
 				<div class="form-row">
 					{{ form_label(form.price) }}
 					{{ form_widget(form.price, {'attr': {'class': 'form-input'}}) }}
+					{{ form_errors(form.price) }}
 				</div>
 				<div class="form-row">
 					{{ form_label(form.category) }}
 					{{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+					{{ form_errors(form.category) }}
 				</div>
 				<div class="form-row">
 					{{ form_label(form.dino) }}
 					{{ form_widget(form.dino, {'attr': {'class': 'form-select'}}) }}
+					{{ form_errors(form.dino) }}
 				</div>
 				<div class="form-row">
 					{{ form_label(form.picture) }}
 					{{ form_widget(form.picture, {'attr': {'class': 'form-input'}}) }}
+					{{ form_errors(form.picture) }}
 				</div>
 				<div class="form-row self-center">
 					{{ form_widget(form.save) }}
