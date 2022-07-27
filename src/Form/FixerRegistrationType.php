@@ -70,7 +70,7 @@ class FixerRegistrationType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'required' => true,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'first_options' => [
                     'label' => 'Mot de passe',

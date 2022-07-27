@@ -64,14 +64,14 @@ class FixerType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'required' => true,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passe doivent correspondre',
                 'options' => ['attr' => ['class' => 'form-control']],
                 'first_options' => [
                     'label' => 'Mot de passe',
                     'constraints' => [
                         new Length([
                             'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'minMessage' => 'Votre mot de passe doit avoir {{ limit }} caractères minimum',
                             'max' => 4096,
                         ]),
                     ],
