@@ -25,7 +25,7 @@ class AdminFixtures extends Fixture
             ->setPicture('no pic')
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Pass@Dinofix2022'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'obedient-cube-precook7'));
 
         $manager->persist($object);
 

@@ -30,7 +30,7 @@ class CustomerFixtures extends Fixture
             ->setPhone($faker->phoneNumber())
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Client@Dinofix2022'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'joyfully-spied0'));
         $manager->persist($object);
 
         for($i = 0; $i < 10; $i++) {
