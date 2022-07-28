@@ -211,7 +211,8 @@ class ServiceRepository extends ServiceEntityRepository
             ->leftJoin('s.reviews', 'r')
             ->andWhere('f.id = :fixerId')
             ->setParameter('fixerId', $fixerId)
-            ->orderBy('s.rating', 'DESC')
+            ->orderBy('s.id', 'DESC')
+            ->addOrderBy('s.rating', 'DESC')
             ->addOrderBy('reviews', 'DESC')
             ->groupBy('s.id, f.id');
 
