@@ -33,7 +33,7 @@
         <div class="sales-boxes">
             <div class="recent-sales box">
 
-<h2> Créer une gorie :</h2>
+<h2> Créer une catégorie :</h2>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 <p>
 {{ form_label(form.name) }}
@@ -45,7 +45,7 @@
 </p>
 
 <input class="btn-success" type="submit" value="Insérer nouvelle catégorie">
-{{ form_end(form, {'render_rest': false}) }}
+{{ form_end(form) }}
 
             </div>
         </div>
