@@ -29,6 +29,11 @@
                 {{ form_widget(form.phone, {'attr':{'class': 'form-input'}}) }}
                 {{ form_errors(form.phone) }}
             </div>
+            <div class="form-row">
+                {{ form_label(form.password) }}
+                {{ form_widget(form.password, {'attr':{'class': 'form-input'}}) }}
+                {{ form_errors(form.password) }}
+            </div>
             <div class="self-center">
                 <button class="btn-primary">{{ button_label|default('Modifier') }}</button>
             </div>
