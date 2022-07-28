@@ -47,7 +47,7 @@ class DinoType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Dino::class,
             'method' => 'POST',
-            'csrf_protection' => false,
+            'csrf_protection' => true,
             'allow_extra_fields' => true
         ]);
     }
