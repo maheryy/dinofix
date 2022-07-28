@@ -27,6 +27,16 @@ class CustomerType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse e-mail'
             ])
+            ->add('password', PasswordType::class, [
+                'label' => 'Changer mot de passe',
+                'constraints' => [
+                    new Length([
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit faire minimum {{ limit }} caractères',
+                        'max' => 4096,
+                    ]),
+                ],
+            ])            
             ->add('phone', TelType::class, [
                 'label' => 'Téléphone',
             ])
