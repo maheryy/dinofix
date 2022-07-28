@@ -22,7 +22,7 @@ services:
       - ./:/var/www/html
       - ./docker/logs:/var/log
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - php
 
@@ -36,7 +36,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data:rw
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   adminer:
     container_name: dinofix_adminer
