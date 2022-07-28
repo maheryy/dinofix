@@ -38,7 +38,7 @@ class FixerFixtures extends Fixture implements DependentFixtureInterface
             ->setAddress($faker->randomElement($addresses))
             ->setSettings('no settings');
 
-        $object->setPassword($this->userPasswordHash->hashPassword($object, 'Fixer@Dinofix2022'));
+        $object->setPassword($this->userPasswordHash->hashPassword($object, 'joyfully-spied0'));
         $manager->persist($object);
 
         $reviews = $this->getReviews();
